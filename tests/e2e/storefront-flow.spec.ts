@@ -7,7 +7,7 @@ test.describe('TERROIR Storefront End-to-End User Journeys', () => {
 
     // Brand check
     await expect(page.locator('text=TERROIR').first()).toBeVisible();
-    await expect(page.locator('text=Le meilleur de nos terres').first()).toBeVisible();
+    await expect(page.locator('main').locator('text=Le meilleur de nos terres').first()).toBeVisible();
 
     // Navigate to shop
     const shopCta = page.locator('main').getByRole('link', { name: 'Découvrir la Boutique' }).first();
@@ -57,6 +57,6 @@ test.describe('TERROIR Storefront End-to-End User Journeys', () => {
 
     // Check Arabic brand text
     await expect(page.locator('text=تيروار').first()).toBeVisible();
-    await expect(page.locator('text=المتجر').first()).toBeVisible();
+    await expect(page.getByRole('link', { name: 'تسوق المنتجات الطازجة' }).first()).toBeVisible();
   });
 });

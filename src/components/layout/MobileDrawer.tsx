@@ -13,6 +13,7 @@ import {
   Tag,
   ListTodo,
   Truck,
+  Heart,
   ShieldCheck,
   Phone,
   Mail,
@@ -65,6 +66,7 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
 
   const navLinks = [
     { href: `/${locale}/shop`, label: t('nav.shop'), icon: ShoppingBag },
+    { href: `/${locale}/shop?wishlist=true`, label: t('nav.wishlist'), icon: Heart },
     { href: `/${locale}/shop?cat=fruits-frais`, label: t('nav.fruits_legumes'), icon: Apple },
     { href: `/${locale}/shop?cat=huiles-argan`, label: t('nav.terroir'), icon: Sparkles },
     { href: `/${locale}/shop?cat=epicerie-fine`, label: t('nav.epicerie'), icon: Carrot },

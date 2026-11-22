@@ -40,10 +40,10 @@ export function Header() {
     { href: `/${locale}/shop`, label: t('nav.shop') },
     { href: `/${locale}/shop?cat=fruits-frais`, label: t('nav.fruits_legumes') },
     { href: `/${locale}/shop?cat=huiles-argan`, label: t('nav.terroir') },
-    { href: `/${locale}/shop?cat=epicerie-fine`, label: t('nav.epicerie') },
-    { href: `/${locale}/shop?cat=paniers-coffrets`, label: t('nav.paniers') },
+    { href: `/${locale}/shop?cat=epicerie-fine`, label: t('nav.epicerie'), hideBelowXl: true },
+    { href: `/${locale}/shop?cat=paniers-coffrets`, label: t('nav.paniers'), hideBelow2xl: true },
     { href: `/${locale}/build-a-basket`, label: t('nav.build_basket'), highlight: true },
-    { href: `/${locale}/shop?promo=true`, label: t('nav.promotions') },
+    { href: `/${locale}/shop?promo=true`, label: t('nav.promotions'), hideBelow2xl: true },
   ];
 
   const handleSearchSubmit = (e: React.FormEvent) => {
@@ -70,13 +70,13 @@ export function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 w-full bg-[#FFFCF5]/95 backdrop-blur-md border-b border-[#E8E1CF]">
+      <header className="sticky top-0 z-50 w-full max-w-full overflow-x-clip bg-[#FFFCF5]/95 backdrop-blur-md border-b border-[#E8E1CF]">
         {/* Announcement Bar - Cleanly separated from main navigation */}
-        <div className="bg-[#315B3C] text-white text-xs py-2 px-4">
-          <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
-            <p className="truncate font-medium flex items-center gap-1.5">
-              <span>🌾</span>
-              <span>{t('announcement.message')}</span>
+        <div className="bg-[#315B3C] text-white text-xs py-2 px-4 overflow-hidden">
+          <div className="max-w-7xl mx-auto flex items-center justify-between gap-4 min-w-0">
+            <p className="truncate font-medium flex items-center gap-1.5 min-w-0">
+              <span className="shrink-0">🌾</span>
+              <span className="truncate">{t('announcement.message')}</span>
             </p>
 
             <div className="hidden md:flex items-center gap-4 shrink-0">
@@ -112,11 +112,11 @@ export function Header() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20 gap-4">
             {/* Zone 1: Brand Logo & Mobile Trigger */}
-            <div className="flex items-center gap-3 shrink-0">
+            <div className="flex items-center gap-2 sm:gap-3 shrink-0">
               <button
                 type="button"
                 onClick={() => setIsMobileMenuOpen(true)}
-                className="lg:hidden p-2.5 rounded-xl text-[#282E23] hover:bg-[#F5F0DF] transition-colors min-h-[48px] min-w-[48px] flex items-center justify-center cursor-pointer"
+                className="lg:hidden p-2 rounded-xl text-[#282E23] hover:bg-[#F5F0DF] transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center cursor-pointer"
                 aria-label={t('nav.menu')}
               >
                 <Menu className="w-6 h-6" />
@@ -124,13 +124,13 @@ export function Header() {
 
               <Link
                 href={`/${locale}`}
-                className="flex items-center gap-3 group text-start"
+                className="flex items-center gap-2 sm:gap-3 group text-start"
               >
-                <div className="w-11 h-11 rounded-2xl bg-[#315B3C] text-white flex items-center justify-center font-heading text-2xl font-bold shadow-md transition-transform group-hover:scale-105">
+                <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-[#315B3C] text-white flex items-center justify-center font-heading text-xl sm:text-2xl font-bold shadow-md transition-transform group-hover:scale-105">
                   T
                 </div>
                 <div>
-                  <span className="font-heading text-2xl md:text-3xl font-extrabold tracking-tight text-[#315B3C] block leading-none">
+                  <span className="font-heading text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight text-[#315B3C] block leading-none">
                     {t('brand.name')}
                   </span>
                   <span className="text-[11px] font-medium text-[#5D6855] hidden sm:block tracking-wide mt-1">
@@ -142,7 +142,7 @@ export function Header() {
 
             {/* Zone 2: Desktop Navigation Links */}
             <nav
-              className="hidden lg:flex items-center gap-1 xl:gap-2"
+              className="hidden lg:flex items-center gap-1 xl:gap-2 shrink min-w-0"
               aria-label="Navigation principale"
             >
               {navLinks.map((link) => {
@@ -152,7 +152,9 @@ export function Header() {
                     key={link.href}
                     href={link.href}
                     className={cn(
-                      'px-3 py-2 rounded-xl text-sm font-medium transition-all duration-150 whitespace-nowrap',
+                      'px-2.5 py-2 rounded-xl text-xs xl:text-sm font-medium transition-all duration-150 whitespace-nowrap',
+                      link.hideBelowXl && 'hidden xl:inline-block',
+                      link.hideBelow2xl && 'hidden 2xl:inline-block',
                       isActive
                         ? 'bg-[#315B3C] text-white shadow-xs'
                         : link.highlight
@@ -168,13 +170,13 @@ export function Header() {
 
             {/* Zone 3: Actions (Search, City, Wishlist, Cart, Admin) */}
             <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-              {/* Delivery City Selector (Desktop) */}
-              <div className="hidden xl:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white border border-[#E8E1CF] shadow-2xs text-xs">
+              {/* Delivery City Selector (Desktop wide screen) */}
+              <div className="hidden 2xl:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white border border-[#E8E1CF] shadow-2xs text-xs max-w-[220px]">
                 <MapPin className="w-3.5 h-3.5 text-[#315B3C] shrink-0" />
                 <select
                   value={state.selectedCity}
                   onChange={(e) => setSelectedCity(e.target.value)}
-                  className="bg-transparent text-xs font-semibold text-[#282E23] focus:outline-none cursor-pointer"
+                  className="bg-transparent text-xs font-semibold text-[#282E23] focus:outline-none cursor-pointer truncate max-w-[170px]"
                   aria-label={t('nav.city_label')}
                 >
                   {state.deliveryZones.map((zone) => (
@@ -195,10 +197,10 @@ export function Header() {
                 <Search className="w-5 h-5 text-[#282E23]" />
               </button>
 
-              {/* Wishlist Link */}
+              {/* Wishlist Link (Desktop/Tablet - available on mobile inside drawer) */}
               <Link
                 href={`/${locale}/shop?wishlist=true`}
-                className="relative p-2.5 rounded-xl text-[#282E23] hover:bg-[#F5F0DF] transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
+                className="hidden sm:flex relative p-2.5 rounded-xl text-[#282E23] hover:bg-[#F5F0DF] transition-colors min-h-[44px] min-w-[44px] items-center justify-center"
                 aria-label={t('nav.wishlist')}
               >
                 <Heart className="w-5 h-5 text-[#282E23]" />
