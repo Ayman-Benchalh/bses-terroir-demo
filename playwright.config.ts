@@ -33,7 +33,7 @@ export default defineConfig({
       PORT: '3103',
       HOSTNAME: '0.0.0.0',
     },
-    reuseExistingServer: false,
+    reuseExistingServer: true,
     timeout: 120000,
   },
 });
