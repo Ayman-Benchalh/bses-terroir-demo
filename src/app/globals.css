@@ -1,0 +1,144 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --terroir-green: #315b3c;
+    --terroir-green-hover: #264930;
+    --terroir-green-dark: #1a3321;
+    --terroir-green-light: #437951;
+    --terroir-green-subtle: #edf5ef;
+
+    --terroir-cream: #f5f0df;
+    --terroir-cream-light: #faf8f0;
+    --terroir-cream-dark: #e8deca;
+
+    --terroir-honey: #e7a84c;
+    --terroir-honey-hover: #d39336;
+    --terroir-honey-subtle: #fdf5ea;
+
+    --terroir-sage: #dde7c8;
+    --terroir-sage-light: #eef4e3;
+    --terroir-sage-dark: #b8c99e;
+
+    --terroir-earth: #282e23;
+    --terroir-earth-muted: #5d6855;
+    --terroir-earth-light: #8c9982;
+
+    --terroir-offwhite: #fffcf5;
+    --terroir-card: #ffffff;
+    --terroir-border: #e8e1cf;
+    --terroir-border-dark: #c5bca5;
+
+    --terroir-success: #2e7d32;
+    --terroir-success-subtle: #e8f5e9;
+    --terroir-warning: #d97706;
+    --terroir-warning-subtle: #fef3c7;
+    --terroir-error: #dc2626;
+    --terroir-error-subtle: #fee2e2;
+    --terroir-info: #0284c7;
+    --terroir-info-subtle: #e0f2fe;
+
+    --font-heading: 'Fraunces', serif, Georgia;
+    --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    --font-arabic: 'Cairo', 'Tajawal', system-ui, sans-serif;
+  }
+
+  body {
+    background-color: var(--terroir-offwhite);
+    color: var(--terroir-earth);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+  }
+
+  [dir="rtl"] {
+    font-family: var(--font-arabic), var(--font-body);
+  }
+
+  /* Custom subtle focus styles honoring accessibility */
+  *:focus-visible {
+    outline: 2px solid var(--terroir-green);
+    outline-offset: 2px;
+  }
+
+  /* Smooth scroll */
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Custom utility colors */
+.bg-terroir-green { background-color: var(--terroir-green); }
+.bg-terroir-green-hover { background-color: var(--terroir-green-hover); }
+.bg-terroir-green-dark { background-color: var(--terroir-green-dark); }
+.bg-terroir-green-subtle { background-color: var(--terroir-green-subtle); }
+
+.bg-terroir-cream { background-color: var(--terroir-cream); }
+.bg-terroir-cream-light { background-color: var(--terroir-cream-light); }
+.bg-terroir-cream-dark { background-color: var(--terroir-cream-dark); }
+
+.bg-terroir-honey { background-color: var(--terroir-honey); }
+.bg-terroir-honey-hover { background-color: var(--terroir-honey-hover); }
+.bg-terroir-honey-subtle { background-color: var(--terroir-honey-subtle); }
+
+.bg-terroir-sage { background-color: var(--terroir-sage); }
+.bg-terroir-sage-light { background-color: var(--terroir-sage-light); }
+
+.bg-terroir-earth { background-color: var(--terroir-earth); }
+.bg-terroir-offwhite { background-color: var(--terroir-offwhite); }
+
+.text-terroir-green { color: var(--terroir-green); }
+.text-terroir-green-hover { color: var(--terroir-green-hover); }
+.text-terroir-honey { color: var(--terroir-honey); }
+.text-terroir-earth { color: var(--terroir-earth); }
+.text-terroir-earth-muted { color: var(--terroir-earth-muted); }
+
+.border-terroir-border { border-color: var(--terroir-border); }
+.border-terroir-green { border-color: var(--terroir-green); }
+.border-terroir-honey { border-color: var(--terroir-honey); }
+.border-terroir-sage { border-color: var(--terroir-sage); }
+
+.font-heading {
+  font-family: var(--font-heading);
+}
+
+.font-body {
+  font-family: var(--font-body);
+}
+
+.font-arabic {
+  font-family: var(--font-arabic);
+}
+
+/* Subtle Moroccan geometric and texture accents */
+.pattern-moroccan-subtle {
+  background-image: radial-gradient(#315b3c 0.75px, transparent 0.75px);
+  background-size: 16px 16px;
+}
+
+.bg-grainy {
+  background-image: radial-gradient(circle at 50% 50%, rgba(245, 240, 223, 0.5) 0%, rgba(221, 231, 200, 0.2) 100%);
+}
+
+/* Material 3 Touch Target standard */
+.touch-target {
+  min-height: 48px;
+  min-width: 48px;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f5f0df;
+}
+::-webkit-scrollbar-thumb {
+  background: #315b3c;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #264930;
+}
