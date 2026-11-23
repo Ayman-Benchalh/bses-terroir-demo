@@ -16,17 +16,17 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     const variants = {
       primary:
-        'bg-[#315B3C] text-white hover:bg-[#264930] shadow-sm hover:shadow focus-visible:outline-[#315B3C]',
+        'bg-[#233C2E] text-white hover:bg-[#1C3025] shadow-xs hover:shadow-sm focus-visible:outline-[#233C2E]',
       secondary:
-        'bg-[#DDE7C8] text-[#282E23] hover:bg-[#d0ddb5] focus-visible:outline-[#315B3C]',
+        'bg-[#D7E4C5] text-[#252820] hover:bg-[#c9d8b3] focus-visible:outline-[#233C2E]',
       outline:
-        'border border-[#315B3C] text-[#315B3C] hover:bg-[#315B3C]/5 focus-visible:outline-[#315B3C]',
+        'border border-[#233C2E] text-[#233C2E] hover:bg-[#233C2E]/5 focus-visible:outline-[#233C2E]',
       ghost:
-        'text-[#282E23] hover:bg-black/5 hover:text-[#315B3C] focus-visible:outline-[#315B3C]',
+        'text-[#252820] hover:bg-black/5 hover:text-[#233C2E] focus-visible:outline-[#233C2E]',
       danger:
         'bg-[#DC2626] text-white hover:bg-[#B91C1C] focus-visible:outline-[#DC2626]',
       honey:
-        'bg-[#E7A84C] text-[#282E23] font-semibold hover:bg-[#d89635] shadow-sm hover:shadow focus-visible:outline-[#E7A84C]',
+        'bg-[#D58B51] text-white font-semibold hover:bg-[#c37a40] shadow-xs hover:shadow-sm focus-visible:outline-[#D58B51]',
     };
 
     const sizes = {

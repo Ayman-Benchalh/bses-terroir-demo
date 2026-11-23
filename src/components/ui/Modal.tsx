@@ -66,24 +66,24 @@ export function Modal({
       {/* Dialog Surface */}
       <div
         className={cn(
-          'relative w-full rounded-2xl bg-[#FFFCF5] p-6 shadow-2xl border border-[#E8E1CF] z-10 transition-all text-start',
+          'relative w-full rounded-2xl bg-[#F7F4EB] p-6 shadow-2xl border border-[#E5DEC9] z-10 transition-all text-start',
           maxWidthClasses[maxWidth]
         )}
       >
         <div className="flex items-start justify-between gap-4 mb-4">
           <div>
             {title && (
-              <h3 className="text-xl font-heading font-semibold text-[#282E23]">
+              <h3 className="text-xl font-heading font-semibold text-[#252820]">
                 {title}
               </h3>
             )}
             {description && (
-              <p className="text-sm text-[#5D6855] mt-1">{description}</p>
+              <p className="text-sm text-[#5C6053] mt-1">{description}</p>
             )}
           </div>
           <button
             onClick={onClose}
-            className="p-2 text-[#5D6855] hover:text-[#282E23] hover:bg-black/5 rounded-full transition-colors min-w-[40px] min-h-[40px] flex items-center justify-center"
+            className="p-2 text-[#5C6053] hover:text-[#252820] hover:bg-black/5 rounded-full transition-colors min-w-[40px] min-h-[40px] flex items-center justify-center"
             aria-label="Fermer"
           >
             <X className="w-5 h-5" />

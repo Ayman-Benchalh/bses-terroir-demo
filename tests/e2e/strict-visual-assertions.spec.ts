@@ -47,7 +47,7 @@ test.describe('TERROIR Strict Computed Style & Visual Quality Assertions', () =>
     // Tailwind v4 generates hundreds of utility rules inside nested layers
     expect(totalCssRules).toBeGreaterThan(150);
 
-    // 3. Verify Body styling: background #FFFCF5, text #282E23
+    // 3. Verify Body styling: background Oat Milk #F7F4EB, text Charcoal #252820
     const bodyComputed = await page.evaluate(() => {
       const style = window.getComputedStyle(document.body);
       return {
@@ -55,9 +55,9 @@ test.describe('TERROIR Strict Computed Style & Visual Quality Assertions', () =>
         color: style.color,
       };
     });
-    // #FFFCF5 is rgb(255, 252, 245), #282E23 is rgb(40, 46, 35)
-    expect(bodyComputed.bg).toBe('rgb(255, 252, 245)');
-    expect(bodyComputed.color).toBe('rgb(40, 46, 35)');
+    // #F7F4EB is rgb(247, 244, 235), #252820 is rgb(37, 40, 32)
+    expect(bodyComputed.bg).toBe('rgb(247, 244, 235)');
+    expect(bodyComputed.color).toBe('rgb(37, 40, 32)');
 
     // 4. Verify Header computed styles: sticky, backdrop, border
     const headerComputed = await page.evaluate(() => {
@@ -74,7 +74,7 @@ test.describe('TERROIR Strict Computed Style & Visual Quality Assertions', () =>
     expect(headerComputed?.position).toBe('sticky');
     expect(headerComputed?.zIndex).toBe('50');
 
-    // 5. Verify Hero Primary CTA Button styling (Forest Green #315B3C, White text, rounded)
+    // 5. Verify Hero Primary CTA Button styling (Deep Olive #233C2E, White text, rounded)
     const heroBtnComputed = await page.evaluate(() => {
       const btn = document.querySelector('main a[href="/fr/shop"]');
       if (!btn) return null;
@@ -90,8 +90,8 @@ test.describe('TERROIR Strict Computed Style & Visual Quality Assertions', () =>
       };
     });
     expect(heroBtnComputed).not.toBeNull();
-    // #315B3C is rgb(49, 91, 60)
-    expect(heroBtnComputed?.bg).toBe('rgb(49, 91, 60)');
+    // #233C2E is rgb(35, 60, 46)
+    expect(heroBtnComputed?.bg).toBe('rgb(35, 60, 46)');
     // Text must be white, NOT default browser blue rgb(0, 0, 238)
     expect(heroBtnComputed?.color).toBe('rgb(255, 255, 255)');
     // No default browser underline!

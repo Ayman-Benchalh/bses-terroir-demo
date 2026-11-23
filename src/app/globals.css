@@ -2,41 +2,42 @@
 
 @layer base {
   :root {
-    --terroir-green: #315b3c;
-    --terroir-green-hover: #264930;
-    --terroir-green-dark: #1a3321;
-    --terroir-green-light: #437951;
-    --terroir-green-subtle: #edf5ef;
+    /* Modern Moroccan Harvest Palette */
+    --terroir-green: #233C2E;        /* Deep Olive: primary brand color */
+    --terroir-green-hover: #1C3025;
+    --terroir-green-dark: #15241C;
+    --terroir-green-light: #335542;
+    --terroir-green-subtle: #EDF3EE;
 
-    --terroir-cream: #f5f0df;
-    --terroir-cream-light: #faf8f0;
-    --terroir-cream-dark: #e8deca;
+    --terroir-cream: #F7F4EB;        /* Oat Milk: spacious canvas */
+    --terroir-cream-light: #FAF8F2;
+    --terroir-cream-dark: #EDE8D8;
 
-    --terroir-honey: #e7a84c;
-    --terroir-honey-hover: #d39336;
-    --terroir-honey-subtle: #fdf5ea;
+    --terroir-honey: #D58B51;        /* Terracotta: warm editorial accent */
+    --terroir-honey-hover: #C37A40;
+    --terroir-honey-subtle: #FAF0E6;
 
-    --terroir-sage: #dde7c8;
-    --terroir-sage-light: #eef4e3;
-    --terroir-sage-dark: #b8c99e;
+    --terroir-sage: #D7E4C5;         /* Fresh Sage: restrained secondary */
+    --terroir-sage-light: #EFF5E8;
+    --terroir-sage-dark: #BACCA3;
 
-    --terroir-earth: #282e23;
-    --terroir-earth-muted: #5d6855;
-    --terroir-earth-light: #8c9982;
+    --terroir-earth: #252820;        /* Charcoal: high legibility copy */
+    --terroir-earth-muted: #5C6053;
+    --terroir-earth-light: #8C9183;
 
-    --terroir-offwhite: #fffcf5;
-    --terroir-card: #ffffff;
-    --terroir-border: #e8e1cf;
-    --terroir-border-dark: #c5bca5;
+    --terroir-offwhite: #F7F4EB;     /* Base canvas: Oat Milk */
+    --terroir-card: #FFFFFF;         /* Crisp elevated cards: Pure White */
+    --terroir-border: #E5DEC9;       /* Natural warm border */
+    --terroir-border-dark: #C8BFAB;
 
-    --terroir-success: #2e7d32;
-    --terroir-success-subtle: #e8f5e9;
-    --terroir-warning: #d97706;
-    --terroir-warning-subtle: #fef3c7;
-    --terroir-error: #dc2626;
-    --terroir-error-subtle: #fee2e2;
-    --terroir-info: #0284c7;
-    --terroir-info-subtle: #e0f2fe;
+    --terroir-success: #2E7D32;
+    --terroir-success-subtle: #E8F5E9;
+    --terroir-warning: #D97706;
+    --terroir-warning-subtle: #FEF3C7;
+    --terroir-error: #DC2626;
+    --terroir-error-subtle: #FEE2E2;
+    --terroir-info: #0284C7;
+    --terroir-info-subtle: #E0F2FE;
 
     --font-heading: 'Fraunces', serif, Georgia;
     --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;

@@ -17,6 +17,7 @@ import { Badge } from '@/components/ui/Badge';
 import { Input } from '@/components/ui/Input';
 import { QuantityStepper } from '@/components/ui/QuantityStepper';
 import { Modal } from '@/components/ui/Modal';
+import { TerroirLogo } from '@/components/brand/TerroirLogo';
 import { useLocale } from '@/context/LocaleContext';
 
 export default function DesignSystemPage() {
@@ -26,12 +27,12 @@ export default function DesignSystemPage() {
   const [isSampleModalOpen, setIsSampleModalOpen] = useState(false);
 
   const colors = [
-    { name: 'Forest Green', hex: '#315B3C', text: '#FFFFFF', desc: 'Couleur primaire noble, feuillage & vergers' },
-    { name: 'Cream', hex: '#F5F0DF', text: '#282E23', desc: 'Fond chaleureux & surfaces naturelles' },
-    { name: 'Honey', hex: '#E7A84C', text: '#282E23', desc: 'Accentuation lumineuse, miels & soleil' },
-    { name: 'Pale Sage', hex: '#DDE7C8', text: '#282E23', desc: 'Teinte secondaire végétale & badges' },
-    { name: 'Dark Earth', hex: '#282E23', text: '#FFFFFF', desc: 'Contraste d’ancrage, texte & bordures profondes' },
-    { name: 'Off-white', hex: '#FFFCF5', text: '#282E23', desc: 'Fond principal épuré et lumineux' },
+    { name: 'Deep Olive', hex: '#233C2E', text: '#FFFFFF', desc: 'Couleur primaire noble, feuillage des oliveraies & actions majeures' },
+    { name: 'Oat Milk', hex: '#F7F4EB', text: '#252820', desc: 'Fond respirant, doux et naturel pour l’interface entière' },
+    { name: 'Fresh Sage', hex: '#D7E4C5', text: '#252820', desc: 'Surfaces secondaires calmes, puces et repères de terroir' },
+    { name: 'Terracotta', hex: '#D58B51', text: '#FFFFFF', desc: 'Accent éditorial chaleureux, terre cuite marocaine & saison' },
+    { name: 'Charcoal', hex: '#252820', text: '#FFFFFF', desc: 'Typographie haute lisibilité AAA, textes & icônes sombres' },
+    { name: 'Pure White', hex: '#FFFFFF', text: '#252820', desc: 'Surfaces nettes des cartes produits, fiches et modales' },
   ];
 
   const spacingScale = [

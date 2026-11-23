@@ -1,53 +1,88 @@
-# Système de Design — TERROIR
-> **Spécifications Visuelles, Tokens & Directives d'Interaction Material Design 3**
+# TERROIR — Design System Architecture & Token Specifications
+
+**Design System Name:** Modern Moroccan Harvest UI  
+**Target Platform:** Next.js 16 (App Router) / Tailwind CSS v4  
+**Design Standards:** Material Design 3 (M3) + WCAG 2.2 Level AA  
+**Version:** 3.5  
 
 ---
 
-## 1. Palette de Couleurs Identitaire
+## 1. Design Philosophy
 
-La palette de TERROIR a été méticuleusement composée pour évoquer la richesse agricole marocaine : oliveraies du Nord, agrumes de Berkane, arganeraies du Souss et miels sauvages de l'Atlas.
+The TERROIR UI system is engineered to provide an unhurried, editorial food-shopping experience. It trades crowded supermarket banners for spacious layout rhythms, warm daylight photography, and tactile interaction design.
 
-| Nom du Token | Hexadécimal | Rôle & Usage | Ratio Contraste WCAG |
-| :--- | :--- | :--- | :--- |
-| **Forest Green** | `#315B3C` | Couleur primaire de marque, boutons principaux, en-têtes | AAA sur `#FFFFFF` / `#FFFCF5` |
-| **Forest Hover** | `#264930` | État de survol des actions primaires | AAA |
-| **Cream** | `#F5F0DF` | Fond des cartes secondaires, surfaces chaleureuses | AA |
-| **Honey Gold** | `#E7A84C` | Accent secondaire, badges de mise en valeur, création panier | AA avec texte sombre `#282E23` |
-| **Pale Sage** | `#DDE7C8` | Badges de fraîcheur, bordures subtiles, notifications | Lisible avec texte `#315B3C` |
-| **Dark Earth** | `#282E23` | Texte principal, titres d'articles, widget démo BSES | AAA |
-| **Off-White** | `#FFFCF5` | Arrière-plan global de l'application | Confort visuel optimal |
-| **Card White** | `#FFFFFF` | Cartes produits, conteneurs de formulaire, modales | Confort visuel |
+### Core Principles
+1. **Material Design 3 Ergonomics:** All interactive touch targets (buttons, drawer triggers, quantity steppers, inputs) strictly enforce `>= 48 × 48px` physical height or tap-box boundaries.
+2. **Restrained Color Hierarchy:** A single dominant primary color (`#233C2E` Deep Olive), spacious warm canvas (`#F7F4EB` Oat Milk), and purposeful accents (`#D58B51` Terracotta).
+3. **Deterministic Commerce Calculations:** All monetary and inventory numbers are rounded via integer centime arithmetic, preventing floating-point discrepancies across cards, basket builder, and checkout.
+4. **Logical Directionality (RTL Parity):** All layouts adapt smoothly between French/English (LTR) and Arabic (RTL) via CSS logical properties (`ms-`, `me-`, `ps-`, `pe-`, `text-start`, `text-end`).
 
 ---
 
-## 2. Typographie
+## 2. Design Tokens Manifest
 
-### Polices Utilisées
-- **Police d'Affichage Titres** : Segoe UI / Georgia / serif chaleureux avec graisses `700` et `800`.
-- **Police d'Interface Texte** : Système Sans-Serif moderne (`system-ui`, `-apple-system`, `BlinkMacSystemFont`, `Segoe UI`, `Roboto`, `sans-serif`) garantissant un chargement instantané sans blocage réseau.
-- **Police Arabe** : `Traditional Arabic`, `Noto Sans Arabic`, `Tahoma`, garantissant un rendu calligraphique fluide et des ligatures parfaites en mode RTL.
+### 2.1 Color Tokens
+```css
+/* Core Brand Tokens */
+--terroir-green: #233C2E;         /* Deep Olive */
+--terroir-green-hover: #1C3025;
+--terroir-green-light: #335542;
+--terroir-green-subtle: #EDF3EE;
+
+--terroir-cream: #F7F4EB;         /* Oat Milk Canvas */
+--terroir-cream-light: #FAF8F2;
+--terroir-cream-dark: #EDE8D8;
+
+--terroir-honey: #D58B51;         /* Terracotta Editorial Accent */
+--terroir-honey-hover: #C37A40;
+--terroir-honey-subtle: #FAF0E6;
+
+--terroir-sage: #D7E4C5;          /* Fresh Sage Structure */
+--terroir-sage-light: #EFF5E8;
+--terroir-sage-dark: #BACCA3;
+
+--terroir-earth: #252820;         /* Charcoal Typography */
+--terroir-earth-muted: #5C6053;
+--terroir-earth-light: #8C9183;
+
+--terroir-card: #FFFFFF;          /* Pure White Elevated Surfaces */
+--terroir-border: #E5DEC9;        /* Warm Natural Outline */
+--terroir-border-dark: #C8BFAB;
+```
+
+### 2.2 Spacing & Grid System (4px Baseline)
+| Token | Pixels | Application |
+| :--- | :---: | :--- |
+| `space-1` | 4px | Micro padding, badge gaps |
+| `space-2` | 8px | Button item gap, chip padding |
+| `space-3` | 12px | Card compact spacing, small margins |
+| `space-4` | 16px | Standard padding, mobile gutter |
+| `space-6` | 24px | Section inner spacing, card padding |
+| `space-8` | 32px | Grid gap, desktop margins |
+| `space-12`| 48px | Material 3 minimum tactile height target |
+| `space-16`| 64px | Section separation |
+| `space-24`| 96px | Large editorial block whitespace |
+
+### 2.3 Radii & Elevation
+- **Cards & Banners:** `rounded-2xl` (16px) or `rounded-3xl` (24px) for expansive hero panels.
+- **Controls & Inputs:** `rounded-xl` (12px).
+- **Badges & Pills:** `rounded-full` (9999px).
+- **Shadows:** Minimalist soft diffuse ambient shadows (`shadow-xs`, `shadow-sm`) avoiding harsh black dropshadows.
 
 ---
 
-## 3. Échelle d'Espacement & Rythme MD3
+## 3. UI Primitives Inventory
 
-Conformément aux préconisations de **Material Design 3**, l'échelle d'espacement repose sur une grille de base de 4px :
-
-- `4px` (0.25rem) : Espacement micro, pastilles, badges.
-- `8px` (0.5rem) : Gouttières internes d'icônes, étiquettes.
-- `12px` (0.75rem) : Padding des champs de formulaire compacts.
-- `16px` (1rem) : Padding standard des cartes, boutons.
-- `20px` (1.25rem) : Séparations internes, espacements de listes.
-- `24px` (1.5rem) : Gouttières de grille produit.
-- `32px` (2rem) : Espacement entre sections de formulaire.
-- `48px` (3rem) : Hauteur minimale des cibles tactiles mobiles.
-- `64px` (4rem) : Espacement vertical des sections d'accueil.
-- `80px` - `96px` : Marges supérieures de campagne éditoriale.
-
----
-
-## 4. Règles d'Accessibilité & Cibles Tactiles
-
-1. **Taille Minimale des Cibles Tactiles** : Tout élément cliquable sur mobile (boutons, sélecteurs de quantité, triggers de tiroir, liens de navigation) respecte une hauteur minimale de **48 × 48 px** de surface interactive.
-2. **Indicateurs de Focus Visibles** : Anneaux de focus contrastés (`ring-2 ring-[#315B3C]/40`) sur l'ensemble des boutons et champs de saisie pour une navigation au clavier sans faille.
-3. **Support RTL Bidirectionnel Intégral** : Les icônes directionnelles (`ChevronRight`, flèches de navigation) s'inversent dynamiquement en mode arabe pour respecter la lecture de droite à gauche.
+1. **`TerroirLogo` (`src/components/brand/TerroirLogo.tsx`):**
+   Scalable vector logo system supporting `'full'`, `'compact'`, and `'symbol'` variants across dark and light palettes.
+2. **`Button` (`src/components/ui/Button.tsx`):**
+   - Variants: `primary` (Deep Olive), `honey` (Terracotta), `secondary` (Fresh Sage), `outline`, `ghost`, `danger`.
+   - Sizes: `sm` (36px), `md` (44px), `lg` (48px Touch Target M3), `icon` (44×44px).
+3. **`Badge` (`src/components/ui/Badge.tsx`):**
+   - High-contrast pill badges: `default`, `success` (In stock), `warning` (Low stock), `error` (Sold out), `honey` (Terracotta highlight), `sage` (Organic farming), `outline`.
+4. **`Input` (`src/components/ui/Input.tsx`):**
+   - 48px standard height, warm `#E5DEC9` resting border, `#233C2E` active outline ring, built-in validation error states.
+5. **`QuantityStepper` (`src/components/ui/QuantityStepper.tsx`):**
+   - Accessible fractional stepper supporting 0.5kg increments, explicit integer centime bounds, and keyboard tap targets.
+6. **`Modal` (`src/components/ui/Modal.tsx`):**
+   - WAI-ARIA compliant dialog with focus trap, backdrop blur, `Escape` key capture, and background scroll locking.

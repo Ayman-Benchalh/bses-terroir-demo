@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import { useLocale } from '@/context/LocaleContext';
 import { useStore } from '@/context/StoreContext';
+import { TerroirLogo } from '@/components/brand/TerroirLogo';
 import { cn } from '@/lib/utils';
 import { SupportedLocale } from '@/lib/types';
 
@@ -97,39 +98,25 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
         aria-hidden="true"
       />
 
-      {/* Drawer Container - Full Usable Height, Independent Scroll */}
+      {/* Drawer Container */}
       <div
         className={cn(
-          'relative z-10 flex flex-col w-[88vw] max-w-sm h-[100dvh] bg-[#FFFCF5] shadow-2xl border-[#E8E1CF]',
+          'relative z-10 flex flex-col w-[88vw] max-w-sm h-[100dvh] bg-[#F7F4EB] shadow-2xl border-[#E5DEC9]',
           isRTL
             ? 'mr-auto border-l rounded-l-2xl'
             : 'ml-auto border-r rounded-r-2xl'
         )}
       >
         {/* Header Section */}
-        <div className="flex items-center justify-between p-4 border-b border-[#E8E1CF] bg-[#F5F0DF]/60 shrink-0">
-          <Link
-            href={`/${locale}`}
-            onClick={onClose}
-            className="flex items-center gap-2.5 text-start"
-          >
-            <div className="w-9 h-9 rounded-xl bg-[#315B3C] text-white flex items-center justify-center font-heading text-lg font-bold shadow-xs">
-              T
-            </div>
-            <div>
-              <span className="font-heading text-xl font-bold tracking-tight text-[#315B3C]">
-                {t('brand.name')}
-              </span>
-              <p className="text-[10px] text-[#5D6855] leading-none">
-                {t('brand.tagline')}
-              </p>
-            </div>
+        <div className="flex items-center justify-between p-4 border-b border-[#E5DEC9] bg-[#EDE8D8]/60 shrink-0">
+          <Link href={`/${locale}`} onClick={onClose} className="block text-start">
+            <TerroirLogo variant="full" />
           </Link>
 
           <button
             onClick={onClose}
             aria-label={t('nav.close')}
-            className="w-10 h-10 rounded-xl bg-black/5 hover:bg-black/10 flex items-center justify-center text-[#282E23] transition-colors cursor-pointer"
+            className="w-10 h-10 rounded-xl bg-black/5 hover:bg-black/10 flex items-center justify-center text-[#252820] transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -138,14 +125,14 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
         {/* Scrollable Content Zone */}
         <div className="flex-1 overflow-y-auto p-4 space-y-6">
           {/* Delivery City Selector */}
-          <div className="p-3 rounded-xl bg-white border border-[#E8E1CF] shadow-xs">
-            <label className="block text-xs font-semibold text-[#5D6855] uppercase tracking-wider mb-1.5">
+          <div className="p-3 rounded-xl bg-white border border-[#E5DEC9] shadow-xs">
+            <label className="block text-xs font-semibold text-[#5C6053] uppercase tracking-wider mb-1.5">
               📍 {t('nav.city_label')}
             </label>
             <select
               value={state.selectedCity}
               onChange={(e) => setSelectedCity(e.target.value)}
-              className="w-full text-sm font-medium text-[#282E23] bg-transparent border-0 focus:outline-none cursor-pointer"
+              className="w-full text-sm font-medium text-[#252820] bg-transparent border-0 focus:outline-none cursor-pointer"
             >
               {state.deliveryZones.map((zone) => (
                 <option key={zone.cityKey} value={zone.cityKey}>
@@ -169,14 +156,14 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
                   className={cn(
                     'flex items-center justify-between px-3.5 py-3 rounded-xl text-base font-medium transition-colors min-h-[48px]',
                     isActive
-                      ? 'bg-[#315B3C] text-white'
+                      ? 'bg-[#233C2E] text-white'
                       : item.highlight
-                      ? 'bg-[#E7A84C]/15 text-[#855113] hover:bg-[#E7A84C]/25'
-                      : 'text-[#282E23] hover:bg-[#F5F0DF]'
+                      ? 'bg-[#D58B51]/15 text-[#9C5A25] hover:bg-[#D58B51]/25'
+                      : 'text-[#252820] hover:bg-black/5'
                   )}
                 >
                   <div className="flex items-center gap-3">
-                    <Icon className={cn('w-5 h-5 shrink-0', isActive ? 'text-white' : 'text-[#315B3C]')} />
+                    <Icon className={cn('w-5 h-5 shrink-0', isActive ? 'text-white' : 'text-[#233C2E]')} />
                     <span>{item.label}</span>
                   </div>
                   <ChevronRight
@@ -191,11 +178,11 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
           </nav>
 
           {/* Special Admin & Design System Links */}
-          <div className="pt-2 border-t border-[#E8E1CF] space-y-1">
+          <div className="pt-2 border-t border-[#E5DEC9] space-y-1">
             <Link
               href={`/${locale}/admin-demo`}
               onClick={onClose}
-              className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-[#315B3C] bg-[#315B3C]/10 hover:bg-[#315B3C]/20 min-h-[44px]"
+              className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-[#233C2E] bg-[#233C2E]/10 hover:bg-[#233C2E]/20 min-h-[44px]"
             >
               <LayoutDashboard className="w-4 h-4" />
               <span>{t('nav.admin')}</span>
@@ -204,7 +191,7 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
             <Link
               href={`/${locale}/design-system`}
               onClick={onClose}
-              className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-[#5D6855] hover:bg-black/5 min-h-[44px]"
+              className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-[#5C6053] hover:bg-black/5 min-h-[44px]"
             >
               <ShieldCheck className="w-4 h-4" />
               <span>{t('nav.design_system')}</span>
@@ -212,8 +199,8 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
           </div>
 
           {/* Language Switcher */}
-          <div className="p-3 rounded-xl bg-white border border-[#E8E1CF]">
-            <p className="text-xs font-semibold text-[#5D6855] uppercase tracking-wider mb-2">
+          <div className="p-3 rounded-xl bg-white border border-[#E5DEC9]">
+            <p className="text-xs font-semibold text-[#5C6053] uppercase tracking-wider mb-2">
               🌐 Langue / Language / اللغة
             </p>
             <div className="grid grid-cols-3 gap-1.5">
@@ -224,8 +211,8 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
                   className={cn(
                     'py-2 px-1 text-center text-xs font-semibold rounded-lg transition-colors min-h-[38px] cursor-pointer',
                     locale === lang.code
-                      ? 'bg-[#315B3C] text-white shadow-xs'
-                      : 'bg-[#F5F0DF]/60 text-[#282E23] hover:bg-[#F5F0DF]'
+                      ? 'bg-[#233C2E] text-white shadow-xs'
+                      : 'bg-[#FAF8F2] text-[#252820] hover:bg-[#EDE8D8]'
                   )}
                 >
                   {lang.label}
@@ -235,22 +222,22 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
           </div>
 
           {/* Official BSES Contact Quick Box */}
-          <div className="p-3.5 rounded-xl bg-[#F5F0DF] border border-[#E8E1CF] text-xs text-[#5D6855] space-y-2">
-            <div className="flex items-center gap-2 font-semibold text-[#282E23]">
+          <div className="p-3.5 rounded-xl bg-[#EDE8D8] border border-[#E5DEC9] text-xs text-[#5C6053] space-y-2">
+            <div className="flex items-center gap-2 font-semibold text-[#252820]">
               <span>BSES Studio Support</span>
             </div>
             <a
               href="https://wa.me/212694991485"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 text-[#315B3C] font-medium hover:underline"
+              className="flex items-center gap-2 text-[#233C2E] font-medium hover:underline"
             >
               <Phone className="w-3.5 h-3.5" />
               <span>WhatsApp: +212 694 991 485</span>
             </a>
             <a
               href="mailto:Bses47113@gmail.com"
-              className="flex items-center gap-2 text-[#315B3C] font-medium hover:underline"
+              className="flex items-center gap-2 text-[#233C2E] font-medium hover:underline"
             >
               <Mail className="w-3.5 h-3.5" />
               <span>Bses47113@gmail.com</span>
@@ -259,8 +246,8 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
         </div>
 
         {/* Footer info in drawer */}
-        <div className="p-3 text-center border-t border-[#E8E1CF] bg-[#F5F0DF]/40 text-[11px] text-[#5D6855] shrink-0">
-          TERROIR v3.0 • Flagship Demo BSES
+        <div className="p-3 text-center border-t border-[#E5DEC9] bg-[#EDE8D8]/40 text-[11px] text-[#5C6053] shrink-0">
+          TERROIR v3.5 • Modern Moroccan Harvest Demo
         </div>
       </div>
     </div>

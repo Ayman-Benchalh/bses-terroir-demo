@@ -61,7 +61,7 @@ export function QuantityStepper({
   return (
     <div
       className={cn(
-        'inline-flex items-center rounded-xl border border-[#E8E1CF] bg-white p-1 select-none',
+        'inline-flex items-center rounded-xl border border-[#E5DEC9] bg-white p-1 select-none',
         sizeClasses[size],
         disabled && 'opacity-50 pointer-events-none',
         className
@@ -73,15 +73,15 @@ export function QuantityStepper({
         disabled={disabled || isMin}
         aria-label="Diminuer la quantité"
         className={cn(
-          'flex items-center justify-center rounded-lg text-[#282E23] transition-colors hover:bg-[#F5F0DF] disabled:opacity-30 disabled:hover:bg-transparent cursor-pointer',
+          'flex items-center justify-center rounded-lg text-[#252820] transition-colors hover:bg-[#F7F4EB] disabled:opacity-30 disabled:hover:bg-transparent cursor-pointer',
           btnSizes[size]
         )}
       >
         <Minus className="w-4 h-4" />
       </button>
 
-      <span className="min-w-[48px] px-2 text-center font-semibold text-[#282E23]">
-        {value} {unit && <span className="text-xs font-normal text-[#5D6855]">{unit}</span>}
+      <span className="min-w-[48px] px-2 text-center font-semibold text-[#252820]">
+        {value} {unit && <span className="text-xs font-normal text-[#5C6053]">{unit}</span>}
       </span>
 
       <button
@@ -90,7 +90,7 @@ export function QuantityStepper({
         disabled={disabled || isMax}
         aria-label="Augmenter la quantité"
         className={cn(
-          'flex items-center justify-center rounded-lg text-[#282E23] transition-colors hover:bg-[#F5F0DF] disabled:opacity-30 disabled:hover:bg-transparent cursor-pointer',
+          'flex items-center justify-center rounded-lg text-[#252820] transition-colors hover:bg-[#F7F4EB] disabled:opacity-30 disabled:hover:bg-transparent cursor-pointer',
           btnSizes[size]
         )}
       >

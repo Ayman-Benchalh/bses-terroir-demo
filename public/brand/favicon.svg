@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <!-- Minimalist High-Legibility Favicon -->
+  <rect width="32" height="32" rx="9" fill="#233C2E"/>
+  <path d="M6 25C12 23 20 23 26 25" stroke="#D7E4C5" stroke-width="2" stroke-linecap="round"/>
+  <path d="M16 23C13 18 10 14 11 9C15 10 17 14 16 23Z" fill="#D7E4C5"/>
+  <path d="M16 23C19 18 22 14 21 9C17 10 15 14 16 23Z" fill="#D58B51"/>
+  <circle cx="16" cy="7" r="1.8" fill="#F7F4EB"/>
+</svg>

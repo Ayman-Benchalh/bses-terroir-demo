@@ -13,6 +13,7 @@ export function CartDrawer() {
   const { locale, isRTL, t } = useLocale();
   const {
     state,
+    activePromo,
     cartTotals,
     isCartDrawerOpen,
     closeCartDrawer,
@@ -77,82 +78,79 @@ export function CartDrawer() {
       {/* Slide-over surface */}
       <div
         className={cn(
-          'relative z-10 flex flex-col w-full max-w-md h-[100dvh] bg-[#FFFCF5] shadow-2xl border-[#E8E1CF]',
+          'relative z-10 flex flex-col w-full max-w-md h-[100dvh] bg-[#F7F4EB] shadow-2xl border-[#E5DEC9]',
           isRTL ? 'mr-auto border-l' : 'ml-auto border-r'
         )}
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-[#E8E1CF] bg-[#F5F0DF]/50 shrink-0">
+        <div className="flex items-center justify-between p-4 border-b border-[#E5DEC9] bg-[#EDE8D8]/60 shrink-0">
           <div className="flex items-center gap-2">
-            <ShoppingBag className="w-5 h-5 text-[#315B3C]" />
-            <h2 className="text-lg font-heading font-bold text-[#282E23]">
+            <ShoppingBag className="w-5 h-5 text-[#233C2E]" />
+            <h2 className="text-lg font-heading font-bold text-[#252820]">
               {t('cart.title')} ({state.cart.length})
             </h2>
           </div>
           <button
             onClick={closeCartDrawer}
-            className="w-9 h-9 rounded-xl bg-black/5 hover:bg-black/10 flex items-center justify-center text-[#282E23] transition-colors cursor-pointer"
+            className="w-9 h-9 rounded-xl bg-black/5 hover:bg-black/10 flex items-center justify-center text-[#252820] transition-colors cursor-pointer"
             aria-label={t('nav.close')}
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Free Delivery Bar */}
+        {/* Free Shipping Progress Indicator */}
         {currentDeliveryZone && (
-          <div className="p-3 bg-[#EEF4E3] border-b border-[#DDE7C8] text-xs shrink-0">
-            {cartTotals.isFreeDelivery ? (
-              <p className="flex items-center gap-1.5 font-semibold text-[#2E7D32]">
-                <Check className="w-4 h-4 shrink-0" />
-                <span>{t('cart.free_shipping_reached')}</span>
-              </p>
-            ) : (
-              <div className="space-y-1.5">
-                <p className="text-[#282E23] font-medium">
-                  {t('cart.free_shipping_notice', {
-                    amount: formatCurrencyMAD(cartTotals.freeDeliveryRemaining, locale),
-                  })}
-                </p>
-                <div className="w-full h-2 rounded-full bg-white/70 overflow-hidden">
-                  <div
-                    className="h-full bg-[#315B3C] rounded-full transition-all duration-300"
-                    style={{ width: `${freeDeliveryProgress}%` }}
-                  />
-                </div>
-              </div>
-            )}
+          <div className="p-3.5 bg-white border-b border-[#E5DEC9] text-xs space-y-1.5 shrink-0">
+            <div className="flex items-center justify-between">
+              <span className="font-semibold text-[#252820]">
+                Livraison à {currentDeliveryZone.cityName[locale]}
+              </span>
+              <span className="text-[11px] text-[#5C6053]">
+                {cartTotals.isFreeDelivery
+                  ? '🎉 Livraison offerte !'
+                  : `Plus que ${Math.max(0, currentDeliveryZone.freeDeliveryThreshold - cartTotals.subtotal)} MAD pour la gratuité`}
+              </span>
+            </div>
+            <div className="w-full h-1.5 bg-[#EDE8D8] rounded-full overflow-hidden">
+              <div
+                className="h-full bg-[#233C2E] transition-all duration-300"
+                style={{ width: `${freeDeliveryProgress}%` }}
+              />
+            </div>
           </div>
         )}
 
-        {/* Cart Item List */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+        {/* Scrollable Items Container */}
+        <div className="flex-1 overflow-y-auto p-4 space-y-3">
           {state.cart.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-full text-center p-6 space-y-3">
-              <div className="w-16 h-16 rounded-full bg-[#F5F0DF] flex items-center justify-center text-[#5D6855]">
-                <ShoppingBag className="w-8 h-8 opacity-40" />
+            <div className="h-full flex flex-col items-center justify-center text-center p-6 space-y-4">
+              <div className="w-16 h-16 rounded-3xl bg-[#EDE8D8] text-[#233C2E] flex items-center justify-center">
+                <ShoppingBag className="w-8 h-8 opacity-70" />
               </div>
-              <h3 className="text-lg font-heading font-semibold text-[#282E23]">
-                {t('cart.empty_title')}
-              </h3>
-              <p className="text-xs text-[#5D6855] max-w-xs">
-                {t('cart.empty_desc')}
-              </p>
-              <Link
-                href={`/${locale}/shop`}
+              <div className="space-y-1">
+                <h3 className="font-heading font-bold text-lg text-[#252820]">
+                  {t('cart.empty_title')}
+                </h3>
+                <p className="text-xs text-[#5C6053] max-w-xs">
+                  {t('cart.empty_message')}
+                </p>
+              </div>
+              <button
+                type="button"
                 onClick={closeCartDrawer}
-                className="mt-2 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#315B3C] text-white text-sm font-semibold hover:bg-[#264930] transition-colors"
+                className="px-5 py-2.5 rounded-xl bg-[#233C2E] text-white font-semibold text-xs hover:bg-[#1C3025] transition-colors cursor-pointer"
               >
-                <span>{t('cart.start_shopping')}</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
+                {t('cart.continue_shopping')}
+              </button>
             </div>
           ) : (
             state.cart.map((item) => (
               <div
                 key={item.id}
-                className="flex items-center gap-3 p-3 rounded-2xl bg-white border border-[#E8E1CF] shadow-xs"
+                className="flex items-center gap-3 p-3 rounded-2xl bg-white border border-[#E5DEC9] shadow-xs"
               >
-                <div className="relative w-16 h-16 rounded-xl overflow-hidden bg-[#F5F0DF] shrink-0 border border-[#E8E1CF]">
+                <div className="relative w-16 h-16 rounded-xl overflow-hidden bg-[#FAF8F2] shrink-0 border border-[#E5DEC9]">
                   <Image
                     src={item.product.image}
                     alt={item.product.name[locale]}
@@ -163,17 +161,19 @@ export function CartDrawer() {
                 </div>
 
                 <div className="flex-1 min-w-0">
-                  <h4 className="text-sm font-semibold text-[#282E23] truncate">
-                    {item.product.name[locale]}
-                  </h4>
-                  {item.selectedVariantName && (
-                    <p className="text-xs text-[#5D6855]">
-                      {item.selectedVariantName[locale]}
-                    </p>
-                  )}
-                  <p className="text-xs font-bold text-[#315B3C] mt-0.5">
-                    {formatCurrencyMAD(item.lineTotal, locale)}
-                  </p>
+                  <div className="flex items-start justify-between gap-1">
+                    <h4 className="text-xs font-semibold text-[#252820] truncate">
+                      {item.product.name[locale]}
+                    </h4>
+                    <button
+                      type="button"
+                      onClick={() => removeFromCart(item.id)}
+                      className="text-black/30 hover:text-[#DC2626] transition-colors p-1"
+                      aria-label="Supprimer du panier"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
 
                   <div className="flex items-center justify-between mt-2">
                     <QuantityStepper
@@ -186,13 +186,9 @@ export function CartDrawer() {
                       onChange={(newQty) => updateCartQuantity(item.id, newQty)}
                     />
 
-                    <button
-                      onClick={() => removeFromCart(item.id)}
-                      className="p-1.5 text-black/40 hover:text-[#DC2626] transition-colors"
-                      aria-label={t('cart.remove_item')}
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
+                    <span className="text-xs font-bold text-[#233C2E]">
+                      {formatCurrencyMAD(item.lineTotal, locale)}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -200,53 +196,54 @@ export function CartDrawer() {
           )}
         </div>
 
-        {/* Summary & Checkout Footer */}
+        {/* Footer Checkout Actions */}
         {state.cart.length > 0 && (
-          <div className="p-4 border-t border-[#E8E1CF] bg-[#F5F0DF]/60 space-y-3 shrink-0">
+          <div className="p-4 border-t border-[#E5DEC9] bg-white space-y-3 shrink-0">
             {/* Promo Code Input */}
             <form onSubmit={handleApplyPromo} className="flex gap-2">
               <input
                 type="text"
                 value={promoInput}
                 onChange={(e) => setPromoInput(e.target.value)}
-                placeholder={t('cart.promo_placeholder')}
-                className="flex-1 px-3 py-2 text-xs rounded-xl border border-[#E8E1CF] bg-white text-[#282E23] uppercase placeholder:normal-case focus:outline-none focus:border-[#315B3C]"
+                placeholder="Code promo (ex: BIENVENUE10)"
+                className="flex-1 px-3 py-2 rounded-xl border border-[#E5DEC9] text-xs text-[#252820] focus:outline-none focus:border-[#233C2E]"
               />
               <button
                 type="submit"
-                className="px-3 py-2 text-xs font-semibold rounded-xl bg-[#315B3C] text-white hover:bg-[#264930] transition-colors"
+                className="px-3.5 py-2 rounded-xl bg-[#233C2E] text-white text-xs font-semibold hover:bg-[#1C3025] transition-colors cursor-pointer"
               >
-                {t('cart.apply_promo')}
+                Appliquer
               </button>
             </form>
 
             {/* Active Promo Pill */}
-            {state.activePromoCode && (
-              <div className="flex items-center justify-between px-3 py-1.5 rounded-lg bg-[#E8F5E9] text-[#2E7D32] text-xs font-semibold">
-                <span className="flex items-center gap-1.5">
-                  <Sparkles className="w-3.5 h-3.5" />
-                  <span>Code {state.activePromoCode} activé</span>
+            {activePromo && (
+              <div className="flex items-center justify-between p-2 rounded-lg bg-[#EFF5E8] text-xs text-[#2E7D32]">
+                <span className="flex items-center gap-1 font-semibold">
+                  <Sparkles className="w-3 h-3 text-[#D58B51]" />
+                  <span>Code {activePromo.code} ({activePromo.discountValue}{activePromo.discountType === 'percentage' ? '%' : ' MAD'} offert)</span>
                 </span>
                 <button
+                  type="button"
                   onClick={removePromoCode}
-                  className="text-xs hover:underline text-[#DC2626]"
+                  className="text-black/40 hover:text-[#DC2626] text-xs font-bold"
                 >
-                  {t('cart.remove_promo')}
+                  ✕
                 </button>
               </div>
             )}
 
-            {/* Calculation Breakdown */}
-            <div className="space-y-1.5 text-xs text-[#5D6855]">
+            {/* Calculations Breakdown */}
+            <div className="space-y-1 text-xs text-[#5C6053]">
               <div className="flex justify-between">
                 <span>{t('cart.subtotal')}</span>
-                <span className="font-medium text-[#282E23]">
+                <span className="font-semibold text-[#252820]">
                   {formatCurrencyMAD(cartTotals.subtotal, locale)}
                 </span>
               </div>
 
               {cartTotals.discount > 0 && (
-                <div className="flex justify-between text-[#2E7D32] font-medium">
+                <div className="flex justify-between text-[#2E7D32] font-semibold">
                   <span>{t('cart.discount')}</span>
                   <span>-{formatCurrencyMAD(cartTotals.discount, locale)}</span>
                 </div>
@@ -254,28 +251,26 @@ export function CartDrawer() {
 
               <div className="flex justify-between">
                 <span>{t('cart.delivery_fee')}</span>
-                <span className="font-medium text-[#282E23]">
-                  {cartTotals.isFreeDelivery
-                    ? 'Offerte'
-                    : formatCurrencyMAD(cartTotals.deliveryFee, locale)}
+                <span className="font-semibold text-[#252820]">
+                  {cartTotals.isFreeDelivery ? 'Gratuit' : formatCurrencyMAD(cartTotals.deliveryFee, locale)}
                 </span>
               </div>
 
-              <div className="flex justify-between text-base font-bold text-[#282E23] pt-1.5 border-t border-[#E8E1CF]">
+              <div className="flex justify-between text-base font-bold text-[#252820] pt-2 border-t border-[#E5DEC9]">
                 <span>{t('cart.total')}</span>
-                <span className="text-[#315B3C]">
+                <span className="text-[#233C2E]">
                   {formatCurrencyMAD(cartTotals.total, locale)}
                 </span>
               </div>
             </div>
 
-            {/* Checkout CTA */}
+            {/* Direct Checkout Link */}
             <Link
               href={`/${locale}/checkout`}
               onClick={closeCartDrawer}
-              className="flex items-center justify-center gap-2 w-full py-3.5 px-4 rounded-xl bg-[#315B3C] text-white font-semibold text-sm hover:bg-[#264930] transition-colors shadow-sm cursor-pointer min-h-[48px]"
+              className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-[#233C2E] text-white font-bold text-sm hover:bg-[#1C3025] transition-colors shadow-xs cursor-pointer min-h-[48px]"
             >
-              <span>{t('cart.checkout_button')}</span>
+              <span>{t('cart.checkout')}</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>

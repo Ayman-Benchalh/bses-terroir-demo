@@ -45,7 +45,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-screen bg-[#FFFCF5] text-[#282E23] antialiased selection:bg-[#315B3C] selection:text-white">
+      <body className="min-h-screen bg-[#F7F4EB] text-[#252820] antialiased selection:bg-[#233C2E] selection:text-white">
         {children}
       </body>
     </html>

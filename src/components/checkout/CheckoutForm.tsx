@@ -99,85 +99,94 @@ export function CheckoutForm() {
     const customer: OrderCustomer = {
       fullName: formData.fullName.trim(),
       phone: formData.phone.trim(),
-      city: currentDeliveryZone ? currentDeliveryZone.cityName.fr : formData.city,
+      city: formData.city,
       address: formData.address.trim(),
       landmark: formData.landmark?.trim(),
       notes: formData.notes?.trim(),
     };
 
-    const orderResult = placeOrder(customer, formData.deliverySlot);
-    setIsSubmitting(false);
-
-    if (!orderResult.success || !orderResult.order) {
-      showToast(orderResult.error || 'Erreur lors de la validation.', 'error');
-      return;
-    }
-
-    setCompletedOrder(orderResult.order);
-
     try {
-      confetti({
-        particleCount: 100,
-        spread: 70,
-        origin: { y: 0.6 },
-      });
+      const result = placeOrder(customer, formData.deliverySlot);
+      if (result.success && result.order) {
+        setCompletedOrder(result.order);
+        try {
+          confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 },
+          });
+        } catch {
+          // Fallback
+        }
+      } else {
+        showToast(result.error || 'Une erreur est survenue lors de la création de la commande.', 'error');
+      }
     } catch {
-      // Confetti fallback
+      showToast('Une erreur est survenue lors de la création de la commande.', 'error');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
-  // If order was successfully simulated
+  // 1. Order Placed Confirmation Screen
   if (completedOrder) {
     return (
-      <div className="max-w-2xl mx-auto p-6 sm:p-10 rounded-3xl bg-white border border-[#E8E1CF] shadow-lg text-center space-y-6 animate-in fade-in duration-300">
-        <div className="w-16 h-16 rounded-full bg-[#E8F5E9] text-[#2E7D32] flex items-center justify-center mx-auto shadow-xs">
-          <CheckCircle2 className="w-9 h-9" />
+      <div className="max-w-2xl mx-auto p-6 sm:p-10 rounded-3xl bg-white border border-[#E5DEC9] shadow-sm text-center space-y-6">
+        <div className="w-16 h-16 rounded-full bg-[#EFF5E8] text-[#2E7D32] mx-auto flex items-center justify-center">
+          <CheckCircle2 className="w-10 h-10" />
         </div>
 
         <div className="space-y-2">
-          <h2 className="text-2xl sm:text-3xl font-heading font-bold text-[#282E23]">
+          <span className="text-xs font-bold text-[#D58B51] uppercase tracking-wider block">
+            Simulation Démo E-Commerce BSES
+          </span>
+          <h2 className="text-2xl sm:text-3xl font-heading font-extrabold text-[#252820]">
             {t('order_confirmation.title')}
           </h2>
-          <p className="text-sm text-[#5D6855]">
+          <p className="text-sm text-[#5C6053]">
             {t('order_confirmation.tracking_notice')}
           </p>
         </div>
 
-        <div className="p-4 rounded-2xl bg-[#F5F0DF]/60 border border-[#E8E1CF] inline-block text-start text-xs space-y-1.5 w-full max-w-md">
-          <div className="flex justify-between">
-            <span className="text-[#5D6855]">Numéro de référence :</span>
-            <strong className="text-[#315B3C] font-mono text-sm">{completedOrder.orderNumber}</strong>
+        {/* Order Details Card */}
+        <div className="p-5 rounded-2xl bg-[#FAF8F2] border border-[#E5DEC9] text-start space-y-3 text-xs">
+          <div className="flex justify-between border-b border-[#E5DEC9] pb-2">
+            <span className="text-[#5C6053]">{t('order_confirmation.order_number')}</span>
+            <span className="font-mono font-bold text-[#233C2E]">{completedOrder.orderNumber}</span>
           </div>
-          <div className="flex justify-between">
-            <span className="text-[#5D6855]">Destinataire :</span>
-            <span className="font-semibold text-[#282E23]">{completedOrder.customer.fullName}</span>
+          <div className="flex justify-between border-b border-[#E5DEC9] pb-2">
+            <span className="text-[#5C6053]">Client</span>
+            <span className="font-semibold text-[#252820]">{completedOrder.customer.fullName} ({completedOrder.customer.phone})</span>
           </div>
-          <div className="flex justify-between">
-            <span className="text-[#5D6855]">Ville & Créneau :</span>
-            <span className="text-[#282E23]">{completedOrder.customer.city} • {completedOrder.deliverySlot}</span>
+          <div className="flex justify-between border-b border-[#E5DEC9] pb-2">
+            <span className="text-[#5C6053]">Ville & Adresse</span>
+            <span className="font-semibold text-[#252820]">{completedOrder.customer.city.toUpperCase()} — {completedOrder.customer.address}</span>
           </div>
-          <div className="flex justify-between text-sm font-bold text-[#282E23] pt-2 border-t border-[#E8E1CF]">
-            <span>Total simulé :</span>
-            <span className="text-[#315B3C]">{formatCurrencyMAD(completedOrder.total, locale)}</span>
+          <div className="flex justify-between border-b border-[#E5DEC9] pb-2">
+            <span className="text-[#5C6053]">{t('checkout.slot')}</span>
+            <span className="font-semibold text-[#233C2E]">{completedOrder.deliverySlot}</span>
+          </div>
+          <div className="flex justify-between pt-1 text-sm font-bold text-[#252820]">
+            <span>Montant Total</span>
+            <span className="text-[#233C2E]">{formatCurrencyMAD(completedOrder.total, locale)}</span>
           </div>
         </div>
 
-        <div className="p-3.5 rounded-xl bg-[#FEF3C7] border border-[#D97706]/30 text-xs text-[#92400E]">
-          {t('checkout.demo_disclaimer')}
+        <div className="p-3.5 rounded-xl bg-[#EFF5E8] border border-[#D7E4C5] text-xs text-[#233C2E] flex items-center justify-center gap-2">
+          <ShieldCheck className="w-4 h-4 shrink-0 text-[#233C2E]" />
+          <span>Fiche démonstration interactive • Aucune transaction financière réelle débitée.</span>
         </div>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
           <Link
-            href={`/${locale}/order-tracking`}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-[#315B3C] text-white font-semibold text-sm hover:bg-[#264930] transition-colors"
+            href={`/${locale}/order-tracking?orderId=${completedOrder.id}`}
+            className="w-full sm:w-auto px-6 py-3 rounded-xl bg-[#233C2E] text-white font-semibold text-xs hover:bg-[#1C3025] transition-colors"
           >
-            <span>{t('order_confirmation.track_button')}</span>
-            <ArrowRight className="w-4 h-4" />
+            {t('order_confirmation.track_button')}
           </Link>
-
           <Link
             href={`/${locale}/shop`}
-            className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 rounded-xl border border-[#315B3C] text-[#315B3C] font-semibold text-sm hover:bg-[#315B3C]/5 transition-colors"
+            className="w-full sm:w-auto px-6 py-3 rounded-xl border border-[#E5DEC9] bg-white text-[#252820] font-semibold text-xs hover:bg-[#FAF8F2] transition-colors"
           >
             {t('order_confirmation.continue_shopping')}
           </Link>
@@ -186,117 +195,119 @@ export function CheckoutForm() {
     );
   }
 
-  // If cart is empty
+  // 2. Empty Cart Guard
   if (state.cart.length === 0) {
     return (
-      <div className="max-w-xl mx-auto p-12 text-center rounded-3xl bg-white border border-[#E8E1CF] shadow-xs space-y-4">
-        <div className="w-16 h-16 rounded-full bg-[#F5F0DF] text-[#5D6855] flex items-center justify-center mx-auto">
-          <ShoppingBag className="w-8 h-8 opacity-40" />
+      <div className="max-w-md mx-auto p-8 rounded-3xl bg-white border border-[#E5DEC9] text-center space-y-4">
+        <div className="w-12 h-12 rounded-2xl bg-[#FAF8F2] text-[#233C2E] flex items-center justify-center mx-auto">
+          <ShoppingBag className="w-6 h-6" />
         </div>
-        <h3 className="text-xl font-heading font-semibold text-[#282E23]">
+        <h3 className="font-heading font-bold text-lg text-[#252820]">
           {t('cart.empty_title')}
         </h3>
-        <p className="text-xs text-[#5D6855]">
-          {t('cart.empty_desc')}
+        <p className="text-xs text-[#5C6053]">
+          {t('cart.empty_message')}
         </p>
         <Link
           href={`/${locale}/shop`}
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#315B3C] text-white text-sm font-semibold hover:bg-[#264930] transition-colors"
+          className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-[#233C2E] text-white font-semibold text-xs hover:bg-[#1C3025] transition-colors"
         >
-          <span>{t('cart.start_shopping')}</span>
-          <ArrowRight className="w-4 h-4" />
+          <span>{t('cart.continue_shopping')}</span>
+          <ArrowRight className="w-3.5 h-3.5" />
         </Link>
       </div>
     );
   }
 
+  // 3. Main Checkout Form Layout
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 text-start">
-      {/* Form Columns */}
+      {/* Form Left Column */}
       <div className="lg:col-span-7 space-y-6">
-        <div className="p-4 rounded-2xl bg-[#FEF3C7] border border-[#D97706]/30 text-xs text-[#92400E] flex items-start gap-2.5">
-          <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
-          <p className="leading-relaxed">{t('checkout.demo_disclaimer')}</p>
-        </div>
+        <form onSubmit={handleSubmit} className="p-6 sm:p-8 rounded-3xl bg-white border border-[#E5DEC9] shadow-xs space-y-6">
+          {/* Header */}
+          <div className="border-b border-[#E5DEC9] pb-4">
+            <h2 className="font-heading font-bold text-xl text-[#252820]">
+              {t('checkout.title')}
+            </h2>
+            <p className="text-xs text-[#5C6053] mt-1">
+              {t('checkout.subtitle')}
+            </p>
+          </div>
 
-        <form onSubmit={handleSubmit} className="p-6 rounded-3xl bg-white border border-[#E8E1CF] shadow-xs space-y-6">
-          {/* 1. Customer Information */}
+          {/* 1. Customer & Delivery Address */}
           <div className="space-y-4">
-            <h3 className="font-heading font-bold text-base text-[#282E23] flex items-center gap-2">
-              <span className="w-6 h-6 rounded-full bg-[#315B3C] text-white text-xs flex items-center justify-center">1</span>
-              <span>{t('checkout.personal_info')}</span>
+            <h3 className="font-heading font-bold text-base text-[#252820] flex items-center gap-2">
+              <span className="w-6 h-6 rounded-full bg-[#233C2E] text-white text-xs flex items-center justify-center">1</span>
+              <span>{t('checkout.address_section')}</span>
             </h3>
 
-            <div className="space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Input
-                label={t('checkout.full_name')}
-                required
+                label="Nom & Prénom"
+                placeholder="Ex: Yassine El Mansouri"
                 value={formData.fullName}
                 onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
                 error={errors.fullName}
-                placeholder="Ex: Yassine El Mansouri"
               />
 
               <Input
-                label={t('checkout.phone')}
-                required
-                type="tel"
+                label="Numéro de Téléphone Marocain"
+                placeholder="0612345678"
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                 error={errors.phone}
-                helperText={t('checkout.phone_helper')}
-                placeholder="0612345678"
               />
+            </div>
 
-              {/* Delivery City */}
-              <div className="space-y-1.5">
-                <label className="block text-sm font-medium text-[#282E23]">
-                  {t('checkout.city')}
-                </label>
-                <select
-                  value={formData.city}
-                  onChange={(e) => handleCityChange(e.target.value)}
-                  className="w-full min-h-[48px] px-4 py-2.5 rounded-xl border border-[#E8E1CF] bg-white text-sm text-[#282E23] focus:outline-none focus:border-[#315B3C]"
-                >
-                  {state.deliveryZones.map((zone) => (
-                    <option key={zone.cityKey} value={zone.cityKey}>
-                      {zone.cityName[locale]} — Frais: {zone.deliveryFee} MAD (Gratuit dès {zone.freeDeliveryThreshold} MAD)
-                    </option>
-                  ))}
-                </select>
-              </div>
+            {/* City Selection */}
+            <div className="space-y-1.5">
+              <label className="block text-sm font-medium text-[#252820]">
+                {t('checkout.select_city')}
+              </label>
+              <select
+                value={formData.city}
+                onChange={(e) => handleCityChange(e.target.value)}
+                className="w-full min-h-[48px] px-4 py-2.5 rounded-xl border border-[#E5DEC9] bg-white text-[#252820] text-sm focus:outline-none focus:border-[#233C2E] cursor-pointer"
+              >
+                {state.deliveryZones.map((z) => (
+                  <option key={z.cityKey} value={z.cityKey}>
+                    {z.cityName[locale]} ({z.deliveryFee} MAD • Gratuit dès {z.freeDeliveryThreshold} MAD)
+                  </option>
+                ))}
+              </select>
+              {errors.city && <p className="text-xs text-[#DC2626]">{errors.city}</p>}
+            </div>
 
+            <Input
+              label="Adresse de Livraison Exacte"
+              placeholder="Rue, Numéro, Immeuble, Étage, Appartement..."
+              value={formData.address}
+              onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+              error={errors.address}
+            />
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Input
-                label={t('checkout.address')}
-                required
-                value={formData.address}
-                onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                error={errors.address}
-                placeholder="Rue, Numéro d'immeuble, Étage, Numéro d'appartement"
+                label="Repère ou point d'intérêt (Optionnel)"
+                placeholder="Ex: En face de la mosquée, près de l'école..."
+                value={formData.landmark}
+                onChange={(e) => setFormData({ ...formData, landmark: e.target.value })}
               />
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <Input
-                  label={t('checkout.landmark')}
-                  value={formData.landmark}
-                  onChange={(e) => setFormData({ ...formData, landmark: e.target.value })}
-                  placeholder="Ex: Près de la mosquée, en face de l'école..."
-                />
-                <Input
-                  label={t('checkout.notes')}
-                  value={formData.notes}
-                  onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                  placeholder="Ex: Appeler avant d'arriver"
-                />
-              </div>
+              <Input
+                label="Instructions pour le livreur (Optionnel)"
+                placeholder="Ex: Sonner à l'interphone Bennani..."
+                value={formData.notes}
+                onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+              />
             </div>
           </div>
 
-          {/* 2. Delivery Slot */}
-          <div className="space-y-3 pt-4 border-t border-[#E8E1CF]">
-            <h3 className="font-heading font-bold text-base text-[#282E23] flex items-center gap-2">
-              <span className="w-6 h-6 rounded-full bg-[#315B3C] text-white text-xs flex items-center justify-center">2</span>
-              <span>{t('checkout.delivery_slot')}</span>
+          {/* 2. Delivery Time Slots */}
+          <div className="space-y-3 pt-4 border-t border-[#E5DEC9]">
+            <h3 className="font-heading font-bold text-base text-[#252820] flex items-center gap-2">
+              <span className="w-6 h-6 rounded-full bg-[#233C2E] text-white text-xs flex items-center justify-center">2</span>
+              <span>{t('checkout.slot')}</span>
             </h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
@@ -313,8 +324,8 @@ export function CheckoutForm() {
                     onClick={() => setFormData({ ...formData, deliverySlot: slot })}
                     className={`flex items-center gap-2 p-3 rounded-xl border text-xs font-medium transition-all text-start cursor-pointer ${
                       isSelected
-                        ? 'border-[#315B3C] bg-[#315B3C]/5 font-bold text-[#315B3C] ring-1 ring-[#315B3C]'
-                        : 'border-[#E8E1CF] hover:bg-[#F5F0DF]/40 text-[#282E23]'
+                        ? 'border-[#233C2E] bg-[#233C2E]/5 font-bold text-[#233C2E] ring-1 ring-[#233C2E]'
+                        : 'border-[#E5DEC9] hover:bg-[#FAF8F2] text-[#252820]'
                     }`}
                   >
                     <Clock className="w-3.5 h-3.5 shrink-0" />
@@ -326,26 +337,26 @@ export function CheckoutForm() {
           </div>
 
           {/* 3. Payment Method Simulation */}
-          <div className="space-y-3 pt-4 border-t border-[#E8E1CF]">
-            <h3 className="font-heading font-bold text-base text-[#282E23] flex items-center gap-2">
-              <span className="w-6 h-6 rounded-full bg-[#315B3C] text-white text-xs flex items-center justify-center">3</span>
+          <div className="space-y-3 pt-4 border-t border-[#E5DEC9]">
+            <h3 className="font-heading font-bold text-base text-[#252820] flex items-center gap-2">
+              <span className="w-6 h-6 rounded-full bg-[#233C2E] text-white text-xs flex items-center justify-center">3</span>
               <span>{t('checkout.payment_method')}</span>
             </h3>
 
-            <div className="p-4 rounded-2xl border border-[#315B3C] bg-[#315B3C]/5 flex items-start gap-3">
+            <div className="p-4 rounded-2xl border border-[#233C2E] bg-[#233C2E]/5 flex items-start gap-3">
               <input
                 type="radio"
                 name="paymentMethod"
                 id="cod"
                 checked
                 readOnly
-                className="mt-1 accent-[#315B3C]"
+                className="mt-1 accent-[#233C2E]"
               />
               <div>
-                <label htmlFor="cod" className="block text-sm font-bold text-[#282E23]">
+                <label htmlFor="cod" className="block text-sm font-bold text-[#252820]">
                   {t('checkout.payment_cod')}
                 </label>
-                <p className="text-xs text-[#5D6855] mt-0.5">
+                <p className="text-xs text-[#5C6053] mt-0.5">
                   {t('checkout.payment_cod_desc')}
                 </p>
               </div>
@@ -363,7 +374,7 @@ export function CheckoutForm() {
           <button
             type="submit"
             disabled={isSubmitting || !cartTotals.isEligibleForDelivery}
-            className="w-full flex items-center justify-center gap-2 py-4 px-6 rounded-2xl bg-[#315B3C] text-white font-bold text-base hover:bg-[#264930] disabled:bg-black/10 disabled:text-black/30 transition-colors shadow-md cursor-pointer min-h-[52px]"
+            className="w-full flex items-center justify-center gap-2 py-4 px-6 rounded-2xl bg-[#233C2E] text-white font-bold text-base hover:bg-[#1C3025] disabled:bg-black/10 disabled:text-black/30 transition-colors shadow-xs cursor-pointer min-h-[52px]"
           >
             <span>{t('checkout.confirm_button')}</span>
             <ArrowRight className="w-5 h-5" />
@@ -373,8 +384,8 @@ export function CheckoutForm() {
 
       {/* Order Summary Sidebar */}
       <div className="lg:col-span-5">
-        <div className="sticky top-28 p-6 rounded-3xl bg-white border border-[#E8E1CF] shadow-xs space-y-4">
-          <h4 className="font-heading font-bold text-lg text-[#282E23]">
+        <div className="sticky top-28 p-6 rounded-3xl bg-white border border-[#E5DEC9] shadow-xs space-y-4">
+          <h4 className="font-heading font-bold text-lg text-[#252820]">
             {t('checkout.order_summary')} ({state.cart.length})
           </h4>
 
@@ -383,14 +394,14 @@ export function CheckoutForm() {
             {state.cart.map((item) => (
               <div key={item.id} className="flex items-center justify-between gap-3 text-xs">
                 <div className="flex-1 min-w-0">
-                  <p className="font-semibold text-[#282E23] truncate">
+                  <p className="font-semibold text-[#252820] truncate">
                     {item.product.name[locale]}
                   </p>
-                  <p className="text-[#5D6855]">
+                  <p className="text-[#5C6053]">
                     {item.quantity} {item.product.pricingUnit} × {formatCurrencyMAD(item.unitPrice, locale)}
                   </p>
                 </div>
-                <span className="font-bold text-[#315B3C] shrink-0">
+                <span className="font-bold text-[#233C2E] shrink-0">
                   {formatCurrencyMAD(item.lineTotal, locale)}
                 </span>
               </div>
@@ -398,10 +409,10 @@ export function CheckoutForm() {
           </div>
 
           {/* Price Breakdown */}
-          <div className="pt-4 border-t border-[#E8E1CF] space-y-2 text-xs text-[#5D6855]">
+          <div className="pt-4 border-t border-[#E5DEC9] space-y-2 text-xs text-[#5C6053]">
             <div className="flex justify-between">
               <span>{t('cart.subtotal')}</span>
-              <span className="font-semibold text-[#282E23]">
+              <span className="font-semibold text-[#252820]">
                 {formatCurrencyMAD(cartTotals.subtotal, locale)}
               </span>
             </div>
@@ -415,14 +426,14 @@ export function CheckoutForm() {
 
             <div className="flex justify-between">
               <span>{t('cart.delivery_fee')}</span>
-              <span className="font-semibold text-[#282E23]">
+              <span className="font-semibold text-[#252820]">
                 {cartTotals.isFreeDelivery ? 'Offerte' : formatCurrencyMAD(cartTotals.deliveryFee, locale)}
               </span>
             </div>
 
-            <div className="flex justify-between text-lg font-bold text-[#282E23] pt-3 border-t border-[#E8E1CF]">
+            <div className="flex justify-between text-lg font-bold text-[#252820] pt-3 border-t border-[#E5DEC9]">
               <span>{t('cart.total')}</span>
-              <span className="text-[#315B3C]">
+              <span className="text-[#233C2E]">
                 {formatCurrencyMAD(cartTotals.total, locale)}
               </span>
             </div>
