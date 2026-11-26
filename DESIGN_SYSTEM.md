@@ -1,48 +1,73 @@
-# TERROIR V6 — DESIGN SYSTEM SPECIFICATION
-**Version:** 6.0 — *Les Carnets du Marché*  
-**CSS Architecture:** Tailwind CSS v4 + Native CSS Custom Properties in `globals.css`
+# TERROIR Design System Specification — V7 Fresh Organic
+> **BSES — Benchalh Solution E-commerce System**  
+> **Brand:** TERROIR · Les Carnets du Marché  
+> **Design Tokens, Components, and Responsive Spacing Standards**  
+> **Date:** November 2026 · V7 Release  
 
 ---
 
-## 1. Core Component Tokens
+## 1. Color Palette Tokens
 
-### A. The Market Ticket (`.market-ticket`)
 ```css
-.market-ticket {
-  background: var(--t-ticket); /* #FEFDF8 */
-  border: 1px solid var(--t-border); /* rgba(53, 43, 62, 0.12) */
-  border-radius: 2px;
-  position: relative;
-}
-.market-ticket::after {
-  content: "";
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 3px;
-  background-image: repeating-linear-gradient(
-    90deg,
-    var(--t-aubergine) 0,
-    var(--t-aubergine) 6px,
-    transparent 6px,
-    transparent 10px
-  );
-  opacity: 0.25;
+:root {
+  /* Core V7 Fresh Organic Tokens */
+  --t-forest:        #193F30; /* Primary brand forest green */
+  --t-forest-dark:   #133226; /* Deep shadow forest green */
+  --t-forest-subtle: #EEF3EC; /* Soft tinted surface for sections */
+  
+  --t-lime:          #B7DB75; /* Primary vitality accent (lime) */
+  --t-lime-hover:    #A5CF5D; /* Interactive hover lime */
+  --t-lime-subtle:   #F3F9EA; /* Ultra-light lime wash */
+
+  --t-harvest:       #F1C94A; /* Warm harvest gold (accents, stars, stamps) */
+  --t-sage:          #A0BBAA; /* Supporting muted foliage green */
+
+  --t-ivory:         #F6F7F1; /* Primary page background canvas */
+  --t-white:         #FFFFFF; /* Pure white surface for cards and drawers */
+  
+  --t-border:        #D9E2D7; /* Soft organic border */
+  --t-border-subtle: #E8EFE6; /* Hairline divider */
+
+  --t-ink:           #242D26; /* Primary text — deep organic black */
+  --t-ink-muted:     #66756B; /* Secondary metadata text */
+  --t-ink-subtle:    #93A398; /* Placeholder and disabled text */
+
+  /* Aliases for backward-compatibility */
+  --t-aubergine:     var(--t-forest);
+  --t-citron:        var(--t-lime);
+  --t-chalk:         var(--t-ivory);
+  --t-ticket:        var(--t-white);
 }
 ```
 
-### B. Price Tag (`.price-tag`)
-- Dominant currency figure set in Fraunces italic serif.
-- Unit indicator (`MAD / kg`) set in 11px uppercase Jakarta Sans.
-- High visual salience without commercial clutter.
+---
 
-### C. Season Pill (`.season-pill`)
-- Bordered badge in 11px uppercase tracking.
-- Features four-point star separator (`✦`) in Citron yellow.
+## 2. Typography Hierarchy
+
+| Role | Font Family | Size Range | Weight & Style | Line Height | Tracking | Usage |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **Display Hero** | Fraunces (serif) | `clamp(3.2rem, 10vw, 8.5rem)` | Black (900), Italic | `0.92` | `-0.03em` | Magazine cover headline |
+| **Section Title** | Fraunces (serif) | `24px – 36px` | Black (900), Italic | `1.1` | `-0.02em` | Section headers (`h2`) |
+| **Product Title** | Fraunces (serif) | `14px – 16px` | Semi-bold (700), Italic | `1.25` | `-0.01em` | Product card headings (2-line clamped) |
+| **Price Tag** | Inter / System (sans) | `16px – 20px` | Bold (700), Tabular | `1.0` | `0` | Pricing figures (`.price-tag`) |
+| **Body / Description** | Inter / System (sans) | `14px – 16px` | Regular (400) / Medium (500) | `1.5` | `0` | Editorial descriptions, paragraphs |
+| **Category Pill / Badge**| Inter / System (sans) | `11px – 12px` | Bold (700), Uppercase | `1.0` | `+0.08em` | Section badges, promo tags |
 
 ---
 
-## 2. UI Components Overview
-- **Header:** Sticky with announcement bar in Aubergine `#352B3E`, Citron highlights, discrete Admin link.
-- **ProductCard:** Ticket container with square corners (`rounded-sm`), origin badge, Fraunces price, and quantity stepper.
-- **MarketExplorer:** Typographic region index with SVG dashed-ring stamps and instant regional product showcase.
-- **CartDrawer & MobileDrawer:** Slide-over panels styled in chalk `#F8F7F0`, Aubergine interactive controls, and free shipping progress tracker.
+## 3. Spacing & Touch Target Compliance (Material Design 3 & WCAG 2.2 AA)
+
+- **Minimum Touch Targets:** All interactive elements (`<button>`, `<a href>`, `<select>`) enforce a minimum of **44px × 44px** clickable bounds.
+- **Button Standards:**
+  - Primary CTA: `min-h-[48px] px-6 py-3.5 rounded-xl font-bold bg-[#B7DB75] text-[#193F30]`.
+  - Secondary CTA: `min-h-[48px] px-5 py-3.5 rounded-xl font-semibold border border-white/30 text-white`.
+  - Stepper Controls: `min-h-[44px] min-w-[36px] flex items-center justify-center rounded-lg border border-[#D9E2D7]`.
+- **Card Spacing:**
+  - Desktop Grid: `gap-6` (24px).
+  - Tablet Grid: `gap-4` (16px).
+  - Mobile Grid: `gap-3` (12px).
+- **Page Container Margins:**
+  - Desktop: `max-w-7xl mx-auto px-8`.
+  - Tablet: `px-6`.
+  - Mobile (390px): `px-4`.
+  - Compact Mobile (320px): `px-2.5` to eliminate horizontal clipping.

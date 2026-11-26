@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('TERROIR Strict Computed Style & Visual Quality Assertions', () => {
+test.describe('TERROIR Strict Computed Style & Visual Quality Assertions (V7 Fresh Organic)', () => {
   test('homepage loaded stylesheet contains compiled Tailwind rules and verified computed styles', async ({
     page,
   }) => {
@@ -47,7 +47,7 @@ test.describe('TERROIR Strict Computed Style & Visual Quality Assertions', () =>
     // Tailwind v4 generates hundreds of utility rules inside nested layers
     expect(totalCssRules).toBeGreaterThan(150);
 
-    // 3. Verify Body styling: background Chalk #F8F7F0, text Ink #1C1A22
+    // 3. Verify Body styling: background Warm Ivory #F6F7F1, text Deep Ink #242D26
     const bodyComputed = await page.evaluate(() => {
       const style = window.getComputedStyle(document.body);
       return {
@@ -55,9 +55,9 @@ test.describe('TERROIR Strict Computed Style & Visual Quality Assertions', () =>
         color: style.color,
       };
     });
-    // #F8F7F0 is rgb(248, 247, 240), #1C1A22 is rgb(28, 26, 34)
-    expect(bodyComputed.bg).toBe('rgb(248, 247, 240)');
-    expect(bodyComputed.color).toBe('rgb(28, 26, 34)');
+    // #F6F7F1 is rgb(246, 247, 241), #242D26 is rgb(36, 45, 38)
+    expect(bodyComputed.bg).toBe('rgb(246, 247, 241)');
+    expect(bodyComputed.color).toBe('rgb(36, 45, 38)');
 
     // 4. Verify Header computed styles: sticky, backdrop, border
     const headerComputed = await page.evaluate(() => {
@@ -74,7 +74,7 @@ test.describe('TERROIR Strict Computed Style & Visual Quality Assertions', () =>
     expect(headerComputed?.position).toBe('sticky');
     expect(headerComputed?.zIndex).toBe('50');
 
-    // 5. Verify Hero Primary CTA Button styling (Citron #D4E84A, Aubergine #352B3E text)
+    // 5. Verify Hero Primary CTA Button styling (Fresh Lime #B7DB75, Forest Green #193F30 text)
     const heroBtnComputed = await page.evaluate(() => {
       const btn = document.querySelector('main a[href="/fr/shop"]');
       if (!btn) return null;
@@ -90,10 +90,10 @@ test.describe('TERROIR Strict Computed Style & Visual Quality Assertions', () =>
       };
     });
     expect(heroBtnComputed).not.toBeNull();
-    // #D4E84A is rgb(212, 232, 74)
-    expect(heroBtnComputed?.bg).toBe('rgb(212, 232, 74)');
-    // Text must be Aubergine rgb(53, 43, 62), NOT default browser blue rgb(0, 0, 238)
-    expect(heroBtnComputed?.color).toBe('rgb(53, 43, 62)');
+    // #B7DB75 is rgb(183, 219, 117)
+    expect(heroBtnComputed?.bg).toBe('rgb(183, 219, 117)');
+    // Text must be Forest Green rgb(25, 63, 48), NOT default browser blue rgb(0, 0, 238)
+    expect(heroBtnComputed?.color).toBe('rgb(25, 63, 48)');
     // No default browser underline!
     expect(heroBtnComputed?.textDecoration).toBe('none');
     // Touch target >= 48px height
@@ -154,8 +154,8 @@ test.describe('TERROIR Strict Computed Style & Visual Quality Assertions', () =>
       };
     });
     expect(productCardComputed).not.toBeNull();
-    // V6 market ticket uses warm parchment surface #FEFDF8 = rgb(254, 253, 248) or white
-    expect(['rgb(255, 255, 255)', 'rgb(254, 253, 248)']).toContain(productCardComputed?.bg);
+    // V7 uses Pure White surface rgb(255, 255, 255)
+    expect(['rgb(255, 255, 255)', 'rgb(246, 247, 241)']).toContain(productCardComputed?.bg);
     expect(productCardComputed?.width).toBeGreaterThan(200);
     expect(productCardComputed?.height).toBeGreaterThan(250);
     expect(productCardComputed?.imgVisible).toBe(true);
@@ -165,6 +165,67 @@ test.describe('TERROIR Strict Computed Style & Visual Quality Assertions', () =>
       return document.documentElement.scrollWidth > document.documentElement.clientWidth;
     });
     expect(hasHorizontalOverflow).toBe(false);
+  });
+
+  test('header 3-zone architecture prevents overlapping at all viewports', async ({
+    page,
+  }) => {
+    const viewportsToTest = [
+      { width: 1440, height: 900, isDesktop: true },
+      { width: 1280, height: 800, isDesktop: true },
+      { width: 1024, height: 768, isDesktop: true },
+      { width: 768, height: 1024, isDesktop: false },
+      { width: 390, height: 844, isDesktop: false },
+      { width: 320, height: 568, isDesktop: false },
+    ];
+
+    for (const vp of viewportsToTest) {
+      await page.setViewportSize({ width: vp.width, height: vp.height });
+      await page.goto('/fr', { waitUntil: 'domcontentloaded' });
+      await page.waitForSelector('header', { timeout: 10000 });
+
+      const zonesOverlap = await page.evaluate((isDesktop) => {
+        const header = document.querySelector('header');
+        if (!header) return { error: 'header not found' };
+
+        const brand = header.querySelector('[data-zone="zone-1-brand"]');
+        const nav = header.querySelector('[data-zone="zone-2-nav"]');
+        const actions = header.querySelector('[data-zone="zone-3-actions"]');
+
+        if (!brand || !actions) {
+          return { error: 'brand or actions zone missing' };
+        }
+
+        const brandRect = brand.getBoundingClientRect();
+        const actionsRect = actions.getBoundingClientRect();
+
+        let brandNavOverlap = false;
+        let navActionsOverlap = false;
+
+        if (isDesktop && nav) {
+          const navStyle = window.getComputedStyle(nav);
+          if (navStyle.display !== 'none') {
+            const navRect = nav.getBoundingClientRect();
+            brandNavOverlap = brandRect.right > navRect.left + 2;
+            navActionsOverlap = navRect.right > actionsRect.left + 2;
+          }
+        } else {
+          // On mobile, brand and actions must not overlap
+          brandNavOverlap = brandRect.right > actionsRect.left + 2;
+        }
+
+        return {
+          brandNavOverlap,
+          navActionsOverlap,
+          headerOverflow: header.scrollWidth > header.clientWidth,
+        };
+      }, vp.isDesktop);
+
+      expect(zonesOverlap.error).toBeUndefined();
+      expect(zonesOverlap.brandNavOverlap).toBe(false);
+      expect(zonesOverlap.navActionsOverlap).toBe(false);
+      expect(zonesOverlap.headerOverflow).toBe(false);
+    }
   });
 
   test('responsive category grid shifts from multi-column on desktop to 2 columns on mobile without overflow', async ({

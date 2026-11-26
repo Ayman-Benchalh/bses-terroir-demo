@@ -1,47 +1,40 @@
-# TERROIR V6 — BRAND IDENTITY SYSTEM
-**Concept:** *Les Carnets du Marché* — The Living Moroccan Market  
-**Agency:** BSES — Benchalh Solution E-commerce System  
-**Status:** IMPLEMENTED · Visual Owner Acceptance PENDING
+# TERROIR — Brand Identity Guidelines V7
+> **BSES — Benchalh Solution E-commerce System**  
+> **Brand:** TERROIR  
+> **Tagline:** *Les Carnets du Marché — The Living Moroccan Market*  
+> **Brand Art Direction:** Fresh Organic Editorial  
+> **Date:** November 2026 · Release V7  
 
 ---
 
-## 1. Brand Philosophy & Cultural Narrative
+## 1. Brand Philosophy & Positioning
 
-TERROIR is not a digital supermarket. It is an editorial exploration of Morocco's culinary heritage, presented with the rigor of a fine food magazine and the authenticity of a local market day. 
-
-Where the previous design iterations produced standard e-commerce conventions (green badges, rounded buttons, hero cards), TERROIR V6 establishes an **uncommon commerce language**:
-- **Atmospheric Palette:** Nocturnal Aubergine (`#352B3E`), electric Citron (`#D4E84A`), earthy Paprika (`#C75E3E`), and chalk parchment (`#F8F7F0`).
-- **Signature Visual Devices:** The **Market Ticket** (`.market-ticket`) with its dashed accent edge, tactile typography, and frank agricultural geometry.
-- **Editorial Layout:** Full-bleed editorial covers, seasonal issues (Numéro des Récoltes), and geography-based discovery (*L'Arpenteur des Terroirs*).
+TERROIR bridges the gap between ancestral Moroccan agriculture and modern e-commerce. It is neither a generic cold supermarket nor a faux-rustic pastiche:
+- **Rooted in Geography:** Every fruit, vegetable, olive oil, and honey is attributed to its authentic Moroccan terroir (Berkane, Souss, Ouezzane, Taliouine, Tafilalet, Midelt, Chefchaouen).
+- **Living Editorial:** Designed like a periodic culinary journal (*"Numéro des Récoltes"*), the interface shifts with the Moroccan agricultural calendar.
+- **Fair Partnerships:** Directly sourced from independent cooperatives and smallholders, supporting fair compensation and traditional biodiversity.
 
 ---
 
-## 2. Color Palette & Chromatic Values
+## 2. Visual Identity & Mark
 
-| Token | Name | HEX | RGB | Role / Usage |
-|---|---|---|---|---|
-| `--t-aubergine` | Moroccan Night Aubergine | `#352B3E` | `rgb(53, 43, 62)` | Primary dark ground, typography, primary buttons, borders |
-| `--t-citron` | Electric Citron | `#D4E84A` | `rgb(212, 232, 74)` | High-contrast call-to-action, seasonal accents, markers |
-| `--t-chalk` | White Chalk Parchment | `#F8F7F0` | `rgb(248, 247, 240)` | Body background, editorial sections, natural breathing space |
-| `--t-ticket` | Warm Ticket Surface | `#FEFDF8` | `rgb(254, 253, 248)` | Product cards, price tickets, modal containers |
-| `--t-paprika` | Taliouine / Berkane Paprika | `#C75E3E` | `rgb(199, 94, 62)` | Heart highlights, harvest accents, warning badges |
-| `--t-mint` | Atlas Mint | `#B9D8CC` | `rgb(185, 216, 204)` | Editorial background tints, cooperatives spotlight |
-| `--t-ink` | Deep Mineral Ink | `#1C1A22` | `rgb(28, 26, 34)` | Primary body typography, high contrast readability |
+### The Citrus Cross-Section Mark
+The symbol is a geometric, sectioned emblem evoking a cross-section of a ripe Berkane citrus fruit or solar Moroccan harvest:
+- **Segment 1:** Forest Green (`#193F30` / `#245A45`) — representing mountain groves and ancient cedar forests.
+- **Segment 2:** Fresh Lime (`#B7DB75`) — representing young citrus leaves, mint harvests, and vitality.
+- **Segment 3:** Harvest Yellow (`#F1C94A`) — representing saffron threads, argan oil, and desert sunshine.
+- **Segment 4:** Sage Green (`#2F5C4A`) — representing wild herbs and traditional olive canopies.
+- **Center Seed & Ring:** Warm Ivory (`#F6F7F1`) and Forest Green center.
 
----
-
-## 3. Typographic System
-
-- **Display Serif:** `Fraunces` (Google Font)
-  - Applied to H1 headlines, editorial quotes, and signature prices.
-  - Used in Italic for dynamic editorial voice (*Le meilleur de nos terres, chez vous*).
-- **Body & Interface:** `Plus Jakarta Sans` (Google Font)
-  - Applied to interface navigation, product specs, filters, and checkout fields.
-  - Weights: Medium (500), SemiBold (600), Bold (700).
+### Wordmark
+- Set in **Fraunces** serif, bold italic, with tight negative tracking (`-0.02em`).
+- Rendered in Forest Green (`#193F30`) on light backgrounds, or Warm Ivory (`#F6F7F1`) on dark hero bands.
 
 ---
 
-## 4. Voice and Tone
+## 3. Brand Voice & Trilingual Expression
 
-- **Frank & Cultivated:** No superlative marketing hype. Products are described by their soil, harvest method, and cooperative origin.
-- **Bilingual & Culturally Symmetric:** Native Moroccan Arabic (RTL) alongside French and English, honoring regional Moroccan names (*Berkane*, *Ouezzane*, *Souss*, *Taliouine*, *Tafilalet*).
+All messaging is crafted with cultural precision across three languages:
+- **Français:** Poetic, culinary, precise (*"Le meilleur de nos terres, cueilli à maturité et livré chez vous."*).
+- **English:** Evocative, authentic, direct (*"The finest of Moroccan soil, picked ripe and delivered to your table."*).
+- **العربية (RTL):** Classic, dignified, culturally authentic (*"أجود ما تجود به أرض المغرب، من الحقول مباشرة إلى بيتك."*).

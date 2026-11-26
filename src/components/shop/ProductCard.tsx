@@ -45,12 +45,12 @@ export function ProductCard({ product, className }: ProductCardProps) {
   return (
     <div
       className={cn(
-        'group relative flex flex-col rounded-sm bg-white border border-[rgba(53,43,62,0.12)] p-3 sm:p-3.5 shadow-2xs hover:shadow-md hover:border-[#352B3E]/50 transition-all duration-200 market-ticket',
+        'group relative flex flex-col rounded-xl bg-white border border-[#D9E2D7] p-3.5 sm:p-4 shadow-2xs hover:shadow-md hover:border-[#193F30]/40 transition-all duration-200 market-ticket',
         className
       )}
     >
       {/* 1. Media Container */}
-      <div className="relative aspect-square w-full rounded-sm overflow-hidden bg-[#F8F7F0] mb-3">
+      <div className="relative aspect-square w-full rounded-lg overflow-hidden bg-[#F6F7F1] mb-3">
         <Link href={`/${locale}/product/${product.slug}`} className="block w-full h-full">
           <Image
             src={product.image}
@@ -62,11 +62,11 @@ export function ProductCard({ product, className }: ProductCardProps) {
         </Link>
 
         {/* Minimal Badges Overlay */}
-        <div className="absolute top-2 start-2 flex flex-col gap-1 pointer-events-none">
+        <div className="absolute top-2.5 start-2.5 flex flex-col gap-1 pointer-events-none">
           {product.isPromo && (
-            <Badge variant="honey" size="sm">
+            <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-[#B7DB75] text-[#193F30] shadow-xs">
               Promo
-            </Badge>
+            </span>
           )}
           {!product.inStock && (
             <Badge variant="error" size="sm">
@@ -81,8 +81,8 @@ export function ProductCard({ product, className }: ProductCardProps) {
           onClick={handleWishlist}
           aria-label={t('nav.wishlist')}
           className={cn(
-            'absolute top-2 end-2 w-8 h-8 rounded-sm bg-white/90 backdrop-blur-xs flex items-center justify-center shadow-xs transition-colors cursor-pointer',
-            isFavorite ? 'text-[#C75E3E]' : 'text-[#5C6053] hover:text-[#C75E3E]'
+            'absolute top-2.5 end-2.5 w-8 h-8 rounded-full bg-white/90 backdrop-blur-xs flex items-center justify-center shadow-xs transition-colors cursor-pointer',
+            isFavorite ? 'text-[#C03A2B]' : 'text-[#66756B] hover:text-[#C03A2B]'
           )}
         >
           <Heart className={cn('w-4 h-4', isFavorite && 'fill-current')} />
@@ -91,46 +91,43 @@ export function ProductCard({ product, className }: ProductCardProps) {
 
       {/* 2. Product Meta & Title */}
       <div className="flex-1 flex flex-col justify-between text-start">
-        <div className="space-y-1">
+        <div className="space-y-1.5">
           {/* Origin Label */}
-          <div className="flex items-center gap-1 text-[11px] font-semibold text-[#352B3E]">
-            <MapPin className="w-3 h-3 text-[#352B3E] shrink-0" />
+          <div className="flex items-center gap-1 text-[11px] font-semibold text-[#193F30]">
+            <MapPin className="w-3 h-3 text-[#193F30] shrink-0" />
             <span className="truncate">{product.originRegion[locale]}</span>
           </div>
 
-          {/* Product Title */}
+          {/* Product Title — 2-line clamped with stable height */}
           <Link
             href={`/${locale}/product/${product.slug}`}
-            className="block font-heading text-sm sm:text-base font-bold text-[#1C1A22] group-hover:text-[#352B3E] transition-colors truncate"
+            className="block font-heading text-sm sm:text-base font-bold text-[#242D26] group-hover:text-[#193F30] transition-colors line-clamp-2 min-h-[2.5rem] leading-snug"
           >
             {product.name[locale]}
           </Link>
         </div>
 
         {/* 3. Pricing & Quantity / Quick Add Row */}
-        <div className="pt-2.5 mt-2.5 border-t border-[rgba(53,43,62,0.12)] space-y-2.5">
-          {/* Price display */}
-          <div className="flex items-baseline justify-between">
-            <div className="flex items-baseline">
-              <span
-                style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic' }}
-                className="text-base sm:text-lg font-black text-[#352B3E]"
-              >
+        <div className="pt-3 mt-3 border-t border-[#D9E2D7] space-y-2.5">
+          {/* Price display with non-breaking tabular currency */}
+          <div className="flex items-baseline justify-between gap-1 flex-wrap">
+            <div className="flex items-baseline whitespace-nowrap">
+              <span className="text-base sm:text-lg font-bold text-[#193F30] tracking-tight">
                 {formatCurrencyMAD(currentPrice, locale)}
               </span>
-              <span className="text-[11px] text-[#5C6053] ms-1">
+              <span className="text-xs font-medium text-[#66756B] ms-1">
                 / {product.pricingUnit}
               </span>
             </div>
 
             {product.isPromo && (
-              <span className="text-xs text-[#8C9183] line-through">
+              <span className="text-xs text-[#66756B]/70 line-through whitespace-nowrap ms-auto">
                 {formatCurrencyMAD(product.pricePerUnit, locale)}
               </span>
             )}
           </div>
 
-          {/* Controls: Stepper + Add Button */}
+          {/* Controls: Stepper + Add Button without collision */}
           <div className="flex items-center gap-2">
             <QuantityStepper
               size="sm"
@@ -150,10 +147,10 @@ export function ProductCard({ product, className }: ProductCardProps) {
               title={t('product.add_to_cart')}
               aria-label={t('product.add_to_cart')}
               className={cn(
-                'flex-1 flex items-center justify-center gap-1.5 h-9 sm:h-10 px-2.5 rounded-sm text-xs font-bold transition-all cursor-pointer min-h-[36px] whitespace-nowrap',
+                'flex-1 flex items-center justify-center gap-1.5 h-9 sm:h-10 px-2.5 rounded-lg text-xs font-bold transition-all cursor-pointer min-h-[36px] whitespace-nowrap',
                 isAdded
-                  ? 'bg-[#2A6B40] text-white shadow-xs'
-                  : 'bg-[#352B3E] text-white hover:bg-[#2a2133] disabled:bg-black/10 disabled:text-black/30 shadow-2xs'
+                  ? 'bg-[#193F30] text-[#B7DB75] shadow-xs'
+                  : 'bg-[#193F30] text-white hover:bg-[#122E23] disabled:bg-black/10 disabled:text-black/30 shadow-2xs'
               )}
             >
               {isAdded ? (

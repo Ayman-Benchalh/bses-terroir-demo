@@ -3,51 +3,54 @@
 @layer base {
   :root {
     /* =====================================================================
-       TERROIR V6 — Les Carnets du Marché
-       Design System Tokens — Aubergine / Citron / Craie / Paprika / Menthe
+       TERROIR V7 — Fresh Organic Editorial
+       Color System Tokens (BSES Master Specification)
        ===================================================================== */
 
-    /* Brand Core */
-    --t-aubergine:        #352B3E;   /* Primary brand, typographie principale */
-    --t-aubergine-hover:  #2A2131;
-    --t-aubergine-light:  #4F4059;
-    --t-aubergine-subtle: #F0EBF4;
+    /* Core Brand Tokens */
+    --t-forest:           #193F30;   /* Primary Forest Green — brand identity, nav, primary CTA */
+    --t-forest-hover:     #122E23;
+    --t-forest-light:     #245A45;
+    --t-forest-subtle:    #E9EFEA;
 
-    --t-citron:           #D4E84A;   /* Zeste de Berkane — attention / badges */
-    --t-citron-dark:      #B8C934;
-    --t-citron-subtle:    #F7FAD8;
+    --t-ivory:            #F6F7F1;   /* Warm Ivory — primary page background & calm surfaces */
+    --t-ivory-dark:       #EAECE1;
 
-    --t-paprika:          #C75E3E;   /* Accent chaleureux — promos / CTA secondaire */
-    --t-paprika-hover:    #A84D31;
+    --t-lime:             #B7DB75;   /* Fresh Lime — selected category accents, progress, promo highlights */
+    --t-lime-dark:        #98BD57;
+    --t-lime-subtle:      #F3F9EA;
+
+    --t-harvest:          #F1C94A;   /* Harvest Yellow — seasonal accents, special markers */
+    --t-harvest-hover:    #D8B036;
+    --t-harvest-subtle:   #FEF8E9;
+
+    --t-ink:              #242D26;   /* Deep Ink — main typography, data hierarchy */
+    --t-ink-muted:        #66756B;   /* Supporting neutral */
+    --t-ink-light:        #94A399;
+    --t-ink-faint:        #CAD3CC;
+
+    --t-white:            #FFFFFF;   /* Pure White — product cards, forms, admin surfaces */
+    --t-border:           #D9E2D7;   /* Soft Border — card outlines, dividers */
+    --t-border-subtle:    #E8EFE6;
+
+    /* Backward-compatible aliases for V6 tokens */
+    --t-aubergine:        var(--t-forest);
+    --t-aubergine-hover:  var(--t-forest-hover);
+    --t-aubergine-light:  var(--t-forest-light);
+    --t-aubergine-subtle: var(--t-forest-subtle);
+    --t-citron:           var(--t-lime);
+    --t-citron-dark:      var(--t-lime-dark);
+    --t-paprika:          #C75E3E;
     --t-paprika-subtle:   #FDF0EB;
+    --t-mint:             var(--t-lime);
+    --t-chalk:            var(--t-ivory);
+    --t-ticket:           var(--t-white);
 
-    --t-mint:             #B9D8CC;   /* Fraîcheur végétale — bordures / fond léger */
-    --t-mint-dark:        #8BBCAA;
-    --t-mint-subtle:      #EDF5F2;
-
-    /* Surfaces */
-    --t-chalk:            #F8F7F0;   /* Fond artisanal principal — papier vergé */
-    --t-chalk-dark:       #EEE9DC;
-    --t-chalk-darker:     #E0D9C8;
-    --t-white:            #FFFFFF;
-    --t-ticket:           #FEFDF8;   /* Fond blanc ivoire pour tickets de pesée */
-
-    /* Typographie */
-    --t-ink:              #1C1A22;   /* Encre profonde — titres & corps */
-    --t-ink-muted:        #4A4555;
-    --t-ink-light:        #847E92;
-    --t-ink-faint:        #B8B2C5;
-
-    /* Bordures */
-    --t-border:           #DDD8C8;
-    --t-border-soft:      #EEE9DC;
-    --t-border-strong:    #C4BDA8;
-
-    /* Sémantique */
-    --t-success:          #2A6B40;
-    --t-success-bg:       #EBF5F0;
-    --t-warning:          #C47B28;
-    --t-warning-bg:       #FDF3E3;
+    /* Semantic States (WCAG 2.2 AA compliant) */
+    --t-success:          #193F30;
+    --t-success-bg:       #E9EFEA;
+    --t-warning:          #B8860B;
+    --t-warning-bg:       #FEF8E9;
     --t-error:            #C03A2B;
     --t-error-bg:         #FDECEA;
     --t-info:             #1D5FAB;
@@ -58,16 +61,14 @@
     --font-body:     'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
     --font-arabic:   'Cairo', 'Noto Sans Arabic', system-ui, sans-serif;
 
-    /* Spacing & Radius */
+    /* Material Design 3 4px-based Spacing & Radii */
+    --r-xs:  2px;
     --r-sm:  4px;
     --r-md:  8px;
     --r-lg:  12px;
     --r-xl:  16px;
-    --r-2xl: 20px;
+    --r-2xl: 24px;
     --r-pill: 9999px;
-
-    /* Ticket stamp radius */
-    --r-ticket: 2px;
 
     /* Transitions */
     --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
@@ -83,7 +84,7 @@
   }
 
   body {
-    background-color: var(--t-chalk);
+    background-color: var(--t-ivory);
     color: var(--t-ink);
     font-family: var(--font-body);
     -webkit-font-smoothing: antialiased;
@@ -96,7 +97,7 @@
   }
 
   *:focus-visible {
-    outline: 2px solid var(--t-aubergine);
+    outline: 2px solid var(--t-forest);
     outline-offset: 2px;
     border-radius: var(--r-sm);
   }
@@ -112,105 +113,50 @@
 }
 
 /* =========================================================================
-   V6 Custom Utility Classes
+   V7 Custom Utility Classes
    ========================================================================= */
 
 /* Brand backgrounds */
-.bg-aubergine       { background-color: var(--t-aubergine); }
-.bg-aubergine-hover { background-color: var(--t-aubergine-hover); }
-.bg-aubergine-subtle{ background-color: var(--t-aubergine-subtle); }
-.bg-citron          { background-color: var(--t-citron); }
-.bg-citron-subtle   { background-color: var(--t-citron-subtle); }
-.bg-paprika         { background-color: var(--t-paprika); }
-.bg-paprika-subtle  { background-color: var(--t-paprika-subtle); }
-.bg-mint            { background-color: var(--t-mint); }
-.bg-mint-subtle     { background-color: var(--t-mint-subtle); }
-.bg-chalk           { background-color: var(--t-chalk); }
-.bg-chalk-dark      { background-color: var(--t-chalk-dark); }
-.bg-ticket          { background-color: var(--t-ticket); }
+.bg-forest          { background-color: var(--t-forest); }
+.bg-forest-hover    { background-color: var(--t-forest-hover); }
+.bg-forest-subtle   { background-color: var(--t-forest-subtle); }
+.bg-ivory           { background-color: var(--t-ivory); }
+.bg-lime            { background-color: var(--t-lime); }
+.bg-lime-subtle     { background-color: var(--t-lime-subtle); }
+.bg-harvest         { background-color: var(--t-harvest); }
+.bg-aubergine       { background-color: var(--t-forest); }
+.bg-citron          { background-color: var(--t-lime); }
+.bg-chalk           { background-color: var(--t-ivory); }
+.bg-ticket          { background-color: var(--t-white); }
 
 /* Brand text */
-.text-aubergine     { color: var(--t-aubergine); }
-.text-aubergine-light{ color: var(--t-aubergine-light); }
-.text-citron        { color: var(--t-citron); }
-.text-citron-dark   { color: var(--t-citron-dark); }
-.text-paprika       { color: var(--t-paprika); }
-.text-mint          { color: var(--t-mint); }
-.text-mint-dark     { color: var(--t-mint-dark); }
+.text-forest        { color: var(--t-forest); }
+.text-lime          { color: var(--t-lime); }
+.text-harvest       { color: var(--t-harvest); }
 .text-ink           { color: var(--t-ink); }
 .text-ink-muted     { color: var(--t-ink-muted); }
-.text-ink-light     { color: var(--t-ink-light); }
+.text-aubergine     { color: var(--t-forest); }
+.text-citron        { color: var(--t-lime); }
 
 /* Borders */
-.border-t-aubergine { border-color: var(--t-aubergine); }
-.border-t-citron    { border-color: var(--t-citron); }
+.border-forest      { border-color: var(--t-forest); }
+.border-soft        { border-color: var(--t-border); }
 .border-t-border    { border-color: var(--t-border); }
-.border-t-soft      { border-color: var(--t-border-soft); }
 
 /* =========================================================================
-   Market Ticket Card — The signature visual device of TERROIR V6
+   Market Ticket Card — Refined Organic Card Container
    ========================================================================= */
 .market-ticket {
-  background: var(--t-ticket);
-  border: 1.5px solid var(--t-border);
-  border-radius: var(--r-ticket);
+  background: var(--t-white);
+  border: 1px solid var(--t-border);
+  border-radius: var(--r-lg);
   position: relative;
+  transition: all 0.2s var(--ease-out);
 }
 
-.market-ticket::after {
-  content: '';
-  position: absolute;
-  bottom: -1px;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: repeating-linear-gradient(
-    90deg,
-    var(--t-aubergine) 0px,
-    var(--t-aubergine) 4px,
-    transparent 4px,
-    transparent 8px
-  );
-  opacity: 0.15;
-}
-
-/* =========================================================================
-   Stamp — Typographic region stamp used in Market Explorer
-   ========================================================================= */
-.terroir-stamp {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid currentColor;
-  border-radius: 50%;
-  font-family: var(--font-body);
-  font-weight: 800;
-  font-size: 9px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  line-height: 1;
-  opacity: 0.8;
-}
-
-/* =========================================================================
-   Editorial Dividers & Ligature lines
-   ========================================================================= */
-.editorial-rule {
-  border: none;
-  border-top: 1px solid var(--t-border);
-  position: relative;
-}
-
-.editorial-rule::after {
-  content: '✦';
-  position: absolute;
-  top: -0.6em;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--t-chalk);
-  padding: 0 0.5rem;
-  font-size: 10px;
-  color: var(--t-ink-light);
+.market-ticket:hover {
+  border-color: rgba(25, 63, 48, 0.35);
+  box-shadow: 0 4px 16px -2px rgba(25, 63, 48, 0.08);
 }
 
 /* =========================================================================
@@ -221,40 +167,42 @@
   align-items: center;
   gap: 0.375rem;
   padding: 0.25rem 0.75rem;
-  border: 1.5px solid var(--t-aubergine);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: var(--r-pill);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: var(--t-aubergine);
-  background: transparent;
+  color: var(--t-ivory);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 /* =========================================================================
-   Price label — distinctive market price tag treatment
+   Price label — clean transactional price without awkward wrapping
    ========================================================================= */
 .price-tag {
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-weight: 800;
-  font-style: italic;
-  color: var(--t-aubergine);
+  color: var(--t-forest);
   line-height: 1;
+  white-space: nowrap;
 }
 
 .price-tag .price-unit {
   font-family: var(--font-body);
-  font-weight: 600;
+  font-weight: 500;
   font-style: normal;
-  font-size: 0.65em;
+  font-size: 0.75em;
   color: var(--t-ink-muted);
+  margin-inline-start: 0.25rem;
+  white-space: nowrap;
 }
 
 /* =========================================================================
-   Focus ring override in V6 palette
+   Focus ring override in V7 palette
    ========================================================================= */
 .focus-ring:focus-visible {
-  outline: 2px solid var(--t-aubergine);
+  outline: 2px solid var(--t-forest);
   outline-offset: 2px;
 }
 
