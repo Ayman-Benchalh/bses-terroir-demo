@@ -1,77 +1,47 @@
-# TERROIR — Modern Moroccan Harvest Brand Identity Manifesto
-
-**Brand:** TERROIR  
-**Concept:** Modern Moroccan Harvest — Premium Farm-to-Table Marketplace  
+# TERROIR V6 — BRAND IDENTITY SYSTEM
+**Concept:** *Les Carnets du Marché* — The Living Moroccan Market  
 **Agency:** BSES — Benchalh Solution E-commerce System  
-**Version:** 3.5 (Complete Visual Rebrand & UX Transformation)  
-**Release Date:** November 2026  
+**Status:** IMPLEMENTED · Visual Owner Acceptance PENDING
 
 ---
 
-## 1. Brand Vision & Positioning
+## 1. Brand Philosophy & Cultural Narrative
 
-TERROIR is a digital marketplace celebrating the authenticity, freshness, and culinary traditions of Moroccan regional agriculture. It bridges heritage cooperatives with contemporary urban epicures through an uncompromised farm-to-table experience.
+TERROIR is not a digital supermarket. It is an editorial exploration of Morocco's culinary heritage, presented with the rigor of a fine food magazine and the authenticity of a local market day. 
 
-### Core Value Pillars
-1. **Soil & Origin (*Al-Ard*)**: Every harvest, oil press, and honey yield is rooted in a recognized regional microclimate (Berkane clementines, Souss vegetables, Ouezzane olives, Atlas wild honey, Taliouine saffron).
-2. **Fresh Seasonal Integrity**: Produce harvested in tune with natural seasons, prioritizing crisp taste over industrial storage.
-3. **Restrained Editorial Luxury**: A quiet, grounded, natural aesthetic inspired by European farm shops (*Daylesford Organic*, *CrowdFarming*) fused with contemporary Moroccan warmth.
-4. **Transparent Demonstration Ethics**: Transparently presented as a premium client-facing showcase by BSES Studio, replacing fake marketing claims with genuine culinary and agricultural storytelling.
-
----
-
-## 2. Logo System & Vector Symbolism
-
-The new TERROIR brand mark is an original vector emblem composed of three organic agricultural elements:
-
-```
-          ●  (Golden Dawn / Morning Sun)
-       ╭─╯╰─╮
-      │ 🌿  🌰 │  (Left: Fresh Olive Blade / Right: Terracotta Harvest Seed)
-       ╰─╮╭─╯
-      ───────  (Curved Terrace / Fertile Moroccan Soil Furrow)
-```
-
-### Symbol Anatomy
-- **The Soil Furrow (Base):** A gentle, grounded curve reflecting the contoured agricultural terraces of the Rif and Atlas mountains.
-- **The Twin Blades (Growth):** Dual organic leaves forming a germinating seed:
-  - *Left Blade (`#D7E4C5` Fresh Sage):* Symbolizes vitality, tender green harvest, and olive groves.
-  - *Right Blade (`#D58B51` Terracotta):* Symbolizes fertile Moroccan clay, sunshine, and autumn seed grains.
-- **The Morning Sun Point (`#F7F4EB` Oat Milk):** Positioned at the pinnacle, celebrating natural daylight and sun-ripened produce.
-
-### Asset Manifest
-- Primary Horizontal Logo (Dark): `public/brand/logo-horizontal-dark.svg`
-- Primary Horizontal Logo (Light): `public/brand/logo-horizontal-light.svg`
-- Standalone Emblem (Dark): `public/brand/logo-symbol.svg`
-- Standalone Emblem (Light): `public/brand/logo-symbol-light.svg`
-- Favicon (Scalable SVG): `public/brand/favicon.svg`
-- React Component System: `src/components/brand/TerroirLogo.tsx`
+Where the previous design iterations produced standard e-commerce conventions (green badges, rounded buttons, hero cards), TERROIR V6 establishes an **uncommon commerce language**:
+- **Atmospheric Palette:** Nocturnal Aubergine (`#352B3E`), electric Citron (`#D4E84A`), earthy Paprika (`#C75E3E`), and chalk parchment (`#F8F7F0`).
+- **Signature Visual Devices:** The **Market Ticket** (`.market-ticket`) with its dashed accent edge, tactile typography, and frank agricultural geometry.
+- **Editorial Layout:** Full-bleed editorial covers, seasonal issues (Numéro des Récoltes), and geography-based discovery (*L'Arpenteur des Terroirs*).
 
 ---
 
-## 3. Brand Color Palette & Semantic Roles
+## 2. Color Palette & Chromatic Values
 
-The revised palette departs from heavy saturated forest greens into a balanced, natural earth spectrum:
-
-| Color Name | Hex Code | Semantic Role | Contrast Ratio on Light |
-| :--- | :--- | :--- | :--- |
-| **Deep Olive** | `#233C2E` | Primary brand color, headers, key CTAs, emphasis text | 10.4:1 (AAA) |
-| **Oat Milk** | `#F7F4EB` | Canvas background, soft cards, breathable whitespace | Background base |
-| **Fresh Sage** | `#D7E4C5` | Subtle container surfaces, category chips, active badges | Accent tint |
-| **Terracotta** | `#D58B51` | Warm editorial accent, seasonal highlights, basket builder | 4.8:1 (AA) |
-| **Charcoal** | `#252820` | Primary legible body copy, labels, secondary controls | 11.2:1 (AAA) |
-| **Pure White** | `#FFFFFF` | Product cards, dialog surfaces, elevated containers | Crisp surface |
-
-### Color Usage Ratios
-- **60% Oat Milk & Pure White:** Clean, spacious, quiet background breathing room.
-- **25% Charcoal & Deep Olive:** Crisp typographic hierarchy and primary interface framing.
-- **10% Fresh Sage:** Calming structural accents and category grouping.
-- **5% Terracotta:** Strategic attention focus (Primary CTA accents, promotions, key highlights).
+| Token | Name | HEX | RGB | Role / Usage |
+|---|---|---|---|---|
+| `--t-aubergine` | Moroccan Night Aubergine | `#352B3E` | `rgb(53, 43, 62)` | Primary dark ground, typography, primary buttons, borders |
+| `--t-citron` | Electric Citron | `#D4E84A` | `rgb(212, 232, 74)` | High-contrast call-to-action, seasonal accents, markers |
+| `--t-chalk` | White Chalk Parchment | `#F8F7F0` | `rgb(248, 247, 240)` | Body background, editorial sections, natural breathing space |
+| `--t-ticket` | Warm Ticket Surface | `#FEFDF8` | `rgb(254, 253, 248)` | Product cards, price tickets, modal containers |
+| `--t-paprika` | Taliouine / Berkane Paprika | `#C75E3E` | `rgb(199, 94, 62)` | Heart highlights, harvest accents, warning badges |
+| `--t-mint` | Atlas Mint | `#B9D8CC` | `rgb(185, 216, 204)` | Editorial background tints, cooperatives spotlight |
+| `--t-ink` | Deep Mineral Ink | `#1C1A22` | `rgb(28, 26, 34)` | Primary body typography, high contrast readability |
 
 ---
 
-## 4. Typography Pairing
+## 3. Typographic System
 
-- **Editorial Headlines:** `Fraunces` / High-end editorial serif with soft humanist serifs and generous proportions.
-- **Interface & Body Text:** `Plus Jakarta Sans` / Geometric clarity, tall x-height, superb legibility at micro-sizes (11px–14px).
-- **Arabic Typography:** `Cairo` & `Tajawal` / Balanced modern Naskh geometry tailored for contemporary commerce and RTL layout symmetry.
+- **Display Serif:** `Fraunces` (Google Font)
+  - Applied to H1 headlines, editorial quotes, and signature prices.
+  - Used in Italic for dynamic editorial voice (*Le meilleur de nos terres, chez vous*).
+- **Body & Interface:** `Plus Jakarta Sans` (Google Font)
+  - Applied to interface navigation, product specs, filters, and checkout fields.
+  - Weights: Medium (500), SemiBold (600), Bold (700).
+
+---
+
+## 4. Voice and Tone
+
+- **Frank & Cultivated:** No superlative marketing hype. Products are described by their soil, harvest method, and cooperative origin.
+- **Bilingual & Culturally Symmetric:** Native Moroccan Arabic (RTL) alongside French and English, honoring regional Moroccan names (*Berkane*, *Ouezzane*, *Souss*, *Taliouine*, *Tafilalet*).

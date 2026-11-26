@@ -3,420 +3,539 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import {
-  ArrowRight,
-  ShoppingBag,
-  Gift,
-  MapPin,
-  Clock,
-  Sparkles,
-  Sun,
-  Scale,
-} from 'lucide-react';
+import { ShoppingBag, ArrowRight, MapPin, Clock } from 'lucide-react';
 import { useLocale } from '@/context/LocaleContext';
 import { useStore } from '@/context/StoreContext';
 import { CATEGORIES_SEED } from '@/data/categories.seed';
 import { ProductCard } from '@/components/shop/ProductCard';
+import { MarketExplorer } from '@/components/features/MarketExplorer';
 import { formatCurrencyMAD } from '@/lib/utils';
 
 export default function HomePage() {
   const { locale, t } = useLocale();
   const { state, setSelectedCity } = useStore();
 
-  // Curated 6 categories for Category Discovery (Section 04)
+  // Curated 6 categories for Category Discovery — Section 04
   const curatedCategories = CATEGORIES_SEED.filter((cat) =>
     ['fruits-frais', 'legumes-frais', 'huiles-argan', 'miels-amlou', 'epices-aromates', 'dattes-fruits-secs'].includes(cat.slug)
   );
 
-  // Curated 4 seasonal products (Section 05)
+  // Seasonal products — Section 05
   const seasonalProducts = state.products
     .filter((p) => p.category === 'fruits-frais' || p.category === 'legumes-frais')
     .slice(0, 4);
 
-  // Curated 4 local specialty terroir products (Section 08)
+  // Specialty products — Section 07
   const specialtyProducts = state.products
     .filter((p) =>
-      ['huiles-argan', 'miels-amlou', 'epices-aromates', 'dattes-fruits-secs'].includes(p.category)
+      ['huiles-argan', 'miels-amlou', 'epices-aromates'].includes(p.category)
     )
     .slice(0, 4);
 
-  // Selected delivery zone for Section 09
+  // Active delivery zone
   const activeZone =
     state.deliveryZones.find((z) => z.cityKey === state.selectedCity) ||
     state.deliveryZones[0];
 
   return (
-    <div className="space-y-16 sm:space-y-24 pb-16">
-      {/* =========================================================================
-          03 — HERO CAMPAIGN SECTION
-          "Le meilleur de nos terres, chez vous."
-          No decorative statistics, no cooperative counts, no review ratings.
-         ========================================================================= */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-[#EDE8D8]/50 via-[#F7F4EB] to-[#F7F4EB] pt-8 sm:pt-14 pb-12 sm:pb-20 border-b border-[#E5DEC9]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            {/* Left Column: Editorial Headline & Actions */}
-            <div className="lg:col-span-7 space-y-6 text-start">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#233C2E]/10 text-[#233C2E] text-xs font-semibold">
-                <span className="w-2 h-2 rounded-full bg-[#D58B51]" aria-hidden="true" />
-                <span>{t('hero.badge')}</span>
+    <div className="pb-16">
+
+      {/* ============================================================
+          § 01 — EDITORIAL COVER
+          A magazine-cover opening. The brand name is the dominant
+          typographic element. No "hero pattern" (title-left / image-right).
+          A full-width dark aubergine band with a large italic wordmark
+          and a single bold citron CTA. The harvest image anchors the
+          lower section of the cover in a wide cinematic crop.
+         ============================================================ */}
+      <section
+        className="relative overflow-hidden"
+        style={{ background: 'var(--t-aubergine)' }}
+        aria-label={locale === 'ar' ? 'غلاف الموسم' : locale === 'en' ? 'Seasonal Cover' : 'Couverture de Saison'}
+      >
+        {/* Upper typographic band */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-14 pb-6">
+          <div className="flex flex-col gap-5">
+
+            {/* Issue marker */}
+            <div className="flex items-center justify-between flex-wrap gap-3">
+              <div className="season-pill text-[var(--t-chalk)]" style={{ borderColor: 'rgba(248,247,240,0.4)', color: 'rgba(248,247,240,0.85)' }}>
+                <span>TERROIR</span>
+                <span style={{ color: 'var(--t-citron)' }}>✦</span>
+                <span>
+                  {locale === 'ar'
+                    ? 'خريف–شتاء ٢٠٢٦ · حصاد المواسم'
+                    : locale === 'en'
+                    ? 'Autumn–Winter 2026 · Season Harvest'
+                    : 'Automne–Hiver 2026 · Numéro des Récoltes'}
+                </span>
               </div>
-
-              <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-[#252820] leading-[1.12] tracking-tight">
-                {t('hero.title')}
-              </h1>
-
-              <p className="text-base sm:text-lg text-[#5C6053] leading-relaxed max-w-2xl font-normal">
-                {t('hero.subtitle')}
-              </p>
-
-              {/* Action Buttons */}
-              <div className="flex flex-wrap items-center gap-3 pt-2">
-                <Link
-                  href={`/${locale}/shop`}
-                  className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-[#233C2E] text-white font-semibold text-sm hover:bg-[#1C3025] transition-all shadow-xs hover:shadow-sm cursor-pointer min-h-[48px]"
-                >
-                  <ShoppingBag className="w-4 h-4" />
-                  <span>{t('hero.cta_shop')}</span>
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-
-                <Link
-                  href={`/${locale}/build-a-basket`}
-                  className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-[#D58B51] text-white font-bold text-sm hover:bg-[#c37a40] transition-all shadow-xs cursor-pointer min-h-[48px]"
-                >
-                  <Gift className="w-4 h-4" />
-                  <span>{t('hero.cta_basket')}</span>
-                </Link>
+              <div className="text-[11px] font-semibold uppercase tracking-widest"
+                style={{ color: 'rgba(248,247,240,0.4)', fontFamily: 'var(--font-body)' }}>
+                BSES · {locale === 'ar' ? 'المغرب' : 'Maroc'}
               </div>
             </div>
 
-            {/* Right Column: Immersive Moroccan Harvest Visual */}
-            <div className="lg:col-span-5 relative">
-              <div className="relative aspect-[4/5] w-full rounded-3xl overflow-hidden shadow-xl border-4 border-white bg-[#EDE8D8]">
-                <Image
-                  src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=1200&q=85"
-                  alt="Récolte Terroir Marocain"
-                  fill
-                  priority
-                  sizes="(max-width: 1024px) 100vw, 40vw"
-                  className="object-cover"
-                />
+            {/* Giant editorial headline — the dominant element */}
+            <div className="relative">
+              <h1
+                style={{
+                  fontFamily: 'var(--font-display)',
+                  fontStyle: 'italic',
+                  color: 'var(--t-chalk)',
+                  lineHeight: '0.92',
+                  letterSpacing: '-0.03em',
+                }}
+                className="text-[clamp(3rem,10vw,8.5rem)] font-black leading-none"
+              >
+                {t('hero.title')}
+              </h1>
+              {/* Citron underline accent */}
+              <div
+                className="mt-3 h-1 w-24 sm:w-32"
+                style={{ background: 'var(--t-citron)' }}
+                aria-hidden="true"
+              />
+            </div>
 
-                {/* Floating Harvest Spotlight Card */}
-                <div className="absolute bottom-4 inset-x-4 p-4 rounded-2xl bg-white/95 backdrop-blur-md border border-[#E5DEC9] shadow-lg flex items-center justify-between text-start">
-                  <div>
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#233C2E] block">
-                      Panier Semaine du Terroir
-                    </span>
-                    <span className="text-xs text-[#5C6053]">
-                      Fruits, légumes & huiles de saison
-                    </span>
-                  </div>
-                  <span className="text-base font-bold text-[#233C2E]">
-                    220 MAD
-                  </span>
-                </div>
+            {/* Subtitle + CTA in a contained row */}
+            <div className="flex flex-col sm:flex-row sm:items-end gap-5 pt-2">
+              <p
+                className="text-sm sm:text-base leading-relaxed max-w-lg"
+                style={{ color: 'rgba(248,247,240,0.72)', fontFamily: 'var(--font-body)' }}
+              >
+                {t('hero.subtitle')}
+              </p>
+
+              <div className="sm:ml-auto flex items-center gap-3 shrink-0">
+                <Link
+                  href={`/${locale}/shop`}
+                  className="inline-flex items-center gap-2.5 px-6 py-3.5 font-bold text-sm transition-all duration-200 cursor-pointer min-h-[48px]"
+                  style={{
+                    background: 'var(--t-citron)',
+                    color: 'var(--t-aubergine)',
+                    fontFamily: 'var(--font-body)',
+                    borderRadius: '2px',
+                  }}
+                >
+                  <ShoppingBag className="w-4 h-4" />
+                  <span>{t('hero.cta_shop')}</span>
+                </Link>
+                <Link
+                  href={`/${locale}/build-a-basket`}
+                  className="inline-flex items-center gap-1.5 px-5 py-3.5 font-semibold text-sm transition-all duration-200 cursor-pointer min-h-[48px]"
+                  style={{
+                    color: 'var(--t-chalk)',
+                    border: '1.5px solid rgba(248,247,240,0.35)',
+                    borderRadius: '2px',
+                    fontFamily: 'var(--font-body)',
+                  }}
+                >
+                  <span>{t('hero.cta_basket')}</span>
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
               </div>
             </div>
           </div>
         </div>
+
+        {/* Full-width cinematic harvest image — no rectangle frame, bleeds edge to edge */}
+        <div className="relative w-full" style={{ height: 'clamp(220px, 42vw, 500px)' }}>
+          <Image
+            src="https://images.unsplash.com/photo-1543362906-acfc16c67564?auto=format&fit=crop&w=1600&q=85"
+            alt={locale === 'ar' ? 'حصاد الموسم — ثمار طازجة من المغرب' : locale === 'en' ? 'Seasonal Harvest — Fresh Moroccan Produce' : 'Récolte de Saison — Produits Frais du Maroc'}
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-center"
+            style={{ filter: 'saturate(1.1) contrast(1.03)' }}
+          />
+          {/* Bottom gradient fade into chalk */}
+          <div
+            className="absolute inset-x-0 bottom-0 h-1/3 pointer-events-none"
+            style={{ background: 'linear-gradient(to bottom, transparent, var(--t-chalk))' }}
+            aria-hidden="true"
+          />
+        </div>
       </section>
 
-      {/* =========================================================================
-          04 — CATEGORY DISCOVERY
-          Curated selection of category cards with beautiful photography.
-          No long text-heavy blocks. Includes "Voir toutes les catégories" link.
-         ========================================================================= */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-start space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 border-b border-[#E5DEC9] pb-4">
+      {/* ============================================================
+          § 02 — MARKET INDEX (Category Discovery)
+          Presented as a typographic list / market stall index rather
+          than a conventional image card grid. Each entry uses a
+          Citron "• " bullet, the category name in Fraunces,
+          the product count as a subtle metadata note.
+          Desktop shows 6 entries in a 3-col magazine index.
+          Mobile shows them stacked in a clean 2-col layout.
+         ============================================================ */}
+      <section
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20"
+        aria-labelledby="categories-heading"
+      >
+        {/* Section header */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 pb-5 border-b border-[var(--t-border)]">
           <div>
-            <h2 className="font-heading text-2xl sm:text-3xl font-bold text-[#252820]">
+            <p className="text-xs font-bold uppercase tracking-widest text-[var(--t-aubergine)] mb-1 flex items-center gap-2">
+              <span className="inline-block w-4 h-px bg-[var(--t-aubergine)]" aria-hidden="true" />
+              {locale === 'ar' ? 'الفئات' : locale === 'en' ? 'Categories' : 'Univers'}
+            </p>
+            <h2
+              id="categories-heading"
+              style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic' }}
+              className="text-2xl sm:text-3xl font-black text-[var(--t-ink)] leading-tight"
+            >
               {t('sections.categories_title')}
             </h2>
-            <p className="text-sm text-[#5C6053] mt-1">
-              {t('sections.categories_subtitle')}
-            </p>
           </div>
           <Link
             href={`/${locale}/shop`}
-            className="text-xs font-semibold text-[#233C2E] hover:underline flex items-center gap-1 shrink-0"
+            className="text-xs font-semibold flex items-center gap-1 hover:gap-2 transition-all"
+            style={{ color: 'var(--t-aubergine)' }}
           >
             <span>{t('sections.categories_view_all')}</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3.5 sm:gap-4">
+        {/* Category grid — market stall cards with image + editorial typography */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
           {curatedCategories.map((cat) => (
             <Link
               key={cat.id}
               href={`/${locale}/shop?cat=${cat.slug}`}
-              className="group flex flex-col rounded-2xl bg-white border border-[#E5DEC9] overflow-hidden p-3 hover:shadow-md hover:border-[#233C2E]/60 transition-all text-start"
+              className="group flex flex-col overflow-hidden text-start focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--t-aubergine)]"
+              style={{
+                borderRadius: '2px',
+                border: '1.5px solid var(--t-border)',
+                background: 'var(--t-ticket)',
+              }}
             >
-              <div className="relative aspect-square w-full rounded-xl overflow-hidden bg-[#F7F4EB] mb-3">
+              {/* Image panel — no radius, full bleed */}
+              <div className="relative aspect-square w-full overflow-hidden bg-[var(--t-chalk-dark)]">
                 <Image
                   src={cat.image}
-                  alt={cat.name[locale]}
+                  alt={cat.name[locale as 'fr' | 'en' | 'ar']}
                   fill
                   sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
-                  className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  className="object-cover group-hover:scale-103 transition-transform duration-500"
                 />
               </div>
-              <h3 className="font-heading font-bold text-sm text-[#252820] group-hover:text-[#233C2E] transition-colors truncate">
-                {cat.name[locale]}
-              </h3>
-              <span className="text-[11px] font-medium text-[#5C6053] mt-0.5 block">
-                {cat.productCount} produits
-              </span>
+
+              {/* Label zone */}
+              <div className="p-2.5">
+                <h3
+                  className="font-black text-sm leading-tight group-hover:text-[var(--t-aubergine)] transition-colors"
+                  style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic', color: 'var(--t-ink)' }}
+                >
+                  {cat.name[locale as 'fr' | 'en' | 'ar']}
+                </h3>
+                <p className="text-[10px] font-semibold mt-0.5" style={{ color: 'var(--t-ink-light)' }}>
+                  {cat.productCount} {locale === 'ar' ? 'منتج' : locale === 'en' ? 'products' : 'produits'}
+                </p>
+              </div>
             </Link>
           ))}
         </div>
       </section>
 
-      {/* =========================================================================
-          05 — SEASONAL SELECTION
-          Curated selection of four seasonal products with compact premium cards.
-         ========================================================================= */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-start space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 border-b border-[#E5DEC9] pb-4">
-          <div>
-            <h2 className="font-heading text-2xl sm:text-3xl font-bold text-[#252820]">
-              {t('sections.featured_title')}
-            </h2>
-            <p className="text-sm text-[#5C6053] mt-1">
-              {t('sections.featured_subtitle')}
-            </p>
-          </div>
-          <Link
-            href={`/${locale}/shop?cat=fruits-frais`}
-            className="text-xs font-semibold text-[#233C2E] hover:underline flex items-center gap-1 shrink-0"
-          >
-            <span>{t('sections.featured_view_all')}</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-          {seasonalProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
-      </section>
-
-      {/* =========================================================================
-          06 — MOROCCAN TERROIR STORY
-          One beautiful editorial photographic section with concise text.
-         ========================================================================= */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="rounded-3xl bg-white border border-[#E5DEC9] p-6 sm:p-10 lg:p-12 shadow-xs">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            {/* Story Text */}
-            <div className="lg:col-span-7 space-y-6 text-start">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#233C2E]/10 text-[#233C2E] text-xs font-bold">
-                <Sparkles className="w-3.5 h-3.5 text-[#D58B51]" />
-                <span>{t('sections.story_badge')}</span>
-              </div>
-
-              <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#252820] leading-tight">
-                {t('sections.story_title')}
-              </h2>
-
-              <p className="text-sm sm:text-base text-[#5C6053] leading-relaxed">
-                {t('sections.story_desc')}
+      {/* ============================================================
+          § 03 — SEASONAL SELECTION
+          4 seasonal market-ticket product cards
+         ============================================================ */}
+      <section
+        className="py-10 sm:py-14"
+        style={{ background: 'var(--t-chalk-dark)' }}
+        aria-labelledby="seasonal-heading"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 pb-5 border-b border-[var(--t-border)]">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-widest text-[var(--t-aubergine)] mb-1 flex items-center gap-2">
+                <span className="inline-block w-4 h-px bg-[var(--t-aubergine)]" aria-hidden="true" />
+                {locale === 'ar' ? 'الموسم' : locale === 'en' ? 'In Season' : 'De Saison'}
               </p>
-
-              {/* 3 Pillars */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2 border-t border-[#E5DEC9]">
-                <div className="space-y-1">
-                  <div className="flex items-center gap-1.5 text-xs font-bold text-[#233C2E]">
-                    <Sun className="w-4 h-4 text-[#D58B51] shrink-0" />
-                    <span>{t('sections.story_pillar_1_title')}</span>
-                  </div>
-                  <p className="text-[11px] text-[#5C6053] leading-snug">
-                    {t('sections.story_pillar_1_desc')}
-                  </p>
-                </div>
-
-                <div className="space-y-1">
-                  <div className="flex items-center gap-1.5 text-xs font-bold text-[#233C2E]">
-                    <MapPin className="w-4 h-4 text-[#D58B51] shrink-0" />
-                    <span>{t('sections.story_pillar_2_title')}</span>
-                  </div>
-                  <p className="text-[11px] text-[#5C6053] leading-snug">
-                    {t('sections.story_pillar_2_desc')}
-                  </p>
-                </div>
-
-                <div className="space-y-1">
-                  <div className="flex items-center gap-1.5 text-xs font-bold text-[#233C2E]">
-                    <Scale className="w-4 h-4 text-[#D58B51] shrink-0" />
-                    <span>{t('sections.story_pillar_3_title')}</span>
-                  </div>
-                  <p className="text-[11px] text-[#5C6053] leading-snug">
-                    {t('sections.story_pillar_3_desc')}
-                  </p>
-                </div>
-              </div>
+              <h2
+                id="seasonal-heading"
+                style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic' }}
+                className="text-2xl sm:text-3xl font-black text-[var(--t-ink)] leading-tight"
+              >
+                {t('sections.featured_title')}
+              </h2>
             </div>
-
-            {/* Editorial Image */}
-            <div className="lg:col-span-5 relative aspect-[4/3] lg:aspect-square rounded-2xl overflow-hidden border border-[#E5DEC9] bg-[#EDE8D8]">
-              <Image
-                src="https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?auto=format&fit=crop&w=800&q=80"
-                alt="Oliveraie et Terroir du Maroc"
-                fill
-                sizes="(max-width: 1024px) 100vw, 40vw"
-                className="object-cover"
-              />
-            </div>
+            <Link
+              href={`/${locale}/shop?cat=fruits-frais`}
+              className="text-xs font-semibold flex items-center gap-1 hover:gap-2 transition-all"
+              style={{ color: 'var(--t-aubergine)' }}
+            >
+              <span>{t('sections.featured_view_all')}</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+            {seasonalProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
           </div>
         </div>
       </section>
 
-      {/* =========================================================================
-          07 — BASKET BUILDER FEATURE
-          Distinctive promotional section for the interactive basket builder.
-         ========================================================================= */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-[#233C2E] via-[#2A4837] to-[#1C3025] text-white p-8 sm:p-12 shadow-lg">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            <div className="lg:col-span-8 space-y-4 text-start">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#D58B51] text-white text-xs font-bold">
-                <Gift className="w-3.5 h-3.5" />
-                <span>Fonctionnalité Phare TERROIR</span>
-              </span>
+      {/* ============================================================
+          § 04 — L'ARPENTEUR DES TERROIRS (Market Explorer)
+          Signature region exploration feature
+         ============================================================ */}
+      <section className="py-14 sm:py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <MarketExplorer products={state.products} />
+        </div>
+      </section>
 
-              <h2 className="font-heading text-2xl sm:text-4xl font-extrabold leading-tight">
-                {t('sections.basket_title')} : -10% immédiats sur votre sélection.
+      {/* ============================================================
+          § 05 — BASKET BUILDER PROMO
+          Minimal editorial promo strip — Aubergine horizontal band
+          with large Fraunces italic text and a single Citron CTA.
+          No decorative patterns, no border radius excess.
+         ============================================================ */}
+      <section
+        className="py-12 sm:py-16"
+        style={{ background: 'var(--t-aubergine)' }}
+        aria-labelledby="basket-builder-heading"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+            <div className="lg:col-span-9">
+              <p
+                className="text-xs font-bold uppercase tracking-widest mb-3 flex items-center gap-2"
+                style={{ color: 'var(--t-citron)' }}
+              >
+                <span className="inline-block w-4 h-px bg-[var(--t-citron)]" aria-hidden="true" />
+                {locale === 'ar' ? 'الميزة المميزة' : locale === 'en' ? 'Signature Feature' : 'Fonctionnalité Phare'}
+              </p>
+              <h2
+                id="basket-builder-heading"
+                style={{
+                  fontFamily: 'var(--font-display)',
+                  fontStyle: 'italic',
+                  color: 'var(--t-chalk)',
+                  letterSpacing: '-0.02em',
+                  lineHeight: '1.0',
+                }}
+                className="text-3xl sm:text-5xl font-black leading-none"
+              >
+                {t('sections.basket_title')}
               </h2>
-
-              <p className="text-sm sm:text-base text-[#D7E4C5] opacity-90 leading-relaxed max-w-xl">
+              <p className="text-sm mt-4 leading-relaxed max-w-2xl"
+                style={{ color: 'rgba(248,247,240,0.65)' }}>
                 {t('sections.basket_subtitle')}
               </p>
-
-              <div className="pt-2">
-                <Link
-                  href={`/${locale}/build-a-basket`}
-                  className="inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-white text-[#233C2E] font-bold text-sm hover:bg-[#F7F4EB] transition-colors shadow-xs min-h-[48px]"
-                >
-                  <span>{t('hero.cta_basket')}</span>
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-              </div>
             </div>
+            <div className="lg:col-span-3 lg:text-right">
+              <Link
+                href={`/${locale}/build-a-basket`}
+                className="inline-flex items-center gap-2 px-7 py-4 font-bold text-sm transition-all min-h-[52px] cursor-pointer"
+                style={{
+                  background: 'var(--t-citron)',
+                  color: 'var(--t-aubergine)',
+                  borderRadius: '2px',
+                  fontFamily: 'var(--font-body)',
+                }}
+              >
+                <span>{t('hero.cta_basket')}</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
 
-            <div className="lg:col-span-4 relative aspect-video lg:aspect-square rounded-2xl overflow-hidden border-2 border-white/20">
+      {/* ============================================================
+          § 06 — LOCAL SPECIALTIES
+          4 specialty terroir product cards
+         ============================================================ */}
+      <section
+        className="py-14 sm:py-20"
+        aria-labelledby="specialties-heading"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 pb-5 border-b border-[var(--t-border)]">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-widest text-[var(--t-aubergine)] mb-1 flex items-center gap-2">
+                <span className="inline-block w-4 h-px bg-[var(--t-aubergine)]" aria-hidden="true" />
+                {locale === 'ar' ? 'خصائص المنطقة' : locale === 'en' ? 'Local Specialties' : 'Spécialités Locales'}
+              </p>
+              <h2
+                id="specialties-heading"
+                style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic' }}
+                className="text-2xl sm:text-3xl font-black text-[var(--t-ink)] leading-tight"
+              >
+                {t('sections.terroir_title')}
+              </h2>
+            </div>
+            <Link
+              href={`/${locale}/shop?cat=huiles-argan`}
+              className="text-xs font-semibold flex items-center gap-1 hover:gap-2 transition-all"
+              style={{ color: 'var(--t-aubergine)' }}
+            >
+              <span>{t('sections.terroir_view_all')}</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+            {specialtyProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================================
+          § 07 — EDITORIAL STORY STRIP
+          A horizontal two-column editorial: left image, right text.
+          Mint-tinted background to break the page rhythm.
+         ============================================================ */}
+      <section
+        className="py-14 sm:py-20"
+        style={{ background: 'var(--t-mint-subtle)' }}
+        aria-labelledby="story-heading"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+            {/* Image — full bleed panel */}
+            <div className="relative aspect-[4/3] rounded-sm overflow-hidden" style={{ border: '2px solid var(--t-mint-dark)' }}>
               <Image
-                src="https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=800&q=80"
-                alt="Panier Sur Mesure"
+                src="https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?auto=format&fit=crop&w=900&q=80"
+                alt={locale === 'ar' ? 'بستان الزيتون المغربي' : locale === 'en' ? 'Moroccan Olive Grove' : 'Oliveraie Marocaine'}
                 fill
-                sizes="(max-width: 1024px) 100vw, 30vw"
+                sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover"
               />
             </div>
+            {/* Text */}
+            <div className="space-y-5">
+              <p className="text-xs font-bold uppercase tracking-widest text-[var(--t-aubergine)] flex items-center gap-2">
+                <span className="inline-block w-4 h-px bg-[var(--t-aubergine)]" aria-hidden="true" />
+                {t('sections.story_badge')}
+              </p>
+              <h2
+                id="story-heading"
+                style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic', color: 'var(--t-ink)', letterSpacing: '-0.02em' }}
+                className="text-3xl sm:text-4xl font-black leading-tight"
+              >
+                {t('sections.story_title')}
+              </h2>
+              <p className="text-sm sm:text-base leading-relaxed" style={{ color: 'var(--t-ink-muted)' }}>
+                {t('sections.story_desc')}
+              </p>
+              {/* 3 pillars as compact typographic list */}
+              <ul className="space-y-3 pt-2 border-t border-[var(--t-mint-dark)]">
+                {[
+                  { title: t('sections.story_pillar_1_title'), desc: t('sections.story_pillar_1_desc') },
+                  { title: t('sections.story_pillar_2_title'), desc: t('sections.story_pillar_2_desc') },
+                  { title: t('sections.story_pillar_3_title'), desc: t('sections.story_pillar_3_desc') },
+                ].map((pillar, i) => (
+                  <li key={i} className="flex items-start gap-3">
+                    <span
+                      className="shrink-0 w-5 h-5 flex items-center justify-center text-[10px] font-black mt-0.5"
+                      style={{ background: 'var(--t-aubergine)', color: 'var(--t-citron)', borderRadius: '2px' }}
+                      aria-hidden="true"
+                    >
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                    <div>
+                      <p className="text-xs font-bold text-[var(--t-ink)]">{pillar.title}</p>
+                      <p className="text-xs text-[var(--t-ink-muted)] leading-snug mt-0.5">{pillar.desc}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* =========================================================================
-          08 — LOCAL SPECIALTIES
-          Show selected oils, honey, amlou, dates and spices.
-         ========================================================================= */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-start space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 border-b border-[#E5DEC9] pb-4">
-          <div>
-            <h2 className="font-heading text-2xl sm:text-3xl font-bold text-[#252820]">
-              {t('sections.terroir_title')}
-            </h2>
-            <p className="text-sm text-[#5C6053] mt-1">
-              {t('sections.terroir_subtitle')}
-            </p>
-          </div>
-          <Link
-            href={`/${locale}/shop?cat=huiles-argan`}
-            className="text-xs font-semibold text-[#233C2E] hover:underline flex items-center gap-1 shrink-0"
-          >
-            <span>{t('sections.terroir_view_all')}</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-          {specialtyProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
-      </section>
-
-      {/* =========================================================================
-          09 — DELIVERY EXPERIENCE
-          Concise delivery simulation information with city selector.
-          Does not display the entire delivery matrix as an overwhelming block.
-         ========================================================================= */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-start">
-        <div className="rounded-3xl bg-white border border-[#E5DEC9] p-6 sm:p-10 shadow-xs">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            {/* Left Column: Description */}
-            <div className="lg:col-span-7 space-y-4">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#233C2E]/10 text-[#233C2E] text-xs font-bold">
-                <Clock className="w-3.5 h-3.5 text-[#D58B51]" />
-                <span>{t('sections.delivery_badge')}</span>
-              </div>
-
-              <h2 className="font-heading text-2xl sm:text-3xl font-extrabold text-[#252820]">
+      {/* ============================================================
+          § 08 — DELIVERY INFORMATION
+          Compact city simulator on a chalk surface
+         ============================================================ */}
+      <section
+        className="py-14 sm:py-20"
+        aria-labelledby="delivery-heading"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-widest text-[var(--t-aubergine)] mb-2 flex items-center gap-2">
+                <span className="inline-block w-4 h-px bg-[var(--t-aubergine)]" aria-hidden="true" />
+                {t('sections.delivery_badge')}
+              </p>
+              <h2
+                id="delivery-heading"
+                style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic', color: 'var(--t-ink)', letterSpacing: '-0.02em' }}
+                className="text-2xl sm:text-3xl font-black leading-tight mb-4"
+              >
                 {t('sections.delivery_title')}
               </h2>
-
-              <p className="text-sm text-[#5C6053] leading-relaxed max-w-xl">
+              <p className="text-sm leading-relaxed" style={{ color: 'var(--t-ink-muted)' }}>
                 {t('sections.delivery_desc')}
               </p>
             </div>
 
-            {/* Right Column: Interactive City Simulator */}
-            <div className="lg:col-span-5 rounded-2xl bg-[#FAF8F2] border border-[#E5DEC9] p-5 space-y-4">
+            {/* City simulator card */}
+            <div
+              className="market-ticket p-5 space-y-4"
+              style={{ maxWidth: '420px' }}
+            >
               <div className="space-y-1.5">
                 <label
                   htmlFor="home-city-select"
-                  className="block text-xs font-bold text-[#252820]"
+                  className="block text-xs font-bold uppercase tracking-wide text-[var(--t-ink)]"
                 >
                   {t('sections.delivery_city_select')}
                 </label>
-                <div className="flex items-center gap-2 p-2.5 rounded-xl bg-white border border-[#E5DEC9]">
-                  <MapPin className="w-4 h-4 text-[#233C2E] shrink-0" />
+                <div className="flex items-center gap-2 p-3 border border-[var(--t-border)] bg-white">
+                  <MapPin className="w-4 h-4 shrink-0" style={{ color: 'var(--t-aubergine)' }} />
                   <select
                     id="home-city-select"
                     value={state.selectedCity}
                     onChange={(e) => setSelectedCity(e.target.value)}
-                    className="w-full bg-transparent text-xs font-bold text-[#252820] focus:outline-none cursor-pointer"
+                    className="w-full bg-transparent text-xs font-bold text-[var(--t-ink)] focus:outline-none cursor-pointer"
+                    style={{ borderRadius: 0 }}
                   >
                     {state.deliveryZones.map((z) => (
                       <option key={z.cityKey} value={z.cityKey}>
-                        {z.cityName[locale]}
+                        {z.cityName[locale as 'fr' | 'en' | 'ar']}
                       </option>
                     ))}
                   </select>
                 </div>
               </div>
 
-              {/* Dynamic Zone Preview */}
-              <div className="flex items-center justify-between p-3 rounded-xl bg-white border border-[#E5DEC9] text-xs">
+              <div className="flex items-center justify-between p-3 border border-[var(--t-border)] bg-[var(--t-chalk)]">
                 <div>
-                  <span className="font-bold text-[#233C2E] block">
-                    Frais : {formatCurrencyMAD(activeZone.deliveryFee, locale)}
-                  </span>
-                  <span className="text-[11px] text-[#5C6053]">
-                    Gratuit dès {activeZone.freeDeliveryThreshold} MAD
+                  <span className="text-xs font-black text-[var(--t-ink)] block">
+                    {formatCurrencyMAD(activeZone.deliveryFee, locale)}
+                    {' '}·{' '}
+                    <span className="font-normal text-[var(--t-ink-muted)]">
+                      {locale === 'ar' ? 'مجاني من' : locale === 'en' ? 'Free from' : 'Gratuit dès'} {activeZone.freeDeliveryThreshold} MAD
+                    </span>
                   </span>
                 </div>
-                <span className="px-2.5 py-1 rounded-full bg-[#EFF5E8] text-[#2E7D32] text-[10px] font-bold">
+                <span
+                  className="text-[10px] font-bold px-2.5 py-1"
+                  style={{ background: 'var(--t-aubergine-subtle)', color: 'var(--t-aubergine)', borderRadius: '2px' }}
+                >
+                  <Clock className="w-3 h-3 inline mr-1" aria-hidden="true" />
                   {activeZone.estimatedDeliveryHours}
                 </span>
               </div>
 
               <Link
                 href={`/${locale}/shop`}
-                className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-[#233C2E] text-white text-xs font-bold hover:bg-[#1C3025] transition-colors"
+                className="w-full flex items-center justify-center gap-2 py-3 font-bold text-xs transition-colors cursor-pointer"
+                style={{
+                  background: 'var(--t-aubergine)',
+                  color: 'var(--t-chalk)',
+                  borderRadius: '2px',
+                }}
               >
                 <span>{t('sections.delivery_verify_cta')}</span>
                 <ArrowRight className="w-3.5 h-3.5" />

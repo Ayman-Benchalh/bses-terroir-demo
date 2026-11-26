@@ -21,7 +21,7 @@ export function Footer() {
   };
 
   return (
-    <footer className="bg-[#233C2E] text-[#F7F4EB] border-t border-[#335542] pt-16 pb-12 mt-20">
+    <footer className="bg-[#352B3E] text-[#F8F7F0] border-t border-[rgba(255,255,255,0.08)] pt-16 pb-12 mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-8 pb-12 border-b border-white/10">
           {/* Col 1: Brand & Identity */}
@@ -30,7 +30,7 @@ export function Footer() {
               <TerroirLogo variant="full" theme="light" />
             </Link>
 
-            <p className="text-sm text-[#D7E4C5] opacity-90 leading-relaxed max-w-sm">
+            <p className="text-sm text-[#D4E84A]/80 opacity-90 leading-relaxed max-w-sm">
               {t('brand.tagline')} {t('sections.story_desc')}
             </p>
 
@@ -46,11 +46,11 @@ export function Footer() {
                   value={newsletterEmail}
                   onChange={(e) => setNewsletterEmail(e.target.value)}
                   placeholder="Votre adresse email..."
-                  className="flex-1 px-3.5 py-2.5 rounded-xl bg-white/10 border border-white/20 text-white text-xs placeholder:text-white/40 focus:outline-none focus:border-[#D58B51]"
+                  className="flex-1 px-3.5 py-2.5 rounded-sm bg-white/10 border border-white/20 text-white text-xs placeholder:text-white/40 focus:outline-none focus:border-[#D4E84A]"
                 />
                 <button
                   type="submit"
-                  className="px-4 py-2.5 bg-[#D58B51] text-white font-bold text-xs rounded-xl hover:bg-[#c37a40] transition-colors flex items-center gap-1.5 cursor-pointer shrink-0"
+                  className="px-4 py-2.5 bg-[#D4E84A] text-[#352B3E] font-bold text-xs rounded-sm hover:bg-[#c8dc3e] transition-colors flex items-center gap-1.5 cursor-pointer shrink-0"
                 >
                   <Send className="w-3.5 h-3.5" />
                   <span>S’inscrire</span>
