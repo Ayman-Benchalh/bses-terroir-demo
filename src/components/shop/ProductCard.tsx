@@ -45,12 +45,12 @@ export function ProductCard({ product, className }: ProductCardProps) {
   return (
     <div
       className={cn(
-        'group relative flex flex-col rounded-2xl bg-white border border-[#E5DEC9] p-3 sm:p-3.5 shadow-2xs hover:shadow-md hover:border-[#233C2E]/50 transition-all duration-200',
+        'group relative flex flex-col rounded-sm bg-white border border-[rgba(53,43,62,0.12)] p-3 sm:p-3.5 shadow-2xs hover:shadow-md hover:border-[#352B3E]/50 transition-all duration-200 market-ticket',
         className
       )}
     >
       {/* 1. Media Container */}
-      <div className="relative aspect-square w-full rounded-xl overflow-hidden bg-[#FAF8F2] mb-3">
+      <div className="relative aspect-square w-full rounded-sm overflow-hidden bg-[#F8F7F0] mb-3">
         <Link href={`/${locale}/product/${product.slug}`} className="block w-full h-full">
           <Image
             src={product.image}
@@ -81,8 +81,8 @@ export function ProductCard({ product, className }: ProductCardProps) {
           onClick={handleWishlist}
           aria-label={t('nav.wishlist')}
           className={cn(
-            'absolute top-2 end-2 w-8 h-8 rounded-full bg-white/90 backdrop-blur-xs flex items-center justify-center shadow-xs transition-colors cursor-pointer',
-            isFavorite ? 'text-[#DC2626]' : 'text-[#5C6053] hover:text-[#DC2626]'
+            'absolute top-2 end-2 w-8 h-8 rounded-sm bg-white/90 backdrop-blur-xs flex items-center justify-center shadow-xs transition-colors cursor-pointer',
+            isFavorite ? 'text-[#C75E3E]' : 'text-[#5C6053] hover:text-[#C75E3E]'
           )}
         >
           <Heart className={cn('w-4 h-4', isFavorite && 'fill-current')} />
@@ -93,26 +93,29 @@ export function ProductCard({ product, className }: ProductCardProps) {
       <div className="flex-1 flex flex-col justify-between text-start">
         <div className="space-y-1">
           {/* Origin Label */}
-          <div className="flex items-center gap-1 text-[11px] font-medium text-[#5C6053]">
-            <MapPin className="w-3 h-3 text-[#233C2E] shrink-0" />
+          <div className="flex items-center gap-1 text-[11px] font-semibold text-[#352B3E]">
+            <MapPin className="w-3 h-3 text-[#352B3E] shrink-0" />
             <span className="truncate">{product.originRegion[locale]}</span>
           </div>
 
           {/* Product Title */}
           <Link
             href={`/${locale}/product/${product.slug}`}
-            className="block font-heading text-sm sm:text-base font-bold text-[#252820] group-hover:text-[#233C2E] transition-colors truncate"
+            className="block font-heading text-sm sm:text-base font-bold text-[#1C1A22] group-hover:text-[#352B3E] transition-colors truncate"
           >
             {product.name[locale]}
           </Link>
         </div>
 
         {/* 3. Pricing & Quantity / Quick Add Row */}
-        <div className="pt-2.5 mt-2.5 border-t border-[#E5DEC9] space-y-2.5">
+        <div className="pt-2.5 mt-2.5 border-t border-[rgba(53,43,62,0.12)] space-y-2.5">
           {/* Price display */}
           <div className="flex items-baseline justify-between">
             <div className="flex items-baseline">
-              <span className="text-base sm:text-lg font-extrabold text-[#233C2E]">
+              <span
+                style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic' }}
+                className="text-base sm:text-lg font-black text-[#352B3E]"
+              >
                 {formatCurrencyMAD(currentPrice, locale)}
               </span>
               <span className="text-[11px] text-[#5C6053] ms-1">
@@ -147,10 +150,10 @@ export function ProductCard({ product, className }: ProductCardProps) {
               title={t('product.add_to_cart')}
               aria-label={t('product.add_to_cart')}
               className={cn(
-                'flex-1 flex items-center justify-center gap-1.5 h-9 sm:h-10 px-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer min-h-[36px] whitespace-nowrap',
+                'flex-1 flex items-center justify-center gap-1.5 h-9 sm:h-10 px-2.5 rounded-sm text-xs font-bold transition-all cursor-pointer min-h-[36px] whitespace-nowrap',
                 isAdded
-                  ? 'bg-[#2E7D32] text-white shadow-xs'
-                  : 'bg-[#233C2E] text-white hover:bg-[#1C3025] disabled:bg-black/10 disabled:text-black/30 shadow-2xs'
+                  ? 'bg-[#2A6B40] text-white shadow-xs'
+                  : 'bg-[#352B3E] text-white hover:bg-[#2a2133] disabled:bg-black/10 disabled:text-black/30 shadow-2xs'
               )}
             >
               {isAdded ? (

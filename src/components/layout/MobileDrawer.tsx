@@ -101,14 +101,14 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
       {/* Drawer Container */}
       <div
         className={cn(
-          'relative z-10 flex flex-col w-[88vw] max-w-sm h-[100dvh] bg-[#F7F4EB] shadow-2xl border-[#E5DEC9]',
+          'relative z-10 flex flex-col w-[88vw] max-w-sm h-[100dvh] bg-[#F8F7F0] shadow-2xl border-[rgba(53,43,62,0.12)]',
           isRTL
             ? 'mr-auto border-l rounded-l-2xl'
             : 'ml-auto border-r rounded-r-2xl'
         )}
       >
         {/* Header Section */}
-        <div className="flex items-center justify-between p-4 border-b border-[#E5DEC9] bg-[#EDE8D8]/60 shrink-0">
+        <div className="flex items-center justify-between p-4 border-b border-[rgba(53,43,62,0.12)] bg-[#352B3E]/5 shrink-0">
           <Link href={`/${locale}`} onClick={onClose} className="block text-start">
             <TerroirLogo variant="full" />
           </Link>
@@ -116,7 +116,7 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
           <button
             onClick={onClose}
             aria-label={t('nav.close')}
-            className="w-10 h-10 rounded-xl bg-black/5 hover:bg-black/10 flex items-center justify-center text-[#252820] transition-colors cursor-pointer"
+            className="w-10 h-10 rounded-sm bg-black/5 hover:bg-black/10 flex items-center justify-center text-[#1C1A22] transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -132,7 +132,7 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
             <select
               value={state.selectedCity}
               onChange={(e) => setSelectedCity(e.target.value)}
-              className="w-full text-sm font-medium text-[#252820] bg-transparent border-0 focus:outline-none cursor-pointer"
+              className="w-full text-sm font-medium text-[#1C1A22] bg-transparent border-0 focus:outline-none cursor-pointer"
             >
               {state.deliveryZones.map((zone) => (
                 <option key={zone.cityKey} value={zone.cityKey}>
@@ -156,14 +156,14 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
                   className={cn(
                     'flex items-center justify-between px-3.5 py-3 rounded-xl text-base font-medium transition-colors min-h-[48px]',
                     isActive
-                      ? 'bg-[#233C2E] text-white'
+                      ? 'bg-[#352B3E] text-white'
                       : item.highlight
-                      ? 'bg-[#D58B51]/15 text-[#9C5A25] hover:bg-[#D58B51]/25'
-                      : 'text-[#252820] hover:bg-black/5'
+                      ? 'bg-[#D4E84A]/20 text-[#352B3E] hover:bg-[#D4E84A]/35'
+                      : 'text-[#1C1A22] hover:bg-black/5'
                   )}
                 >
                   <div className="flex items-center gap-3">
-                    <Icon className={cn('w-5 h-5 shrink-0', isActive ? 'text-white' : 'text-[#233C2E]')} />
+                    <Icon className={cn('w-5 h-5 shrink-0', isActive ? 'text-white' : 'text-[#352B3E]')} />
                     <span>{item.label}</span>
                   </div>
                   <ChevronRight
@@ -182,7 +182,7 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
             <Link
               href={`/${locale}/admin-demo`}
               onClick={onClose}
-              className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-[#233C2E] bg-[#233C2E]/10 hover:bg-[#233C2E]/20 min-h-[44px]"
+              className="flex items-center gap-3 px-3.5 py-2.5 rounded-sm text-sm font-medium text-[#352B3E] bg-[#352B3E]/10 hover:bg-[#352B3E]/20 min-h-[44px]"
             >
               <LayoutDashboard className="w-4 h-4" />
               <span>{t('nav.admin')}</span>
@@ -191,7 +191,7 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
             <Link
               href={`/${locale}/design-system`}
               onClick={onClose}
-              className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-[#5C6053] hover:bg-black/5 min-h-[44px]"
+              className="flex items-center gap-3 px-3.5 py-2.5 rounded-sm text-sm font-medium text-[#5C6053] hover:bg-black/5 min-h-[44px]"
             >
               <ShieldCheck className="w-4 h-4" />
               <span>{t('nav.design_system')}</span>
@@ -209,10 +209,10 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
                   key={lang.code}
                   onClick={() => setLocale(lang.code)}
                   className={cn(
-                    'py-2 px-1 text-center text-xs font-semibold rounded-lg transition-colors min-h-[38px] cursor-pointer',
+                    'py-2 px-1 text-center text-xs font-semibold rounded-sm transition-colors min-h-[38px] cursor-pointer',
                     locale === lang.code
-                      ? 'bg-[#233C2E] text-white shadow-xs'
-                      : 'bg-[#FAF8F2] text-[#252820] hover:bg-[#EDE8D8]'
+                      ? 'bg-[#352B3E] text-white shadow-xs'
+                      : 'bg-[#EDE8F5] text-[#1C1A22] hover:bg-[#D4D0DD]'
                   )}
                 >
                   {lang.label}
@@ -222,22 +222,22 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
           </div>
 
           {/* Official BSES Contact Quick Box */}
-          <div className="p-3.5 rounded-xl bg-[#EDE8D8] border border-[#E5DEC9] text-xs text-[#5C6053] space-y-2">
-            <div className="flex items-center gap-2 font-semibold text-[#252820]">
+          <div className="p-3.5 rounded-sm bg-[#352B3E]/5 border border-[rgba(53,43,62,0.12)] text-xs text-[#5C6053] space-y-2">
+            <div className="flex items-center gap-2 font-semibold text-[#1C1A22]">
               <span>BSES Studio Support</span>
             </div>
             <a
               href="https://wa.me/212694991485"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 text-[#233C2E] font-medium hover:underline"
+              className="flex items-center gap-2 text-[#352B3E] font-medium hover:underline"
             >
               <Phone className="w-3.5 h-3.5" />
               <span>WhatsApp: +212 694 991 485</span>
             </a>
             <a
               href="mailto:Bses47113@gmail.com"
-              className="flex items-center gap-2 text-[#233C2E] font-medium hover:underline"
+              className="flex items-center gap-2 text-[#352B3E] font-medium hover:underline"
             >
               <Mail className="w-3.5 h-3.5" />
               <span>Bses47113@gmail.com</span>
@@ -246,8 +246,8 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
         </div>
 
         {/* Footer info in drawer */}
-        <div className="p-3 text-center border-t border-[#E5DEC9] bg-[#EDE8D8]/40 text-[11px] text-[#5C6053] shrink-0">
-          TERROIR v3.5 • Modern Moroccan Harvest Demo
+        <div className="p-3 text-center border-t border-[rgba(53,43,62,0.12)] bg-[#352B3E]/5 text-[11px] text-[#5C6053] shrink-0">
+          TERROIR v6 • Les Carnets du Marché
         </div>
       </div>
     </div>

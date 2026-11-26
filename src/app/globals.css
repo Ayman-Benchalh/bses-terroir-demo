@@ -2,56 +2,89 @@
 
 @layer base {
   :root {
-    /* Modern Moroccan Harvest Palette */
-    --terroir-green: #233C2E;        /* Deep Olive: primary brand color */
-    --terroir-green-hover: #1C3025;
-    --terroir-green-dark: #15241C;
-    --terroir-green-light: #335542;
-    --terroir-green-subtle: #EDF3EE;
+    /* =====================================================================
+       TERROIR V6 — Les Carnets du Marché
+       Design System Tokens — Aubergine / Citron / Craie / Paprika / Menthe
+       ===================================================================== */
 
-    --terroir-cream: #F7F4EB;        /* Oat Milk: spacious canvas */
-    --terroir-cream-light: #FAF8F2;
-    --terroir-cream-dark: #EDE8D8;
+    /* Brand Core */
+    --t-aubergine:        #352B3E;   /* Primary brand, typographie principale */
+    --t-aubergine-hover:  #2A2131;
+    --t-aubergine-light:  #4F4059;
+    --t-aubergine-subtle: #F0EBF4;
 
-    --terroir-honey: #D58B51;        /* Terracotta: warm editorial accent */
-    --terroir-honey-hover: #C37A40;
-    --terroir-honey-subtle: #FAF0E6;
+    --t-citron:           #D4E84A;   /* Zeste de Berkane — attention / badges */
+    --t-citron-dark:      #B8C934;
+    --t-citron-subtle:    #F7FAD8;
 
-    --terroir-sage: #D7E4C5;         /* Fresh Sage: restrained secondary */
-    --terroir-sage-light: #EFF5E8;
-    --terroir-sage-dark: #BACCA3;
+    --t-paprika:          #C75E3E;   /* Accent chaleureux — promos / CTA secondaire */
+    --t-paprika-hover:    #A84D31;
+    --t-paprika-subtle:   #FDF0EB;
 
-    --terroir-earth: #252820;        /* Charcoal: high legibility copy */
-    --terroir-earth-muted: #5C6053;
-    --terroir-earth-light: #8C9183;
+    --t-mint:             #B9D8CC;   /* Fraîcheur végétale — bordures / fond léger */
+    --t-mint-dark:        #8BBCAA;
+    --t-mint-subtle:      #EDF5F2;
 
-    --terroir-offwhite: #F7F4EB;     /* Base canvas: Oat Milk */
-    --terroir-card: #FFFFFF;         /* Crisp elevated cards: Pure White */
-    --terroir-border: #E5DEC9;       /* Natural warm border */
-    --terroir-border-dark: #C8BFAB;
+    /* Surfaces */
+    --t-chalk:            #F8F7F0;   /* Fond artisanal principal — papier vergé */
+    --t-chalk-dark:       #EEE9DC;
+    --t-chalk-darker:     #E0D9C8;
+    --t-white:            #FFFFFF;
+    --t-ticket:           #FEFDF8;   /* Fond blanc ivoire pour tickets de pesée */
 
-    --terroir-success: #2E7D32;
-    --terroir-success-subtle: #E8F5E9;
-    --terroir-warning: #D97706;
-    --terroir-warning-subtle: #FEF3C7;
-    --terroir-error: #DC2626;
-    --terroir-error-subtle: #FEE2E2;
-    --terroir-info: #0284C7;
-    --terroir-info-subtle: #E0F2FE;
+    /* Typographie */
+    --t-ink:              #1C1A22;   /* Encre profonde — titres & corps */
+    --t-ink-muted:        #4A4555;
+    --t-ink-light:        #847E92;
+    --t-ink-faint:        #B8B2C5;
 
-    --font-heading: 'Fraunces', serif, Georgia;
-    --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-    --font-arabic: 'Cairo', 'Tajawal', system-ui, sans-serif;
+    /* Bordures */
+    --t-border:           #DDD8C8;
+    --t-border-soft:      #EEE9DC;
+    --t-border-strong:    #C4BDA8;
+
+    /* Sémantique */
+    --t-success:          #2A6B40;
+    --t-success-bg:       #EBF5F0;
+    --t-warning:          #C47B28;
+    --t-warning-bg:       #FDF3E3;
+    --t-error:            #C03A2B;
+    --t-error-bg:         #FDECEA;
+    --t-info:             #1D5FAB;
+    --t-info-bg:          #EAF1FA;
+
+    /* Typography Scale */
+    --font-display:  'Fraunces', 'Georgia', serif;
+    --font-body:     'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    --font-arabic:   'Cairo', 'Noto Sans Arabic', system-ui, sans-serif;
+
+    /* Spacing & Radius */
+    --r-sm:  4px;
+    --r-md:  8px;
+    --r-lg:  12px;
+    --r-xl:  16px;
+    --r-2xl: 20px;
+    --r-pill: 9999px;
+
+    /* Ticket stamp radius */
+    --r-ticket: 2px;
+
+    /* Transitions */
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-in:  cubic-bezier(0.4, 0, 1, 1);
   }
 
+  /* =====================================================================
+     Base Resets
+     ===================================================================== */
   html, body {
     max-width: 100vw;
     overflow-x: hidden;
   }
 
   body {
-    background-color: var(--terroir-offwhite);
-    color: var(--terroir-earth);
+    background-color: var(--t-chalk);
+    color: var(--t-ink);
     font-family: var(--font-body);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -62,89 +95,176 @@
     font-family: var(--font-arabic), var(--font-body);
   }
 
-  /* Custom subtle focus styles honoring accessibility */
   *:focus-visible {
-    outline: 2px solid var(--terroir-green);
+    outline: 2px solid var(--t-aubergine);
     outline-offset: 2px;
+    border-radius: var(--r-sm);
   }
 
-  /* Smooth scroll */
   html {
     scroll-behavior: smooth;
   }
+
+  /* Headings use display font */
+  h1, h2, h3, h4, .font-display {
+    font-family: var(--font-display);
+  }
 }
 
-/* Custom utility colors */
-.bg-terroir-green { background-color: var(--terroir-green); }
-.bg-terroir-green-hover { background-color: var(--terroir-green-hover); }
-.bg-terroir-green-dark { background-color: var(--terroir-green-dark); }
-.bg-terroir-green-subtle { background-color: var(--terroir-green-subtle); }
+/* =========================================================================
+   V6 Custom Utility Classes
+   ========================================================================= */
 
-.bg-terroir-cream { background-color: var(--terroir-cream); }
-.bg-terroir-cream-light { background-color: var(--terroir-cream-light); }
-.bg-terroir-cream-dark { background-color: var(--terroir-cream-dark); }
+/* Brand backgrounds */
+.bg-aubergine       { background-color: var(--t-aubergine); }
+.bg-aubergine-hover { background-color: var(--t-aubergine-hover); }
+.bg-aubergine-subtle{ background-color: var(--t-aubergine-subtle); }
+.bg-citron          { background-color: var(--t-citron); }
+.bg-citron-subtle   { background-color: var(--t-citron-subtle); }
+.bg-paprika         { background-color: var(--t-paprika); }
+.bg-paprika-subtle  { background-color: var(--t-paprika-subtle); }
+.bg-mint            { background-color: var(--t-mint); }
+.bg-mint-subtle     { background-color: var(--t-mint-subtle); }
+.bg-chalk           { background-color: var(--t-chalk); }
+.bg-chalk-dark      { background-color: var(--t-chalk-dark); }
+.bg-ticket          { background-color: var(--t-ticket); }
 
-.bg-terroir-honey { background-color: var(--terroir-honey); }
-.bg-terroir-honey-hover { background-color: var(--terroir-honey-hover); }
-.bg-terroir-honey-subtle { background-color: var(--terroir-honey-subtle); }
+/* Brand text */
+.text-aubergine     { color: var(--t-aubergine); }
+.text-aubergine-light{ color: var(--t-aubergine-light); }
+.text-citron        { color: var(--t-citron); }
+.text-citron-dark   { color: var(--t-citron-dark); }
+.text-paprika       { color: var(--t-paprika); }
+.text-mint          { color: var(--t-mint); }
+.text-mint-dark     { color: var(--t-mint-dark); }
+.text-ink           { color: var(--t-ink); }
+.text-ink-muted     { color: var(--t-ink-muted); }
+.text-ink-light     { color: var(--t-ink-light); }
 
-.bg-terroir-sage { background-color: var(--terroir-sage); }
-.bg-terroir-sage-light { background-color: var(--terroir-sage-light); }
+/* Borders */
+.border-t-aubergine { border-color: var(--t-aubergine); }
+.border-t-citron    { border-color: var(--t-citron); }
+.border-t-border    { border-color: var(--t-border); }
+.border-t-soft      { border-color: var(--t-border-soft); }
 
-.bg-terroir-earth { background-color: var(--terroir-earth); }
-.bg-terroir-offwhite { background-color: var(--terroir-offwhite); }
-
-.text-terroir-green { color: var(--terroir-green); }
-.text-terroir-green-hover { color: var(--terroir-green-hover); }
-.text-terroir-honey { color: var(--terroir-honey); }
-.text-terroir-earth { color: var(--terroir-earth); }
-.text-terroir-earth-muted { color: var(--terroir-earth-muted); }
-
-.border-terroir-border { border-color: var(--terroir-border); }
-.border-terroir-green { border-color: var(--terroir-green); }
-.border-terroir-honey { border-color: var(--terroir-honey); }
-.border-terroir-sage { border-color: var(--terroir-sage); }
-
-.font-heading {
-  font-family: var(--font-heading);
+/* =========================================================================
+   Market Ticket Card — The signature visual device of TERROIR V6
+   ========================================================================= */
+.market-ticket {
+  background: var(--t-ticket);
+  border: 1.5px solid var(--t-border);
+  border-radius: var(--r-ticket);
+  position: relative;
 }
 
-.font-body {
+.market-ticket::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--t-aubergine) 0px,
+    var(--t-aubergine) 4px,
+    transparent 4px,
+    transparent 8px
+  );
+  opacity: 0.15;
+}
+
+/* =========================================================================
+   Stamp — Typographic region stamp used in Market Explorer
+   ========================================================================= */
+.terroir-stamp {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid currentColor;
+  border-radius: 50%;
   font-family: var(--font-body);
+  font-weight: 800;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1;
+  opacity: 0.8;
 }
 
-.font-arabic {
-  font-family: var(--font-arabic);
+/* =========================================================================
+   Editorial Dividers & Ligature lines
+   ========================================================================= */
+.editorial-rule {
+  border: none;
+  border-top: 1px solid var(--t-border);
+  position: relative;
 }
 
-/* Subtle Moroccan geometric and texture accents */
-.pattern-moroccan-subtle {
-  background-image: radial-gradient(#315b3c 0.75px, transparent 0.75px);
-  background-size: 16px 16px;
+.editorial-rule::after {
+  content: '✦';
+  position: absolute;
+  top: -0.6em;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--t-chalk);
+  padding: 0 0.5rem;
+  font-size: 10px;
+  color: var(--t-ink-light);
 }
 
-.bg-grainy {
-  background-image: radial-gradient(circle at 50% 50%, rgba(245, 240, 223, 0.5) 0%, rgba(221, 231, 200, 0.2) 100%);
+/* =========================================================================
+   Season pill — compact indicator of current harvest season
+   ========================================================================= */
+.season-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.75rem;
+  border: 1.5px solid var(--t-aubergine);
+  border-radius: var(--r-pill);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--t-aubergine);
+  background: transparent;
 }
 
-/* Material 3 Touch Target standard */
-.touch-target {
-  min-height: 48px;
-  min-width: 48px;
+/* =========================================================================
+   Price label — distinctive market price tag treatment
+   ========================================================================= */
+.price-tag {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-style: italic;
+  color: var(--t-aubergine);
+  line-height: 1;
 }
 
-/* Custom scrollbars */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+.price-tag .price-unit {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-style: normal;
+  font-size: 0.65em;
+  color: var(--t-ink-muted);
 }
-::-webkit-scrollbar-track {
-  background: #f5f0df;
+
+/* =========================================================================
+   Focus ring override in V6 palette
+   ========================================================================= */
+.focus-ring:focus-visible {
+  outline: 2px solid var(--t-aubergine);
+  outline-offset: 2px;
 }
-::-webkit-scrollbar-thumb {
-  background: #315b3c;
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #264930;
+
+/* =========================================================================
+   Reduced-motion support
+   ========================================================================= */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
 }

@@ -1,5 +1,21 @@
 import type { Metadata, Viewport } from 'next';
+import { Fraunces, Plus_Jakarta_Sans } from 'next/font/google';
 import './globals.css';
+
+const fraunces = Fraunces({
+  subsets: ['latin'],
+  variable: '--font-display',
+  style: ['normal', 'italic'],
+  weight: ['400', '700', '900'],
+  display: 'swap',
+});
+
+const jakartaSans = Plus_Jakarta_Sans({
+  subsets: ['latin'],
+  variable: '--font-body',
+  weight: ['400', '500', '600', '700', '800'],
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: 'TERROIR — Marché d’Exception & Produits du Terroir Marocain | BSES',
@@ -37,7 +53,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr" suppressHydrationWarning>
+    <html lang="fr" suppressHydrationWarning className={`${fraunces.variable} ${jakartaSans.variable}`}>
       <head>
         <script
           dangerouslySetInnerHTML={{
@@ -45,7 +61,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-screen bg-[#F7F4EB] text-[#252820] antialiased selection:bg-[#233C2E] selection:text-white">
+      <body className="min-h-screen bg-[#F8F7F0] text-[#1C1A22] antialiased selection:bg-[#352B3E] selection:text-[#D4E84A]">
         {children}
       </body>
     </html>
