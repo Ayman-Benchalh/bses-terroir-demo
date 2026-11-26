@@ -144,8 +144,10 @@ export function ProductCard({ product, className }: ProductCardProps) {
               type="button"
               onClick={handleQuickAdd}
               disabled={!product.inStock}
+              title={t('product.add_to_cart')}
+              aria-label={t('product.add_to_cart')}
               className={cn(
-                'flex-1 flex items-center justify-center gap-1.5 h-9 sm:h-10 px-3 rounded-xl text-xs font-bold transition-all cursor-pointer min-h-[36px]',
+                'flex-1 flex items-center justify-center gap-1.5 h-9 sm:h-10 px-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer min-h-[36px] whitespace-nowrap',
                 isAdded
                   ? 'bg-[#2E7D32] text-white shadow-xs'
                   : 'bg-[#233C2E] text-white hover:bg-[#1C3025] disabled:bg-black/10 disabled:text-black/30 shadow-2xs'
@@ -153,13 +155,15 @@ export function ProductCard({ product, className }: ProductCardProps) {
             >
               {isAdded ? (
                 <>
-                  <Check className="w-3.5 h-3.5" />
-                  <span>{t('product.added_to_cart')}</span>
+                  <Check className="w-3.5 h-3.5 shrink-0" />
+                  <span className="truncate">{t('product.added_to_cart')}</span>
                 </>
               ) : (
                 <>
-                  <ShoppingBag className="w-3.5 h-3.5" />
-                  <span>{t('product.add_to_cart')}</span>
+                  <ShoppingBag className="w-3.5 h-3.5 shrink-0" />
+                  <span className="truncate">
+                    {locale === 'ar' ? 'إضافة' : locale === 'en' ? 'Add' : 'Ajouter'}
+                  </span>
                 </>
               )}
             </button>

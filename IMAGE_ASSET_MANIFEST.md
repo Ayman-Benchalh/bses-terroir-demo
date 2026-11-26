@@ -51,6 +51,9 @@ The TERROIR photographic direction departs from saturated supermarket images, st
 | `cat-artisanat.jpg` | Category 9: Eaux Florales | Distilled Kelaat M'Gouna rose water in glass cruets | 1:1 | 800 × 800 | Unsplash (Commercial License) |
 | `cat-paniers-coffrets.jpg`| Category 10: Coffrets | Woven palm artisan basket packed with Moroccan harvest | 1:1 | 800 × 800 | Unsplash (Commercial License) |
 | `basket-builder-hero.jpg` | Basket Builder Header | Top-down view of hand-picked seasonal weekly grocery basket | 16:9 | 1200 × 675 | Unsplash (Commercial License) |
+| `prod-fruit-04-figues` | Product: Figues Noires | Fresh authentic dark purple figs (Taounate) | 1:1 | 800 × 800 | Unsplash photo-1594282486552 |
+| `prod-fruit-05-melon` | Product: Melon Jaune | Golden sun-ripened whole yellow melon (Zagora) | 1:1 | 800 × 800 | Unsplash photo-1571575173700 |
+| `prod-legume-02-carottes` | Product: Carottes Fanes | Crisp fresh bunch carrots with green tops (Berkane) | 1:1 | 800 × 800 | Unsplash photo-1598170845058 |
 
 ---
 
