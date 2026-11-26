@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Heart, ShoppingBag, Check, MapPin, Sparkles } from 'lucide-react';
+import { Heart, ShoppingBag, Check, MapPin } from 'lucide-react';
 import { Product } from '@/lib/types';
 import { useLocale } from '@/context/LocaleContext';
 import { useStore } from '@/context/StoreContext';
@@ -13,9 +13,10 @@ import { formatCurrencyMAD, cn } from '@/lib/utils';
 
 export interface ProductCardProps {
   product: Product;
+  className?: string;
 }
 
-export function ProductCard({ product }: ProductCardProps) {
+export function ProductCard({ product, className }: ProductCardProps) {
   const { locale, t } = useLocale();
   const { addToCart, toggleWishlist, isWishlisted } = useStore();
 
@@ -42,9 +43,14 @@ export function ProductCard({ product }: ProductCardProps) {
   };
 
   return (
-    <div className="group relative flex flex-col rounded-2xl bg-white border border-[#E5DEC9] p-3.5 sm:p-4 shadow-xs hover:shadow-md hover:border-[#233C2E]/40 transition-all duration-200">
-      {/* Top Media Container */}
-      <div className="relative aspect-square w-full rounded-xl overflow-hidden bg-[#F7F4EB] mb-3">
+    <div
+      className={cn(
+        'group relative flex flex-col rounded-2xl bg-white border border-[#E5DEC9] p-3 sm:p-3.5 shadow-2xs hover:shadow-md hover:border-[#233C2E]/50 transition-all duration-200',
+        className
+      )}
+    >
+      {/* 1. Media Container */}
+      <div className="relative aspect-square w-full rounded-xl overflow-hidden bg-[#FAF8F2] mb-3">
         <Link href={`/${locale}/product/${product.slug}`} className="block w-full h-full">
           <Image
             src={product.image}
@@ -55,8 +61,8 @@ export function ProductCard({ product }: ProductCardProps) {
           />
         </Link>
 
-        {/* Badges Overlay */}
-        <div className="absolute top-2.5 start-2.5 flex flex-col gap-1.5 pointer-events-none">
+        {/* Minimal Badges Overlay */}
+        <div className="absolute top-2 start-2 flex flex-col gap-1 pointer-events-none">
           {product.isPromo && (
             <Badge variant="honey" size="sm">
               Promo
@@ -67,11 +73,6 @@ export function ProductCard({ product }: ProductCardProps) {
               {t('product.out_of_stock')}
             </Badge>
           )}
-          {product.inStock && product.stockQuantity <= 5 && (
-            <Badge variant="warning" size="sm">
-              {t('product.low_stock')}
-            </Badge>
-          )}
         </div>
 
         {/* Wishlist Button */}
@@ -80,7 +81,7 @@ export function ProductCard({ product }: ProductCardProps) {
           onClick={handleWishlist}
           aria-label={t('nav.wishlist')}
           className={cn(
-            'absolute top-2.5 end-2.5 w-9 h-9 rounded-full bg-white/90 backdrop-blur-xs flex items-center justify-center shadow-xs transition-colors cursor-pointer',
+            'absolute top-2 end-2 w-8 h-8 rounded-full bg-white/90 backdrop-blur-xs flex items-center justify-center shadow-xs transition-colors cursor-pointer',
             isFavorite ? 'text-[#DC2626]' : 'text-[#5C6053] hover:text-[#DC2626]'
           )}
         >
@@ -88,11 +89,11 @@ export function ProductCard({ product }: ProductCardProps) {
         </button>
       </div>
 
-      {/* Product Details */}
+      {/* 2. Product Meta & Title */}
       <div className="flex-1 flex flex-col justify-between text-start">
-        <div>
-          {/* Origin and Category Tag */}
-          <div className="flex items-center gap-1.5 text-[11px] font-medium text-[#5C6053] mb-1">
+        <div className="space-y-1">
+          {/* Origin Label */}
+          <div className="flex items-center gap-1 text-[11px] font-medium text-[#5C6053]">
             <MapPin className="w-3 h-3 text-[#233C2E] shrink-0" />
             <span className="truncate">{product.originRegion[locale]}</span>
           </div>
@@ -100,26 +101,21 @@ export function ProductCard({ product }: ProductCardProps) {
           {/* Product Title */}
           <Link
             href={`/${locale}/product/${product.slug}`}
-            className="block font-heading text-base font-semibold text-[#252820] hover:text-[#233C2E] transition-colors line-clamp-1"
+            className="block font-heading text-sm sm:text-base font-bold text-[#252820] group-hover:text-[#233C2E] transition-colors truncate"
           >
             {product.name[locale]}
           </Link>
-
-          {/* Terroir Quality Note (replaces fabricated customer review ratings) */}
-          <div className="flex items-center gap-1 mt-1 text-[11px] text-[#233C2E] font-medium">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#D58B51]" />
-            <span>Récolte Locale Sélectionnée</span>
-          </div>
         </div>
 
-        {/* Pricing & Quick Add Section */}
-        <div className="pt-3 mt-3 border-t border-[#E5DEC9] space-y-3">
-          <div className="flex items-baseline justify-between gap-2">
-            <div>
-              <span className="text-lg font-bold text-[#233C2E]">
+        {/* 3. Pricing & Quantity / Quick Add Row */}
+        <div className="pt-2.5 mt-2.5 border-t border-[#E5DEC9] space-y-2.5">
+          {/* Price display */}
+          <div className="flex items-baseline justify-between">
+            <div className="flex items-baseline">
+              <span className="text-base sm:text-lg font-extrabold text-[#233C2E]">
                 {formatCurrencyMAD(currentPrice, locale)}
               </span>
-              <span className="text-xs text-[#5C6053] ms-1">
+              <span className="text-[11px] text-[#5C6053] ms-1">
                 / {product.pricingUnit}
               </span>
             </div>
@@ -149,10 +145,10 @@ export function ProductCard({ product }: ProductCardProps) {
               onClick={handleQuickAdd}
               disabled={!product.inStock}
               className={cn(
-                'flex-1 flex items-center justify-center gap-1.5 h-9 px-3 rounded-xl text-xs font-semibold transition-all cursor-pointer min-h-[36px]',
+                'flex-1 flex items-center justify-center gap-1.5 h-9 sm:h-10 px-3 rounded-xl text-xs font-bold transition-all cursor-pointer min-h-[36px]',
                 isAdded
-                  ? 'bg-[#2E7D32] text-white'
-                  : 'bg-[#233C2E] text-white hover:bg-[#1C3025] disabled:bg-black/10 disabled:text-black/30'
+                  ? 'bg-[#2E7D32] text-white shadow-xs'
+                  : 'bg-[#233C2E] text-white hover:bg-[#1C3025] disabled:bg-black/10 disabled:text-black/30 shadow-2xs'
               )}
             >
               {isAdded ? (
@@ -163,7 +159,7 @@ export function ProductCard({ product }: ProductCardProps) {
               ) : (
                 <>
                   <ShoppingBag className="w-3.5 h-3.5" />
-                  <span>{t('product.quick_add')}</span>
+                  <span>{t('product.add_to_cart')}</span>
                 </>
               )}
             </button>

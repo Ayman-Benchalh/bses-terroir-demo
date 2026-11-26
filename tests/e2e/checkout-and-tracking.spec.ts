@@ -5,7 +5,7 @@ test.describe('TERROIR Cart, Checkout Simulation & Tracking Flow', () => {
     // 1. Visit high-value basket product page to satisfy Moroccan minimum order threshold
     await page.goto('/fr/product/coffret-prestige-or-vert-or-rouge');
     await page.waitForSelector('body[data-hydrated="true"]');
-    const addBtn = page.getByRole('button', { name: 'Ajouter au panier' });
+    const addBtn = page.getByRole('button', { name: 'Ajouter au panier' }).first();
     await addBtn.dispatchEvent('click');
 
     // Wait for cart badge to reflect item

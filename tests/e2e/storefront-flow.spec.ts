@@ -10,7 +10,7 @@ test.describe('TERROIR Storefront End-to-End User Journeys', () => {
     await expect(page.locator('main').locator('text=Le meilleur de nos terres').first()).toBeVisible();
 
     // Navigate to shop
-    const shopCta = page.locator('main').getByRole('link', { name: 'Découvrir la Boutique' }).first();
+    const shopCta = page.locator('main').getByRole('link', { name: /Découvrir (les produits|la Boutique)/ }).first();
     await expect(shopCta).toBeVisible();
     await shopCta.dispatchEvent('click');
 
@@ -39,7 +39,7 @@ test.describe('TERROIR Storefront End-to-End User Journeys', () => {
     await expect(page.getByRole('heading', { name: 'Oranges Navel de Berkane' })).toBeVisible();
 
     // Add to cart button
-    const addToCartBtn = page.getByRole('button', { name: 'Ajouter au panier' });
+    const addToCartBtn = page.getByRole('button', { name: 'Ajouter au panier' }).first();
     await expect(addToCartBtn).toBeVisible();
     await addToCartBtn.click({ force: true });
 
@@ -57,6 +57,6 @@ test.describe('TERROIR Storefront End-to-End User Journeys', () => {
 
     // Check Arabic brand text
     await expect(page.locator('text=تيروار').first()).toBeVisible();
-    await expect(page.getByRole('link', { name: 'تسوق المنتجات الطازجة' }).first()).toBeVisible();
+    await expect(page.getByRole('link', { name: /(اكتشف المنتجات|تسوق المنتجات الطازجة)/ }).first()).toBeVisible();
   });
 });
