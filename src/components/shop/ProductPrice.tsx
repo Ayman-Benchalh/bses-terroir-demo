@@ -10,11 +10,13 @@ export interface ProductPriceProps {
   locale: SupportedLocale;
   className?: string;
   size?: 'sm' | 'md' | 'lg';
+  layout?: 'auto' | 'stacked' | 'inline';
 }
 
 /**
  * Reusable ProductPrice component that strictly prevents wrapping,
- * enforces tabular numbers, and provides clear visual hierarchy for regular & promo prices.
+ * enforces clear visual hierarchy, and provides stacked secondary promo price
+ * on constrained cards to prevent colliding with current price and unit.
  */
 export function ProductPrice({
   price,
@@ -24,6 +26,7 @@ export function ProductPrice({
   locale,
   className,
   size = 'md',
+  layout = 'auto',
 }: ProductPriceProps) {
   const currentPrice = isPromo && promoPrice ? promoPrice : price;
 
@@ -34,7 +37,16 @@ export function ProductPrice({
   };
 
   return (
-    <div className={cn('flex items-baseline justify-between gap-1 flex-nowrap min-w-0 w-full', className)}>
+    <div
+      className={cn(
+        'w-full min-w-0',
+        layout === 'stacked'
+          ? 'flex flex-col items-start gap-0.5'
+          : 'flex flex-wrap items-baseline justify-between gap-x-2 gap-y-0.5',
+        className
+      )}
+    >
+      {/* Primary Line: Current Price + Unit (never separated, never clipped) */}
       <div className="flex items-baseline whitespace-nowrap min-w-0">
         <span className={cn('font-bold text-[#193F30] tracking-tight tabular-nums', sizeClasses[size])}>
           {formatCurrencyMAD(currentPrice, locale)}
@@ -46,8 +58,14 @@ export function ProductPrice({
         )}
       </div>
 
+      {/* Secondary Line: Strikethrough Previous Price */}
       {isPromo && (
-        <span className="text-xs text-[#66756B]/75 line-through whitespace-nowrap tabular-nums ms-auto shrink-0">
+        <span
+          className={cn(
+            'text-xs text-[#66756B]/75 line-through whitespace-nowrap tabular-nums',
+            layout === 'auto' ? 'ms-auto' : ''
+          )}
+        >
           {formatCurrencyMAD(price, locale)}
         </span>
       )}

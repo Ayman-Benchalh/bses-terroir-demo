@@ -126,9 +126,9 @@ export function Header() {
           </div>
         </div>
 
-        {/* Primary Navigation Bar with Strict 3-Zone Geometry */}
+        {/* Primary Navigation Bar with Grid Geometry (Guaranteed Non-Collision) */}
         <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20 gap-1.5 sm:gap-4">
+          <div className="grid grid-cols-[auto_1fr_auto] items-center h-20 gap-2 sm:gap-4 w-full">
             {/* Zone 1: Brand Logo & Mobile Trigger */}
             <div data-zone="zone-1-brand" className="flex items-center gap-1 sm:gap-3 shrink-0">
               <button
@@ -146,10 +146,10 @@ export function Header() {
               </Link>
             </div>
 
-            {/* Zone 2: Desktop Navigation Links (Mathematically bounded, zero overflow) */}
+            {/* Zone 2: Desktop Navigation Links (Safe flexible container, centered and bounded) */}
             <nav
               data-zone="zone-2-nav"
-              className="hidden lg:flex items-center gap-1 xl:gap-2 shrink min-w-0"
+              className="hidden lg:flex items-center justify-center gap-1 xl:gap-2 px-2 overflow-hidden"
               aria-label="Navigation principale"
             >
               {navLinks.map((link) => {
@@ -159,7 +159,7 @@ export function Header() {
                     key={link.href}
                     href={link.href}
                     className={cn(
-                      'px-3 py-2 rounded-lg text-xs xl:text-sm font-medium transition-all duration-150 whitespace-nowrap',
+                      'px-2.5 xl:px-3 py-2 rounded-lg text-xs xl:text-sm font-medium transition-all duration-150 whitespace-nowrap shrink-0',
                       link.hideBelowXl && 'hidden xl:inline-block',
                       link.hideBelow2xl && 'hidden 2xl:inline-block',
                       isActive
@@ -176,7 +176,7 @@ export function Header() {
             </nav>
 
             {/* Zone 3: Actions (Search, Wishlist, Cart, Admin) */}
-            <div data-zone="zone-3-actions" className="flex items-center gap-1 sm:gap-2.5 shrink-0">
+            <div data-zone="zone-3-actions" className="flex items-center justify-end gap-1.5 sm:gap-2.5 shrink-0">
               {/* Search Trigger Button */}
               <button
                 type="button"

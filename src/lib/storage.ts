@@ -5,8 +5,8 @@ import { PROMOTIONS_SEED } from '@/data/promotions.seed';
 import { BASKET_TEMPLATES_SEED } from '@/data/basketTemplates.seed';
 import { INITIAL_ORDERS_SEED } from '@/data/initialOrders.seed';
 
-export const STORAGE_KEY = 'BSES_TERROIR_STORE_V1';
-export const CURRENT_STORE_VERSION = 1;
+export const STORAGE_KEY = 'BSES_TERROIR_STORE_V9';
+export const CURRENT_STORE_VERSION = 9;
 
 export function getInitialSeedState(): StoreState {
   return {
