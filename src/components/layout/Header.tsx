@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import {
@@ -11,6 +11,8 @@ import {
   Globe,
   MapPin,
   Shield,
+  MoreHorizontal,
+  ChevronDown,
 } from 'lucide-react';
 import { useLocale } from '@/context/LocaleContext';
 import { useStore } from '@/context/StoreContext';
@@ -35,15 +37,32 @@ export function Header() {
   const handleCloseMobileMenu = React.useCallback(() => setIsMobileMenuOpen(false), []);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
+  const moreMenuRef = useRef<HTMLDivElement>(null);
 
-  // Curated, non-colliding navigation links
-  const navLinks = [
+  // Close more menu on click outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (moreMenuRef.current && !moreMenuRef.current.contains(event.target as Node)) {
+        setIsMoreMenuOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Primary desktop navigation links (Always visible on 2xl, progressive overflow into "Plus" on xl/lg)
+  const primaryLinks = [
     { href: `/${locale}/shop`, label: t('nav.shop') },
     { href: `/${locale}/shop?cat=fruits-frais`, label: t('nav.fruits_legumes') },
     { href: `/${locale}/shop?cat=huiles-argan`, label: t('nav.terroir') },
-    { href: `/${locale}/shop?cat=epicerie-fine`, label: t('nav.epicerie'), hideBelowXl: true },
     { href: `/${locale}/build-a-basket`, label: t('nav.build_basket'), highlight: true },
-    { href: `/${locale}/shop?promo=true`, label: t('nav.promotions'), hideBelow2xl: true },
+  ];
+
+  // Secondary links that shift between visible and the "Plus ▾" menu on smaller desktops
+  const secondaryLinks = [
+    { href: `/${locale}/shop?cat=epicerie-fine`, label: t('nav.epicerie') },
+    { href: `/${locale}/shop?promo=true`, label: t('nav.promotions') },
   ];
 
   const handleSearchSubmit = (e: React.FormEvent) => {
@@ -126,11 +145,11 @@ export function Header() {
           </div>
         </div>
 
-        {/* Primary Navigation Bar with Grid Geometry (Guaranteed Non-Collision) */}
-        <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-[auto_1fr_auto] items-center h-20 gap-2 sm:gap-4 w-full">
+        {/* Primary Navigation Bar with Content-Driven 3-Zone Geometry */}
+        <div className="max-w-7xl mx-auto px-1.5 sm:px-4 lg:px-8">
+          <div className="grid grid-cols-[auto_1fr_auto] items-center h-20 gap-1.5 sm:gap-3 w-full min-w-0">
             {/* Zone 1: Brand Logo & Mobile Trigger */}
-            <div data-zone="zone-1-brand" className="flex items-center gap-1 sm:gap-3 shrink-0">
+            <div data-zone="zone-1-brand" className="flex items-center gap-1 sm:gap-2.5 shrink-0 min-w-0">
               <button
                 type="button"
                 onClick={() => setIsMobileMenuOpen(true)}
@@ -140,19 +159,19 @@ export function Header() {
                 <Menu className="w-6 h-6" />
               </button>
 
-              <Link href={`/${locale}`} className="block">
+              <Link href={`/${locale}`} className="block shrink-0">
                 <TerroirLogo variant="compact" />
                 <span className="sr-only">{locale === 'ar' ? 'تيروار' : 'TERROIR'}</span>
               </Link>
             </div>
 
-            {/* Zone 2: Desktop Navigation Links (Safe flexible container, centered and bounded) */}
+            {/* Zone 2: Desktop Navigation Links (Safe flexible container, zero clipping, adaptive More menu) */}
             <nav
               data-zone="zone-2-nav"
-              className="hidden lg:flex items-center justify-center gap-1 xl:gap-2 px-2 overflow-hidden"
+              className="hidden lg:flex items-center justify-center gap-1 xl:gap-2 min-w-0 overflow-hidden"
               aria-label="Navigation principale"
             >
-              {navLinks.map((link) => {
+              {primaryLinks.map((link) => {
                 const isActive = pathname === link.href;
                 return (
                   <Link
@@ -160,8 +179,6 @@ export function Header() {
                     href={link.href}
                     className={cn(
                       'px-2.5 xl:px-3 py-2 rounded-lg text-xs xl:text-sm font-medium transition-all duration-150 whitespace-nowrap shrink-0',
-                      link.hideBelowXl && 'hidden xl:inline-block',
-                      link.hideBelow2xl && 'hidden 2xl:inline-block',
                       isActive
                         ? 'bg-[#193F30] text-white shadow-xs font-semibold'
                         : link.highlight
@@ -173,10 +190,72 @@ export function Header() {
                   </Link>
                 );
               })}
+
+              {/* Secondary links directly visible on wide screens (2xl: >= 1536px) */}
+              {secondaryLinks.map((link) => {
+                const isActive = pathname === link.href;
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={cn(
+                      'hidden 2xl:inline-block px-2.5 xl:px-3 py-2 rounded-lg text-xs xl:text-sm font-medium transition-all duration-150 whitespace-nowrap shrink-0',
+                      isActive
+                        ? 'bg-[#193F30] text-white shadow-xs font-semibold'
+                        : 'text-[#242D26] hover:bg-[#193F30]/5'
+                    )}
+                  >
+                    {link.label}
+                  </Link>
+                );
+              })}
+
+              {/* Adaptive "Plus ▾" Popover Menu on desktop screens under 1536px (1024px-1535px) */}
+              <div className="relative 2xl:hidden shrink-0" ref={moreMenuRef}>
+                <button
+                  type="button"
+                  onClick={() => setIsMoreMenuOpen(!isMoreMenuOpen)}
+                  className={cn(
+                    'flex items-center gap-1 px-2.5 py-2 rounded-lg text-xs xl:text-sm font-medium transition-all cursor-pointer',
+                    isMoreMenuOpen
+                      ? 'bg-[#193F30] text-white'
+                      : 'text-[#242D26] hover:bg-[#193F30]/5'
+                  )}
+                  aria-expanded={isMoreMenuOpen}
+                  aria-haspopup="true"
+                  aria-label="Plus d'options de navigation"
+                >
+                  <span>{locale === 'ar' ? 'المزيد' : locale === 'en' ? 'More' : 'Plus'}</span>
+                  <ChevronDown className={cn('w-3.5 h-3.5 transition-transform', isMoreMenuOpen && 'rotate-180')} />
+                </button>
+
+                {isMoreMenuOpen && (
+                  <div className="absolute top-full mt-1.5 start-0 min-w-[180px] bg-white rounded-xl shadow-lg border border-[#D9E2D7] py-1.5 z-50 animate-in fade-in slide-in-from-top-1 duration-150">
+                    {secondaryLinks.map((link) => {
+                      const isActive = pathname === link.href;
+                      return (
+                        <Link
+                          key={link.href}
+                          href={link.href}
+                          onClick={() => setIsMoreMenuOpen(false)}
+                          className={cn(
+                            'block px-3.5 py-2 text-xs font-medium transition-colors text-start',
+                            isActive
+                              ? 'bg-[#193F30]/10 text-[#193F30] font-bold'
+                              : 'text-[#242D26] hover:bg-[#193F30]/5'
+                          )}
+                        >
+                          {link.label}
+                        </Link>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
             </nav>
 
             {/* Zone 3: Actions (Search, Wishlist, Cart, Admin) */}
-            <div data-zone="zone-3-actions" className="flex items-center justify-end gap-1.5 sm:gap-2.5 shrink-0">
+            <div data-zone="zone-3-actions" className="flex items-center justify-end gap-1.5 sm:gap-2 shrink-0 min-w-0">
               {/* Search Trigger Button */}
               <button
                 type="button"
@@ -205,14 +284,14 @@ export function Header() {
               <button
                 type="button"
                 onClick={openCartDrawer}
-                className="relative flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-2 sm:py-2.5 rounded-lg bg-[#193F30] text-white hover:bg-[#122E23] shadow-xs transition-all min-h-[44px] cursor-pointer"
+                className="relative flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-2 sm:py-2.5 rounded-lg bg-[#193F30] text-white hover:bg-[#122E23] shadow-xs transition-all min-h-[44px] cursor-pointer"
                 aria-label={`${t('nav.cart')} (${cartCount})`}
               >
                 <ShoppingBag className="w-5 h-5" />
                 <span className="text-xs font-bold px-1.5 py-0.5 rounded-full bg-[#B7DB75] text-[#193F30]">
                   {cartCount}
                 </span>
-                <span className="hidden md:inline text-sm font-semibold">
+                <span className="hidden lg:inline text-sm font-semibold">
                   {t('nav.cart')}
                 </span>
               </button>

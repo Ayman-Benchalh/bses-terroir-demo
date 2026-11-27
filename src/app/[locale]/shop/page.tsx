@@ -36,12 +36,21 @@ function ShopContent() {
     const q = searchParams.get('q') || '';
     const promo = searchParams.get('promo') === 'true';
 
-    setFilters((prev) => ({
-      ...prev,
-      category: cat,
-      searchQuery: q,
-      promoOnly: promo,
-    }));
+    setFilters((prev) => {
+      if (
+        prev.category === cat &&
+        prev.searchQuery === q &&
+        prev.promoOnly === promo
+      ) {
+        return prev;
+      }
+      return {
+        ...prev,
+        category: cat,
+        searchQuery: q,
+        promoOnly: promo,
+      };
+    });
   }, [searchParams]);
 
   const handleResetFilters = () => {
