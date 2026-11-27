@@ -36,6 +36,7 @@ function ShopContent() {
     const q = searchParams.get('q') || '';
     const promo = searchParams.get('promo') === 'true';
 
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- syncing URL params with state is intentional here
     setFilters((prev) => {
       if (
         prev.category === cat &&

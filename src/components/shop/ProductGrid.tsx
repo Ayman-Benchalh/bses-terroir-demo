@@ -37,7 +37,12 @@ export function ProductGrid({
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 sm:gap-6">
+    <div className="product-grid" style={{
+      // Container-aware grid: cards min 240px, max 1fr
+      // Uses minmax with container width awareness
+      gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 240px), 1fr))',
+      gap: '1.5rem' // 24px = gap-6
+    }}>
       {products.map((product) => (
         <ProductCard key={product.id} product={product} />
       ))}

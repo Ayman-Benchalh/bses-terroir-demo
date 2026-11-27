@@ -110,17 +110,18 @@ export function ProductCard({ product, className }: ProductCardProps) {
 
         {/* 3. Pricing & Quantity / Quick Add Row */}
         <div className="pt-3 mt-3 border-t border-[#D9E2D7] space-y-2.5">
-          {/* Reusable, non-wrapping tabular price component */}
+          {/* Reusable, non-wrapping tabular price component — stacked on narrow cards */}
           <ProductPrice
             price={product.pricePerUnit}
             promoPrice={product.promoPrice}
             isPromo={product.isPromo}
             unit={product.pricingUnit}
             locale={locale}
+            layout="stacked"
           />
 
-          {/* Controls: Stepper + Add Button without collision */}
-          <div className="flex items-center gap-2">
+          {/* Controls: Stepper + Add Button — flexible, no collision */}
+          <div className="flex items-center gap-2 min-w-0">
             <QuantityStepper
               size="sm"
               value={quantity}
@@ -139,7 +140,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
               title={t('product.add_to_cart')}
               aria-label={t('product.add_to_cart')}
               className={cn(
-                'flex-1 flex items-center justify-center gap-1.5 h-9 sm:h-10 px-2.5 rounded-lg text-xs font-bold transition-all cursor-pointer min-h-[36px] whitespace-nowrap',
+                'flex-1 flex items-center justify-center gap-1.5 h-9 sm:h-10 px-3 rounded-lg text-xs font-bold transition-all cursor-pointer min-h-[36px] min-w-0 whitespace-nowrap',
                 isAdded
                   ? 'bg-[#193F30] text-[#B7DB75] shadow-xs'
                   : 'bg-[#193F30] text-white hover:bg-[#122E23] disabled:bg-black/10 disabled:text-black/30 shadow-2xs'
