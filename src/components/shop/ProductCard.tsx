@@ -9,6 +9,7 @@ import { useLocale } from '@/context/LocaleContext';
 import { useStore } from '@/context/StoreContext';
 import { QuantityStepper } from '@/components/ui/QuantityStepper';
 import { Badge } from '@/components/ui/Badge';
+import { ProductPrice } from '@/components/shop/ProductPrice';
 import { formatCurrencyMAD, cn } from '@/lib/utils';
 
 export interface ProductCardProps {
@@ -109,23 +110,14 @@ export function ProductCard({ product, className }: ProductCardProps) {
 
         {/* 3. Pricing & Quantity / Quick Add Row */}
         <div className="pt-3 mt-3 border-t border-[#D9E2D7] space-y-2.5">
-          {/* Price display with non-breaking tabular currency */}
-          <div className="flex items-baseline justify-between gap-1 flex-wrap">
-            <div className="flex items-baseline whitespace-nowrap">
-              <span className="text-base sm:text-lg font-bold text-[#193F30] tracking-tight">
-                {formatCurrencyMAD(currentPrice, locale)}
-              </span>
-              <span className="text-xs font-medium text-[#66756B] ms-1">
-                / {product.pricingUnit}
-              </span>
-            </div>
-
-            {product.isPromo && (
-              <span className="text-xs text-[#66756B]/70 line-through whitespace-nowrap ms-auto">
-                {formatCurrencyMAD(product.pricePerUnit, locale)}
-              </span>
-            )}
-          </div>
+          {/* Reusable, non-wrapping tabular price component */}
+          <ProductPrice
+            price={product.pricePerUnit}
+            promoPrice={product.promoPrice}
+            isPromo={product.isPromo}
+            unit={product.pricingUnit}
+            locale={locale}
+          />
 
           {/* Controls: Stepper + Add Button without collision */}
           <div className="flex items-center gap-2">

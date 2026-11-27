@@ -177,12 +177,6 @@ export function Header() {
 
             {/* Zone 3: Actions (Search, Wishlist, Cart, Admin) */}
             <div data-zone="zone-3-actions" className="flex items-center gap-1 sm:gap-2.5 shrink-0">
-              {/* Delivery city badge on wide screens */}
-              <div className="hidden 2xl:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-white border border-[#D9E2D7] text-xs text-[#242D26]">
-                <MapPin className="w-3.5 h-3.5 text-[#193F30] shrink-0" />
-                <span className="font-semibold truncate max-w-[110px]">{currentDeliveryZone?.cityName[locale]}</span>
-              </div>
-
               {/* Search Trigger Button */}
               <button
                 type="button"
